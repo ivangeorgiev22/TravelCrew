@@ -1,18 +1,17 @@
 import { useState } from "react";
 import image from "../assets/brandon-kaida-2JwQoi-RBiI-unsplash.jpg";
 //import { useNavigate } from "react-router-dom";
-import type {UserData} from '../types/userData'; 
+import type {UserData} from '../types/userData';
 import {login, register} from '../service-auth/auth'
 
 export default function AuthPage() {
-  const [name, setName] = useState(''); 
-  const [email, setEmail] = useState(''); 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const [isLogin, setIsLogin] = useState(true);
   // const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    
     if(e.target.name === 'name') setName (e.target.value);
     if(e.target.name === 'email') setEmail (e.target.value);
     if(e.target.name === 'password') setPassword (e.target.value);
@@ -23,17 +22,18 @@ export default function AuthPage() {
     // handle login or register
     if(isLogin) {
     try{
-      await login({email, password} as UserData) 
-      setEmail(''); 
+      await login({email, password} as UserData)
+      setEmail('');
       setPassword('');
+      //navigate("/dashboard");
     } catch(error) {
       console.log(error, "Login error")
     }
   } else if(!isLogin) {
     try {
-      await register({name, email, password} as UserData) 
-      setName(''); 
-      setEmail(''); 
+      await register({name, email, password} as UserData)
+      setName('');
+      setEmail('');
       setPassword('');
     } catch (error) {
       console.log(error, "Cannot Register")
@@ -50,6 +50,7 @@ export default function AuthPage() {
 
   const visitRegister = () => {
     setIsLogin(false);
+    //navigate("/signup");
     window.history.pushState({}, "", "/signup")
   }
 
