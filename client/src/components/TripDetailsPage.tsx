@@ -10,14 +10,14 @@ export default function TripDetails () {
     const [isSeen, setIsSeen] = useState(false);
 
     const getData = () => {
-        fetch(`http://127.0.0.1:3000/trip/${id}`)
+        fetch(`http://127.0.0.1:3000/trips/${id}`)
           .then((response) => response.json())
           .then((result) => setTripDetails(result))
           .then((error) => console.log("error", error))
     }
 
-    useEffect(() => {
-        getData();
+    useEffect( () => {
+       getData();
     }, [id]);
 
    const addActivity = () => {
@@ -32,7 +32,6 @@ export default function TripDetails () {
     <div className="h-125 w-full bg-cover bg-center mb-10" style={{backgroundImage: `url(${image})`}}  >
     <h1 className ="text-white ml-10 font-bold leading-10">Destination</h1> {/* trip.destination*/}
     <h1 className ="text-white ml-10 font-bold leading-10">Dates</h1> {/* trip.startdate && trip.enddate*/}
-    <h1 className ="text-white ml-10 font-bold leading-10">Description</h1> {/* trip.description generate automaticly*/}
     </div>
     <div className="grid justify-center">
       <div className=" flex items-center border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg">
@@ -44,7 +43,7 @@ export default function TripDetails () {
             <TripForm onClose={() => setIsSeen(false)}/>
           )}
       </div>
-    {/*{trip.map((index, i) => (*/}
+    {/*{trips.activity.map((index, i) => (*/}
     <div className="font-serif text-lg  "> {/* key={index}*/}
       <details className=" border mb-10 bg-gray-200 justify-center">
         <summary className="mb-5 font-bold text-center justify-center"> 
