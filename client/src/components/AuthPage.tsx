@@ -1,19 +1,45 @@
 import { useState } from "react";
 import image from "../assets/brandon-kaida-2JwQoi-RBiI-unsplash.jpg";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
+import type {UserData} from '../types/userData'; 
+import {login, register} from '../service-auth/auth'
 
 export default function AuthPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [name, setName] = useState(''); 
+  const [email, setEmail] = useState(''); 
+  const [password, setPassword] = useState('')
   const [isLogin, setIsLogin] = useState(true);
   // const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    
+    if(e.target.name === 'name') setName (e.target.value);
+    if(e.target.name === 'email') setName (e.target.value);
+    if(e.target.name === 'password') setName (e.target.value);
   };
 
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     // handle login or register
+    if(isLogin) {
+    try{
+      await login({email, password} as UserData) 
+      setEmail(''); 
+      setPassword('');
+    } catch(error) {
+      console.log(error, "Login error")
+    }
+  } else if(!isLogin) {
+    try {
+      await register({name, email, password} as UserData) 
+      setName(''); 
+      setEmail(''); 
+      setPassword('');
+    } catch (error) {
+      console.log(error, "Cannot Register")
+    }
+  }
+
   };
 
   const visitLogin = () => {
@@ -65,7 +91,7 @@ export default function AuthPage() {
                 name="name"
                 placeholder="Your Name"
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                value={formData.name}
+                value={name}
                 onChange={handleChange}
               />
             </div>
@@ -84,7 +110,7 @@ export default function AuthPage() {
                 name="email"
                 placeholder="this@example.com"
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                value={formData.email}
+                value={email}
                 onChange={handleChange}
               />
             </div>
@@ -102,7 +128,7 @@ export default function AuthPage() {
                 name="password"
                 placeholder="••••••••"
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                value={formData.password}
+                value={password}
                 onChange={handleChange}
               />
             </div>
