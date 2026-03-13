@@ -1,5 +1,5 @@
 export interface TripData {
   destination: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | string;
+  endDate: Date | string;
 }

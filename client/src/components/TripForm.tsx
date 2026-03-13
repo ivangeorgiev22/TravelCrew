@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { createTrip } from "../service-auth/trip";
+import { createTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 
 export default function TripForm() {
@@ -19,7 +19,11 @@ export default function TripForm() {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
-      await createTrip({ destination, startDate, endDate } as TripData);
+      const newTrip = await createTrip(formData as TripData);
+      if (new Date(newTrip.startDate).getTime() < Date.now()) {
+        console.log("Error creating new trip");
+        return;
+      }
       navigate("/dashboard");
     } catch (error) {
       console.log(error, "Error creating new trip");
@@ -33,25 +37,24 @@ export default function TripForm() {
         <div>
           <label
             htmlFor="destination"
-            aria-label="Destination"
             className="block text-sm font-medium text-gray-800"
           >
             Destination
           </label>
           <input
-            type="destination"
+            type="text"
             id="destination"
             name="destination"
             placeholder="ex: Paris, France"
             className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
             value={formData.destination}
             onChange={handleChange}
+            required
           />
         </div>
         <div>
           <label
             htmlFor="start-date"
-            aria-label="Start Date"
             className="block text-sm font-medium text-gray-800"
           >
             Start Date
@@ -59,29 +62,29 @@ export default function TripForm() {
           <input
             type="datetime-local"
             id="start-date"
-            name="start-date"
+            name="startDate"
             className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
             value={formData.startDate}
             onChange={handleChange}
             required
-          ></input>
+          />
           <label
             htmlFor="end-date"
-            aria-label="End Date"
             className="block text-sm font-medium text-gray-800"
           >
             End Date
           </label>
           <input
             type="datetime-local"
-            name="end-date"
+            name="endDate"
             id="end-date"
             className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
             value={formData.endDate}
             onChange={handleChange}
             required
-          ></input>
+          />
         </div>
+        <button type="submit">Create Trip</button>
       </form>
     </div>
   );
