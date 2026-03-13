@@ -35,6 +35,7 @@ export default function AuthPage() {
         setName("");
         setEmail("");
         setPassword("");
+        navigate("/");
       } catch (error) {
         console.log(error, "Cannot Register");
       }
@@ -43,17 +44,11 @@ export default function AuthPage() {
 
   const visitLogin = () => {
     setIsLogin(true);
-    
     // window.history.pushState({}, "", "/login")
   };
 
   const visitRegister = () => {
     setIsLogin(false);
-<<<<<<< HEAD
-    // navigate("/signup");
-=======
-    
->>>>>>> dev
     // window.history.pushState({}, "", "/signup")
   };
 
