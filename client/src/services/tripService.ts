@@ -1,15 +1,15 @@
 import axios from "axios";
 import type { TripData } from "../types/tripData";
 
-const apiURL = 'http://127.0.0.1:3000/trips';
+const apiURL = "http://127.0.0.1:3000/trips";
 
 const authHeader = () => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   return {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   };
 };
 
@@ -36,4 +36,3 @@ export const createTrip = async (tripData: TripData): Promise<TripData> => {
   if (!res.data) throw new Error("Could not create trip.");
   return res.data;
 };
-
