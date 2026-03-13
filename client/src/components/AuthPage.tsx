@@ -39,7 +39,8 @@ export default function AuthPage() {
       console.log(error, "Cannot Register")
     }
   }
-
+  // if(login) navigate 
+  //if(!login) navigate
   };
 
   const visitLogin = () => {
