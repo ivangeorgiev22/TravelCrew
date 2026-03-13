@@ -44,12 +44,10 @@ export default function AuthPage() {
 
   const visitLogin = () => {
     setIsLogin(true);
-    // window.history.pushState({}, "", "/login")
   };
 
   const visitRegister = () => {
     setIsLogin(false);
-    // window.history.pushState({}, "", "/signup")
   };
 
   return (
