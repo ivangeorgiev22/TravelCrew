@@ -4,8 +4,9 @@ import type { TripData } from "../types/tripData";
 
 interface FormProp {
   onClose: () => void;
+  onTripCreate: () => void;
 }
-export default function TripForm({ onClose }: FormProp) {
+export default function TripForm({ onClose, onTripCreate }: FormProp) {
   const [formData, setFormData] = useState({
     destination: "",
     startDate: "",
@@ -19,8 +20,12 @@ export default function TripForm({ onClose }: FormProp) {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
-      await createTrip(formData as TripData);
-      setFormData({ destination: "", startDate: "", endDate: "" });
+      const newTrip = await createTrip(formData as TripData);
+      if (new Date(newTrip.startDate).getTime() < Date.now()) {
+        console.log("Error creating new trip");
+        return;
+      }
+      onTripCreate();
       onClose();
     } catch (error) {
       console.log(error, "Error creating new trip");
