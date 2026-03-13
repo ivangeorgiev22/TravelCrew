@@ -14,8 +14,8 @@ export default function AuthPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     
     if(e.target.name === 'name') setName (e.target.value);
-    if(e.target.name === 'email') setName (e.target.value);
-    if(e.target.name === 'password') setName (e.target.value);
+    if(e.target.name === 'email') setEmail (e.target.value);
+    if(e.target.name === 'password') setPassword (e.target.value);
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {

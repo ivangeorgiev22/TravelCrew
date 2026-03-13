@@ -45,7 +45,7 @@ export const login = async (req: Request, res: Response) => {
       {expiresIn: "1h"}
     );
 
-    res.status(200).json({name: user.name, email: user.email, token}); //make sure no sensitive info is sent back!
+    res.status(200).json({token}); //make sure no sensitive info is sent back!
   } catch (error) {
     console.error(error);
     res.status(500).json({msg: "Internal Server Error"});
