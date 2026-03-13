@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams} from 'react-router-dom';
-import "tailwindcss";
 import image from '../assets/panoramic.jpg'
+import TripForm from "./TripForm";
 
 export default function TripDetails () {
     
     const {id} = useParams; 
     const [trip, setTripDetails] = useState(''); 
+    const [isSeen, setIsSeen] = useState(false);
 
     const getData = () => {
         fetch(`http://127.0.0.1:3000/trip/${id}`)
@@ -20,7 +21,7 @@ export default function TripDetails () {
     }, [id]);
 
    const addActivity = () => {
-    console.log('Trip Added'); 
+      setSeen(!seen); 
    } 
 
     return (
@@ -29,16 +30,23 @@ export default function TripDetails () {
         {/* <navBar/> */}
     </div>
     <div className="h-125 w-full bg-cover bg-center mb-10" style={{backgroundImage: `url(${image})`}}  >
-    <h1 className ="text-white ml-10 font-bold leading-10">Destination</h1>
-    <h1 className ="text-white ml-10 font-bold leading-10">Dates</h1>
-    <h1 className ="text-white ml-10 font-bold leading-10">Description</h1>
+    <h1 className ="text-white ml-10 font-bold leading-10">Destination</h1> {/* trip.destination*/}
+    <h1 className ="text-white ml-10 font-bold leading-10">Dates</h1> {/* trip.startdate && trip.enddate*/}
+    <h1 className ="text-white ml-10 font-bold leading-10">Description</h1> {/* trip.description generate automaticly*/}
     </div>
     <div className="grid justify-center">
-      <div className='place-items-start border text-center text-lg mb-10'>
-      <button onClick={addActivity}>Add Activity</button>
+      <div className=" flex items-center border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+    </svg>
+      <button onClick={() => setIsSeen(true)}>Add Activity</button>
+      {isSeen && (
+            <TripForm onClose={() => setIsSeen(false)}/>
+          )}
       </div>
-    <div className="grid justify-center font-serif text-lg ">
-      <details className=" border mb-10 bg-gray-200 rounded-lg ">
+    {/*{trip.map((index, i) => (*/}
+    <div className="font-serif text-lg  "> {/* key={index}*/}
+      <details className=" border mb-10 bg-gray-200 justify-center">
         <summary className="mb-5 font-bold text-center justify-center"> 
           Activity date 
         </summary>
@@ -46,6 +54,7 @@ export default function TripDetails () {
       </details>  
 
     </div>
+    {/*))}*/}
     </div>
     <div className="formInvite">
         {/*components pop with link ? */}
