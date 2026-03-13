@@ -1,58 +1,57 @@
 import { useState } from "react";
 import image from "../assets/brandon-kaida-2JwQoi-RBiI-unsplash.jpg";
-//import { useNavigate } from "react-router-dom";
-import type {UserData} from '../types/userData';
-import {login, register} from '../service-auth/auth'
+import { useNavigate } from "react-router-dom";
+import type { UserData } from "../types/userData";
+import { login, register } from "../service-auth/auth";
 
 export default function AuthPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('')
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if(e.target.name === 'name') setName (e.target.value);
-    if(e.target.name === 'email') setEmail (e.target.value);
-    if(e.target.name === 'password') setPassword (e.target.value);
+    if (e.target.name === "name") setName(e.target.value);
+    if (e.target.name === "email") setEmail(e.target.value);
+    if (e.target.name === "password") setPassword(e.target.value);
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     // handle login or register
-    if(isLogin) {
-    try{
-      await login({email, password} as UserData)
-      setEmail('');
-      setPassword('');
-      //navigate("/dashboard");
-    } catch(error) {
-      console.log(error, "Login error")
+    if (isLogin) {
+      try {
+        await login({ email, password } as UserData);
+        setEmail("");
+        setPassword("");
+        navigate("/dashboard");
+      } catch (error) {
+        console.log(error, "Login error");
+      }
+    } else if (!isLogin) {
+      try {
+        await register({ name, email, password } as UserData);
+        setName("");
+        setEmail("");
+        setPassword("");
+      } catch (error) {
+        console.log(error, "Cannot Register");
+      }
     }
-  } else if(!isLogin) {
-    try {
-      await register({name, email, password} as UserData)
-      setName('');
-      setEmail('');
-      setPassword('');
-    } catch (error) {
-      console.log(error, "Cannot Register")
-    }
-  }
-
   };
 
   const visitLogin = () => {
     setIsLogin(true);
-    // navigate("/");
-    window.history.pushState({}, "", "/login")
-  }
+    navigate("/");
+    // window.history.pushState({}, "", "/login")
+  };
 
   const visitRegister = () => {
     setIsLogin(false);
-    //navigate("/signup");
-    window.history.pushState({}, "", "/signup")
-  }
+    navigate("/signup");
+    // window.history.pushState({}, "", "/signup")
+  };
 
   return (
     <div className="flex h-screen">
@@ -71,31 +70,38 @@ export default function AuthPage() {
       <div className="w-full bg-white-100 lg:w-1/2 flex items-center justify-center">
         <div className="max-w-md w-full px-6 py-8">
           <h1 className="text-3xl font-semibold mb-1 text-black">
-            {isLogin? "Welcome back" : "Create an account"}
+            {isLogin ? "Welcome back" : "Create an account"}
           </h1>
           <h1 className="text-1lg mb-5 text-gray-600">
-            {isLogin? "Sign in to keep planning your next adventure" : "Sign up to start planning your next adventure"}
+            {isLogin
+              ? "Sign in to keep planning your next adventure"
+              : "Sign up to start planning your next adventure"}
           </h1>
-          <form action="#" method="POST" className="space-y-4" onSubmit={handleSubmit}>
+          <form
+            action="#"
+            method="POST"
+            className="space-y-4"
+            onSubmit={handleSubmit}
+          >
             {!isLogin && (
               <div>
-              <label
-                htmlFor="name"
-                aria-label="Name"
-                className="block text-sm font-medium text-gray-800"
-              >
-                Name
-              </label>
-              <input
-                type="name"
-                id="name"
-                name="name"
-                placeholder="Your Name"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
-                value={name}
-                onChange={handleChange}
-              />
-            </div>
+                <label
+                  htmlFor="name"
+                  aria-label="Name"
+                  className="block text-sm font-medium text-gray-800"
+                >
+                  Name
+                </label>
+                <input
+                  type="name"
+                  id="name"
+                  name="name"
+                  placeholder="Your Name"
+                  className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                  value={name}
+                  onChange={handleChange}
+                />
+              </div>
             )}
             <div>
               <label
@@ -145,18 +151,24 @@ export default function AuthPage() {
           <div className="mt-4 text-sm text-gray-600 text-center">
             {isLogin ? (
               <p>
-              Don't have an account?{" "}
-              <button onClick={visitRegister} className="text-black hover:underline">
-                Sign up here
-              </button>
-            </p>
+                Don't have an account?{" "}
+                <button
+                  onClick={visitRegister}
+                  className="text-black hover:underline"
+                >
+                  Sign up here
+                </button>
+              </p>
             ) : (
-            <p>
-              Already have an account?{" "}
-              <button onClick={visitLogin} className="text-black hover:underline">
-                Sign in here
-              </button>
-            </p>
+              <p>
+                Already have an account?{" "}
+                <button
+                  onClick={visitLogin}
+                  className="text-black hover:underline"
+                >
+                  Sign in here
+                </button>
+              </p>
             )}
           </div>
         </div>
