@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes';
+import tripRoutes from './routes/tripRoutes';
 import {sequelize} from './models/index';
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/auth', authRoutes);
+app.use('/trips', tripRoutes);
 
 (async () => {
   try {
