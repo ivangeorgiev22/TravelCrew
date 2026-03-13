@@ -1,10 +1,13 @@
 import {useEffect, useState} from 'react';
-import { getTrips } from '../service-auth/tripService';
+import { getTrips } from '../services/tripService';
 import TripCard from './TripCard';
+import type { TripData } from '../types/tripData';
+import TripForm from './TripForm';
 
 
 export default function Dashboard() {
-  const [trips, setTrips] = useState([]);
+  const [trips, setTrips] = useState<TripData[]>([]);
+  const [isSeen, setIsSeen] = useState(false);
   
   useEffect(() => {
 
@@ -20,7 +23,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <button className='cursor-pointer'>
+      <button className='cursor-pointer' onClick={() => setIsSeen(true)}>
         + Add a trip
       </button>
     <h1>Your Upcoming Trips</h1>
@@ -29,6 +32,9 @@ export default function Dashboard() {
         <TripCard key={trip.id} trip={trip} />
       ))}
     </div>
+    {isSeen && (
+      <TripForm onClose={() => setIsSeen(false)}/>
+    )}
     </div>
   )
 }

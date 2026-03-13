@@ -3,7 +3,10 @@ import { useNavigate } from "react-router";
 import { createTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 
-export default function TripForm() {
+interface FormProp {
+  onClose: () => void
+}
+export default function TripForm({onClose}: FormProp) {
   const [formData, setFormData] = useState({
     destination: "",
     startDate: "",
@@ -24,6 +27,7 @@ export default function TripForm() {
         console.log("Error creating new trip");
         return;
       }
+      onClose();
       navigate("/dashboard");
     } catch (error) {
       console.log(error, "Error creating new trip");
@@ -60,7 +64,7 @@ export default function TripForm() {
             Start Date
           </label>
           <input
-            type="datetime-local"
+            type="date"
             id="start-date"
             name="startDate"
             className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
@@ -75,7 +79,7 @@ export default function TripForm() {
             End Date
           </label>
           <input
-            type="datetime-local"
+            type="date"
             name="endDate"
             id="end-date"
             className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"

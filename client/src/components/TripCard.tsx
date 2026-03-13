@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router";
+import type { TripData } from "../types/tripData";
 
-export default function TripCard({trip}: TripData) {
+interface TripCardProps {
+  trip: TripData;
+}
+
+export default function TripCard({trip}: TripCardProps) {
   const navigate = useNavigate();
 
   return (
@@ -10,7 +15,7 @@ export default function TripCard({trip}: TripData) {
       <p>
         {trip.startDate} - {trip.endDate}
       </p>
-      
+
     </div>
   )
 }
