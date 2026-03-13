@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
 import { createTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 
@@ -10,8 +9,6 @@ export default function TripForm() {
     endDate: "",
   });
 
-  const navigate = useNavigate();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -19,21 +16,17 @@ export default function TripForm() {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
-      const newTrip = await createTrip(formData as TripData);
-      if (new Date(newTrip.startDate).getTime() < Date.now()) {
-        console.log("Error creating new trip");
-        return;
-      }
-      navigate("/dashboard");
+      await createTrip(formData as TripData);
+      setFormData({ destination: "", startDate: "", endDate: "" });
     } catch (error) {
       console.log(error, "Error creating new trip");
     }
   };
 
   return (
-    <div>
+    <div className="max-w-md w-full px-6 py-8">
       <h1 className="text-3xl font-semibold mb-1 text-black">Create a Trip</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label
             htmlFor="destination"
@@ -60,7 +53,7 @@ export default function TripForm() {
             Start Date
           </label>
           <input
-            type="datetime-local"
+            type="date"
             id="start-date"
             name="startDate"
             className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
@@ -75,7 +68,7 @@ export default function TripForm() {
             End Date
           </label>
           <input
-            type="datetime-local"
+            type="date"
             name="endDate"
             id="end-date"
             className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
@@ -84,7 +77,12 @@ export default function TripForm() {
             required
           />
         </div>
-        <button type="submit">Create Trip</button>
+        <button
+          type="submit"
+          className="cursor-pointer bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 mt-4"
+        >
+          Create Trip
+        </button>
       </form>
     </div>
   );

@@ -49,7 +49,7 @@ export default function AuthPage() {
 
   const visitRegister = () => {
     setIsLogin(false);
-    navigate("/signup");
+    // navigate("/signup");
     // window.history.pushState({}, "", "/signup")
   };
 
