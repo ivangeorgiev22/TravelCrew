@@ -2,7 +2,10 @@ import { useState } from "react";
 import { createTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 
-export default function TripForm() {
+interface FormProp {
+  onClose: () => void;
+}
+export default function TripForm({ onClose }: FormProp) {
   const [formData, setFormData] = useState({
     destination: "",
     startDate: "",
