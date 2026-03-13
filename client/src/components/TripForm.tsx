@@ -5,8 +5,9 @@ import type { TripData } from "../types/tripData";
 
 interface FormProp {
   onClose: () => void
+  onTripCreate: () => void
 }
-export default function TripForm({onClose}: FormProp) {
+export default function TripForm({onClose, onTripCreate}: FormProp) {
   const [formData, setFormData] = useState({
     destination: "",
     startDate: "",
@@ -27,6 +28,7 @@ export default function TripForm({onClose}: FormProp) {
         console.log("Error creating new trip");
         return;
       }
+      onTripCreate();
       onClose();
       navigate("/dashboard");
     } catch (error) {
