@@ -1,32 +1,34 @@
 import { useEffect, useState } from "react";
 import { useParams} from 'react-router-dom';
-import { getTrip } from '../services/tripService'
+import { getTrip } from "../services/tripService";
 import image from '../assets/panoramic.jpg'
-import type {TripData} from '../types/tripData'; 
+import type { TripData } from "../types/tripData";
+import NavBar from "./NavBar";
 
 export default function TripDetails () {
-    
-    const {id} = useParams(); 
-    const [trip, setTrip] = useState<TripData | null>(null); 
-    // const [isSeen, setIsSeen] = useState(false);
+  const {id} = useParams<{id: string}>(); 
+  const [trip, setTrip] = useState<TripData | null>(null); 
+  // const [isSeen, setIsSeen] = useState(false);
 
     useEffect( () => {
        const fetchTrip = async () => {
-        const data = await getTrip(Number(id)); 
+        if(!id) return;
+        const data = await getTrip(Number(id));
         setTrip(data);
        }
        fetchTrip();
     }, [id]);
 
+    if(!trip) return <p>Loading trip...</p>
 
     return (
     <div>
-    < div className="bg-red-50 mb-20">
-        {/* <navBar/> */}
+    <div className="">
+       <NavBar />
     </div>
     <div className="h-125 w-full bg-cover bg-center mb-10" style={{backgroundImage: `url(${image})`}}  >
-    <h1 className ="text-white ml-10 font-bold leading-10">{trip?.destination}</h1> {/* trip.destination*/}
-    <h1 className ="text-white ml-10 font-bold leading-10">{trip?.startDate} - {trip?.endDate} </h1> {/* trip.startdate && trip.enddate*/}
+    <h1 className ="text-white ml-10 font-bold leading-10">{trip.destination}</h1> {/* trip.destination*/}
+    <h1 className ="text-white ml-10 font-bold leading-10">{new Date(trip.startDate).toLocaleDateString()} - {new Date(trip.endDate).toLocaleDateString()}</h1> {/* trip.startdate && trip.enddate*/}
     </div>
     <div className="grid justify-center">
       <div className=" flex items-center border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg">
