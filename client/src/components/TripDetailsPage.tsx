@@ -30,6 +30,19 @@ export default function TripDetails() {
     setActivities(data);
   };
 
+  const groupedActivities = (activities: ActivityData[]) => {
+    return activities.reduce((group, activity) => {
+      const date = activity.date.split('T')[0]; 
+  if (!group[date]) {
+        group[date] = [];
+    }
+    group[date].push(activity);
+    return group;
+  }, {} as Record<string, ActivityData[]>); 
+  }
+   
+  const allActivities = groupedActivities(activities); 
+
   if (!trip) return <p>Loading trip...</p>;
 
   return (
@@ -57,31 +70,32 @@ export default function TripDetails() {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="0.5"
             stroke="currentColor"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="M12 4.5v15m7.5-7.5h-15"
             />
           </svg>
           <button onClick={() => setIsSeen(true)}>Add Activity</button>
         </div>
-        {/*{trips.activity.map((index, i) => (*/}
-        <div className="font-serif text-lg  ">
+        {Object.entries(allActivities).map(([date, activity]) => (
+        <div key={date} className="font-serif text-lg  ">
           {" "}
-          {/* key={index}*/}
           <details className=" border mb-10 bg-gray-200 justify-center">
             <summary className="mb-5 font-bold text-center justify-center">
-              Activity date
+              {date}
             </summary>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua
-            </p>
+            {activity.map((activity) => (
+              <div key={activity.id}>
+                {activity.name} - {activity.location}
+              </div>
+            )  )}
           </details>
         </div>
+        ))}
         {isSeen && (
           <ActivityForm
             onClose={() => setIsSeen(false)}
