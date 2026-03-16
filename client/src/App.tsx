@@ -10,10 +10,9 @@ function App() {
       <Routes>
         <Route path="/" element={<AuthPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        {/* <Route path="/trip/:id" element={<TripDetails />}/> */}
+        <Route path="/trips/:id" element={<TripDetailsPage />}/>
         {/* <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/trip/:id" element={<TripDetails />}/> */}
-        <Route path="/tripdetails" element={<TripDetailsPage />} />
       </Routes>
     </BrowserRouter>
   );
