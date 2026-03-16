@@ -5,7 +5,7 @@ import { getTrip } from "../services/tripService";
 import image from "../assets/panoramic.jpg";
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
-import type { ActivityData } from "../types/activityData";
+import type { ActivityData } from "../types/ActivityData";
 import ActivityForm from "./AcitivityForm";
 
 export default function TripDetails() {
@@ -23,8 +23,8 @@ export default function TripDetails() {
     fetchTrip();
   }, [id]);
 
-  const refreshActivities = async () => {
-    const data = await getActivities();
+  const refreshActivities = async (id) => {
+    const data = await getActivities(id);
     setActivities(data);
   };
 

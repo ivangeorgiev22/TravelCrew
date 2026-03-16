@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ActivityData } from "../types/activityData";
-// import { createActivity } from "../services/activityService";
+import { createActivity } from "../services/activityService";
 
 interface FormProp {
   onClose: () => void;
