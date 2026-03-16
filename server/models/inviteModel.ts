@@ -6,7 +6,7 @@ export default (sequelize: Sequelize) => {
     declare token: string;
     declare accepted: boolean;
     declare tripId: number;
-    // declare createdBy: number;
+    declare createdBy: number;
     declare expiryDate: Date;
   }
 
@@ -17,8 +17,8 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       token: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
+        type: DataTypes.STRING,
+        allowNull: false,
         unique: true,
       },
       accepted: {
@@ -29,9 +29,9 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      // createdBy: {
-      //   type: DataTypes.INTEGER,
-      // },
+      createdBy: {
+        type: DataTypes.INTEGER,
+      },
       expiryDate: {
         type: DataTypes.DATE,
         allowNull: false,
