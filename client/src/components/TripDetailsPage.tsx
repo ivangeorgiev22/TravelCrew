@@ -4,22 +4,31 @@ import { getTrip } from "../services/tripService";
 import image from '../assets/panoramic.jpg'
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
+import type { ActivityData } from "../types/ActivityData";
+import { getActivities } from "../services/activityService";
 
 export default function TripDetails () {
   const {id} = useParams<{id: string}>(); 
-  const [trip, setTrip] = useState<TripData | null>(null); 
-  // const [isSeen, setIsSeen] = useState(false);
+  const [trip, setTrip] = useState<TripData | null>(null);
+  const [activities, setActivities] = useState<ActivityData[]>([]) 
+  const [isSeen, setIsSeen] = useState(false);
 
-    useEffect( () => {
-       const fetchTrip = async () => {
-        if(!id) return;
-        const data = await getTrip(Number(id));
-        setTrip(data);
-       }
-       fetchTrip();
+  useEffect( () => {
+    const fetchData = async () => {
+      if(!id) return;
+        const tripData = await getTrip(Number(id));
+        const activityData = await getActivities(Number(id));
+        setTrip(tripData);
+        setActivities(activityData);
+      }
+      fetchData();
     }, [id]);
 
-    if(!trip) return <p>Loading trip...</p>
+    if(!trip) return <p>Loading trip...</p>;
+
+    const groupActivitiesByDate = (activities: ActivityData[]) => {
+      
+    }
 
     return (
     <div>
