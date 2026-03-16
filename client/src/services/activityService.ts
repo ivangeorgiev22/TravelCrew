@@ -5,7 +5,6 @@ const apiURL = "http://127.0.0.1:3000/activities";
 
 const authHeader = () => {
   const token = localStorage.getItem("token");
-
   return {
     headers: {
       Authorization: `Bearer ${token}`,
