@@ -1,5 +1,5 @@
 export interface ActivityData {
-  id: number;
+  id: number | string;
   name: string;
   location: string;
   date: string;
