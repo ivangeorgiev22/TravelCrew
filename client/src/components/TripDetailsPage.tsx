@@ -1,30 +1,32 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-// import { getActivities } from "../services/activityService";
+import { getActivities } from "../services/activityService";
 import { getTrip } from "../services/tripService";
 import image from "../assets/panoramic.jpg";
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
-import type { ActivityData } from "../types/ActivityData";
+import type { ActivityData } from "../types/activityData";
 import ActivityForm from "./AcitivityForm";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
   const [isSeen, setIsSeen] = useState(false);
-  const [activities, setActivities] = useState<ActivityData[] | null>(null);
+  const [activities, setActivities] = useState<ActivityData[]>([]);
 
   useEffect(() => {
     const fetchTrip = async () => {
       if (!id) return;
-      const data = await getTrip(Number(id));
-      setTrip(data);
+      const tripData = await getTrip(Number(id));
+      const activityData = await getActivities(Number(id));
+      setTrip(tripData);
+      setActivities(activityData);
     };
     fetchTrip();
   }, [id]);
 
-  const refreshActivities = async (id) => {
-    const data = await getActivities(id);
+  const refreshActivities = async () => {
+    const data = await getActivities(Number(id));
     setActivities(data);
   };
 
@@ -84,6 +86,7 @@ export default function TripDetails() {
           <ActivityForm
             onClose={() => setIsSeen(false)}
             onActivityCreate={refreshActivities}
+            tripId={Number(id)}
           />
         )}
       </div>

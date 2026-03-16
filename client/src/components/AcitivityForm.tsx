@@ -5,10 +5,16 @@ import { createActivity } from "../services/activityService";
 interface FormProp {
   onClose: () => void;
   onActivityCreate: () => void;
+  tripId: number;
 }
 
-export default function ActivityForm({ onClose, onActivityCreate }: FormProp) {
+export default function ActivityForm({
+  onClose,
+  onActivityCreate,
+  tripId,
+}: FormProp) {
   const [formData, setFormData] = useState({
+    id: "",
     name: "",
     location: "",
     date: "",
@@ -22,7 +28,7 @@ export default function ActivityForm({ onClose, onActivityCreate }: FormProp) {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
-      await createActivity(formData as unknown as ActivityData);
+      await createActivity({ ...formData, tripId } as ActivityData);
       onActivityCreate();
       onClose();
     } catch (error) {
