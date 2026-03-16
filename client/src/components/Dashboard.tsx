@@ -4,6 +4,8 @@ import TripCard from "./TripCard";
 import type { TripData } from "../types/tripData";
 import TripForm from "./TripForm";
 import NavBar from "./NavBar";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from '@fullcalendar/daygrid';
 
 export default function Dashboard() {
   const [trips, setTrips] = useState<TripData[]>([]);
@@ -21,6 +23,20 @@ export default function Dashboard() {
     const data = await getTrips();
     setTrips(data);
   };
+  
+
+  //Trip view in calendar
+  const calendarEvents = trips.map((trip) => {
+    const end = new Date(trip.endDate);
+    end.setDate(end.getDate() + 1);
+
+    return {
+      start: trip.startDate.split("T")[0],
+      end: end.toISOString().split("T")[0],
+      display: "background",
+      backgroundColor: "#cfdfe3"
+    };
+  });
 
   return (
     <div>
@@ -44,6 +60,16 @@ export default function Dashboard() {
             onTripCreate={refreshTrips}
           />
         )}
+      </div>
+      <div className="w-115 calendar-wrapper bg-white rounded-xl shadow-md border p-6 ml-300">
+        <h2 className="font-bold text-xl mb-3">Trip Calendar</h2>
+        <FullCalendar 
+          plugins={[dayGridPlugin]}
+          initialView="dayGridMonth"
+          events={calendarEvents}
+          height= "460px"
+          
+        />
       </div>
     </div>
   );
