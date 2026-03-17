@@ -21,9 +21,9 @@ export const sendInvite = async(tripId: number, name : string, email: string) =>
     }
 }
 
-export const acceptInvite = async() => {
+export const acceptInvite = async(inviteToken: string) => {
     try {
-      const send = await axios.post(`${apiURL}/accept`, authHeader())  ; 
+      const send = await axios.post(`${apiURL}/accept`,{inviteToken}, authHeader()); 
       return send.data; 
     } catch (error) {
       console.log(error, "Could not accept the invite");

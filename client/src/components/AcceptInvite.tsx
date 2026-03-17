@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { acceptInvite } from "../services/inviteService";
+import { acceptInvite } from "../services/emailService";
 
 export default function AcceptInvite() {
   const [params] = useSearchParams();
@@ -30,22 +30,6 @@ export default function AcceptInvite() {
     };
     joinTrip();
   }, [token, navigate, isAuthenticated]);
-
-  //  useEffect(() => {
-  //     const joinTrip = async () => {
-  //       if (!token || hasRequested.current) return;
-  //       hasRequested.current = true;
-  //       try {
-  //         const response = await acceptInvite(token);
-  //         navigate(`/trips/${response.tripId}`);
-  //       } catch (error) {
-  //         console.error(error);
-  //         navigate("/dashboard");
-  //       }
-  //     };
-
-  //     joinTrip();
-  //   }, [token, navigate]);
 
   return (
     <div className="flex justify-center items-center h-screen">

@@ -3,6 +3,7 @@ import AuthPage from "./components/AuthPage";
 import TripDetailsPage from "./components/TripDetailsPage";
 import { BrowserRouter, Routes, Route } from "react-router";
 import Dashboard from "./components/Dashboard";
+import AcceptInvite from "./components/AcceptInvite";
 
 function App() {
   return (
