@@ -1,17 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { acceptInvite } from "../services/inviteService";
 
 export default function AcceptInvite() {
   const [params] = useSearchParams();
   const navigate = useNavigate();
+  const hasRequested = useRef(false);
 
   const token = params.get("token");
 
  useEffect(() => {
     const joinTrip = async () => {
-      if (!token) return;
-      
+      if (!token || hasRequested.current) return;
+      hasRequested.current = true;
       try {
         const response = await acceptInvite(token);
         navigate(`/trips/${response.tripId}`);
