@@ -1,6 +1,6 @@
 import { useState } from "react";
 import image from "../assets/brandon-kaida-2JwQoi-RBiI-unsplash.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import type { UserData } from "../types/userData";
 import { login, register } from "../services/auth";
 
@@ -10,6 +10,8 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.state?.from || "/dashboard"; // Get the intended destination after login
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === "name") setName(e.target.value);
@@ -25,7 +27,7 @@ export default function AuthPage() {
         await login({ email, password } as UserData);
         setEmail("");
         setPassword("");
-        navigate("/dashboard");
+        navigate(path); // Redirect to intended destination (dashboard or trip details page)
       } catch (error) {
         console.log(error, "Login error");
       }
@@ -35,7 +37,7 @@ export default function AuthPage() {
         setName("");
         setEmail("");
         setPassword("");
-        navigate("/");
+        setIsLogin(true);
       } catch (error) {
         console.log(error, "Cannot Register");
       }
