@@ -7,6 +7,7 @@ import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
 import ActivityForm from "./AcitivityForm";
+import Invite from './EmailInviteForm'; 
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
@@ -104,8 +105,11 @@ export default function TripDetails() {
           />
         )}
       </div>
-      <div className="formInvite">{/*components pop with link ? */}</div>
-      <div className="map">{/*based on the acvity in the city*/}</div>
+      <div className="flex justify-end  mr-20 text-center text-lg mb-10 text-black rounded-lg">{/*components pop with link ? */}
+        < Invite />
+      </div>
+
+      <div className="map">{/*based on the activity in the city*/}</div>
     </div>
   );
 }
