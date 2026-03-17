@@ -4,6 +4,8 @@ export default (sequelize: Sequelize) => {
   class TripMember extends Model {
     declare id: number;
     declare role: string;
+    declare tripId: string;
+    declare userId: string;
   }
 
   TripMember.init(
@@ -16,6 +18,12 @@ export default (sequelize: Sequelize) => {
       role: {
         type: DataTypes.STRING,
         defaultValue: "member",
+      },
+      tripId: {
+        type: DataTypes.INTEGER,
+      },
+      userId: {
+        type: DataTypes.INTEGER,
       },
     },
     {

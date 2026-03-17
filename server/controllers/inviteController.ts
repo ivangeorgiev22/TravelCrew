@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { Request, Response } from "express";
-import { Invite, User } from "../models";
+import { Invite } from "../models";
 import jwt from "jsonwebtoken";
 import { TripMember } from "../models";
 
@@ -52,7 +52,7 @@ export const acceptInvitedMember = async (req: Request, res: Response) => {
   //verify token, find invite, add user to trip, delete invite
   const { inviteToken } = req.body;
   const userId = req.user?.id;
-  if (!userId) return res.json(401).json({ msg: "Missing credentials." });
+  if (!userId) return res.status(401).json({ msg: "Missing credentials." });
 
   try {
     const decoded = jwt.verify(
@@ -60,10 +60,12 @@ export const acceptInvitedMember = async (req: Request, res: Response) => {
       process.env.JWT_SECRET as string,
     ) as {
       email: string;
-      tripId: string;
+      tripId: number;
     };
 
-    await Invite.findOne({ where: { token: inviteToken } });
+    const invite = await Invite.findOne({ where: { token: inviteToken } });
+    if (!invite)
+      return res.status(400).json({ msg: "Invalid or expired invite link." });
     await TripMember.create({
       userId,
       tripId: decoded.tripId,
