@@ -3,8 +3,6 @@ import { Sequelize, DataTypes, Model } from "sequelize";
 export default (sequelize: Sequelize) => {
   class TripMember extends Model {
     declare id: number;
-    declare userId: number;
-    declare tripId: number;
     declare role: string;
     declare tripId: string;
     declare userId: string;
@@ -19,22 +17,16 @@ export default (sequelize: Sequelize) => {
       },
       userId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
       tripId: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
       },
 
       role: {
         type: DataTypes.STRING,
         defaultValue: "member",
-      },
-      tripId: {
-        type: DataTypes.INTEGER,
-      },
-      userId: {
-        type: DataTypes.INTEGER,
       },
     },
     {
