@@ -7,12 +7,14 @@ import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
 import ActivityForm from "./AcitivityForm";
+import InviteForm from "./InviteForm";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
   const [isSeen, setIsSeen] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
+  const [showInviteForm, setShowInviteForm] = useState(false);
 
   useEffect(() => {
     const fetchTrip = async () => {
@@ -102,6 +104,12 @@ export default function TripDetails() {
             onActivityCreate={refreshActivities}
             tripId={Number(id)}
           />
+        )}
+      </div>
+      <div className="ml-3">
+        <button onClick={() => setShowInviteForm(true)} className="cursor-pointer border">Invite</button>
+        {showInviteForm && (
+          <InviteForm tripId={Number(id)} onClose={() => setShowInviteForm(false)} />
         )}
       </div>
       <div className="formInvite">{/*components pop with link ? */}</div>

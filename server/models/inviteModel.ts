@@ -17,8 +17,8 @@ export default (sequelize: Sequelize) => {
         allowNull: false,
       },
       token: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
+        type: DataTypes.STRING,
+        allowNull: false,
         unique: true,
       },
       accepted: {
