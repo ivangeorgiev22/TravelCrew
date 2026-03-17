@@ -35,7 +35,7 @@ export default function AuthPage() {
         setName("");
         setEmail("");
         setPassword("");
-        navigate("/");
+        setIsLogin(true);
       } catch (error) {
         console.log(error, "Cannot Register");
       }
