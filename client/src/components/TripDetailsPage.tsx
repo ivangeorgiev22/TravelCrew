@@ -106,11 +106,17 @@ export default function TripDetails() {
           />
         )}
       </div>
-      <div className="ml-3">
+      <div className="ml-3 border w-50 flex flex-col">
         <button onClick={() => setShowInviteForm(true)} className="cursor-pointer border">Invite</button>
         {showInviteForm && (
           <InviteForm tripId={Number(id)} onClose={() => setShowInviteForm(false)} />
         )}
+        {trip.Users.map((member) => (
+          <div key={member.id}>
+            <span>{member.name}</span>
+            <span className="ml-2">{member.TripMember.role === "owner" ? "Owner" : "Member"}</span>
+          </div>
+        ))}
       </div>
       <div className="formInvite">{/*components pop with link ? */}</div>
       <div className="map">{/*based on the acvity in the city*/}</div>

@@ -74,10 +74,17 @@ export const acceptInvitedMember = async (req: Request, res: Response) => {
       return res.status(404).json({ msg: "Invite not found" });
     }
 
-    await TripMember.create({
-      userId,
-      tripId: invite.tripId,
+    const existing = await TripMember.findOne({
+      where: {userId, tripId: decoded.tripId}
     });
+
+    if(!existing) {
+      await TripMember.create({
+        userId,
+        tripId: invite.tripId,
+      });
+    }
+
 
     await Invite.destroy({
       where: { token: inviteToken },

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Trip, Activity } from "../models";
+import { Trip, Activity, User, TripMember } from "../models";
 
 export const getTrips = async (req:Request, res: Response) => {
   try {
@@ -15,10 +15,18 @@ export const getTrips = async (req:Request, res: Response) => {
 };
 
 export const getTrip = async (req: Request, res: Response) => {
-  const id = req.params.id as string;
+  const id = Number(req.params.id);
   try {
     const trip = await Trip.findByPk(id, {
-      include: [Activity]
+      include: [
+        Activity, 
+        {
+          model: User,
+          attributes: ["id", "name", "email"],
+          through: {attributes: ["role"]},
+          association: "Users"
+        }
+      ]
     });
 
     if(!trip) {
@@ -43,7 +51,14 @@ export const postTrip = async (req: Request, res: Response) => {
       startDate,
       endDate,
       ownerId: req.user!.id
-    })
+    });
+    //when user creates a trip he is added to the members as owner
+    await TripMember.create({
+      userId: req.user!.id,
+      tripId: newTrip.id,
+      role: "owner"
+    });
+
     return res.status(201).json(newTrip);
   } catch (error) {
     console.error(error);
