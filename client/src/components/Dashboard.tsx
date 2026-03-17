@@ -8,24 +8,29 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
 export default function Dashboard() {
-  const [trips, setTrips] = useState<TripData[]>([]);
+  const [ownTrips, setOwnTrips] = useState<TripData[]>([]);
+  const [memberTrips, setMemberTrips] = useState<TripData[]>([]);
   const [isSeen, setIsSeen] = useState(false);
 
   useEffect(() => {
     const fetchTrips = async () => {
       const data = await getTrips();
-      setTrips(data);
+      setOwnTrips(data.ownTrips);
+      setMemberTrips(data.memberTrips);
     };
     fetchTrips();
   }, []);
 
   const refreshTrips = async () => {
     const data = await getTrips();
-    setTrips(data);
+    setOwnTrips(data.ownTrips);
+    setMemberTrips(data.memberTrips);
   };
-
-  //Trip view in calendar
-  const calendarEvents = trips.map((trip) => {
+  //combine trips you own and trips you are a member of for calendar view
+  const allTrips = [...ownTrips, ...memberTrips];
+  
+  // Trip view in calendar
+  const calendarEvents = allTrips.map((trip) => {
     const end = new Date(trip.endDate);
     end.setDate(end.getDate() + 1);
 
@@ -47,11 +52,21 @@ export default function Dashboard() {
         >
           + Add a trip
         </button>
-        <h1>Your Upcoming Trips</h1>
-        <div className="flex gap-4 ml-2">
-          {trips.map((trip) => (
+        <div className="ml-2">
+          <h1>Your Upcoming Trips</h1>
+          <div className="flex gap-4">
+            {ownTrips.map((trip) => (
+              <TripCard key={trip.id} trip={trip} />
+            ))}
+          </div>
+        </div>
+        <div className="ml-2">
+          <h1>Trips you've been invited to</h1>
+          <div className="flex gap-4">
+          {memberTrips.map((trip) => (
             <TripCard key={trip.id} trip={trip} />
           ))}
+          </div>
         </div>
         {isSeen && (
           <TripForm

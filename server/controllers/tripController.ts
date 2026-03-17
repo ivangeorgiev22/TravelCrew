@@ -1,13 +1,29 @@
 import { Request, Response } from "express";
 import { Trip, Activity, User, TripMember } from "../models";
+import { Op } from "sequelize";
 
 export const getTrips = async (req:Request, res: Response) => {
   try {
-    const trips = await Trip.findAll({
+
+    const ownTrips = await Trip.findAll({
       where: {ownerId: req.user!.id}
     });
 
-    res.status(200).json(trips);
+    const memberTrips = await Trip.findAll({
+      include: [
+        {
+          association: "Users",
+          where: {id: req.user!.id},
+          attributes: [],
+          through: {attributes: []},
+        }
+      ],
+      where: {
+        ownerId: {[Op.ne]: req.user!.id} //Op means not equal so this will exclude trips you are not the owner of.
+      }
+    });
+
+    res.status(200).json({ownTrips, memberTrips});
   } catch (error) {
     console.error(error);
     res.status(500).json({msg: "Internal Server Error"});
