@@ -5,8 +5,8 @@ import {
   acceptInvitedMember,
 } from "../controllers/inviteController";
 const router = Router();
-
-router.post("/:tripId", authMiddleware, sendInvite);
+//routes were flipped so express was not getting to the accept but rather sending another invite
 router.post("/accept", authMiddleware, acceptInvitedMember);
+router.post("/:tripId", authMiddleware, sendInvite);
 
 export default router;
