@@ -1,4 +1,5 @@
 export interface formData {
   name : string; 
-  mail : string; 
+  email : string; 
+  tripId: number; 
 }

@@ -8,12 +8,18 @@ import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
 import ActivityForm from "./AcitivityForm";
 import Invite from './EmailInviteForm'; 
+import { FaPlus } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import {deleteActivity} from '../services/activityService'; 
+
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
   const [isSeen, setIsSeen] = useState(false);
+  const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
+  
 
   useEffect(() => {
     const fetchTrip = async () => {
@@ -41,6 +47,15 @@ export default function TripDetails() {
     return group;
   }, {} as Record<string, ActivityData[]>); 
   }
+
+  const activityDeleted = async (id: number) => {
+    try {
+      await deleteActivity(id);
+      setActivities(oldActivities => oldActivities.filter(oldActivity => oldActivity.id !== id));
+    } catch (error) {
+      console.log(error, "impossible to delete activity")
+    }
+  }
    
   const allActivities = groupedActivities(activities); 
 
@@ -67,20 +82,7 @@ export default function TripDetails() {
       </div>
       <div className="grid justify-center">
         <div className=" flex items-center border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="0.5"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 4.5v15m7.5-7.5h-15"
-            />
-          </svg>
-          <button onClick={() => setIsSeen(true)}>Add Activity</button>
+          <button className="inline-flex items-center gap-2" onClick={() => setIsSeen(true)}><FaPlus /> Add Activity</button>
         </div>
         {Object.entries(allActivities).map(([date, activity]) => (
         <div key={date} className="font-serif text-lg  ">
@@ -91,7 +93,9 @@ export default function TripDetails() {
             </summary>
             {activity.map((activity) => (
               <div key={activity.id}>
-                {activity.name} - {activity.location}
+                {activity.name} - {activity.location} 
+                <button onClick={() => activity.id && activityDeleted(Number(activity.id))}
+                className="inline-flex items-center"><MdDeleteForever /> Delete</button>
               </div>
             )  )}
           </details>
@@ -105,10 +109,25 @@ export default function TripDetails() {
           />
         )}
       </div>
-      <div className="flex justify-end  mr-20 text-center text-lg mb-10 text-black rounded-lg">{/*components pop with link ? */}
-        < Invite />
-      </div>
-
+      <div className="flex justify-end mr-20 mb-10">
+        <button className=" bg-gray-900 text-white rounded-lg text-center text-lg inline-flex items-center gap-2" 
+        onClick={() => setMembers(true)}
+        >
+        <FaPlus /> Add Members
+        </button>
+        {addMembers && (
+        < Invite 
+        onClose={() => setMembers(false)}
+        tripId={Number(id)} 
+        />
+        )}
+        {trip.Users.map((member) => (
+          <div key={member.id}>
+            <span>{member.name}</span>
+            <span className="ml-2">{member.TripMember.role === "owner" ? "Owner" : "Member"}</span>
+          </div>
+        ))}
+    </div>
       <div className="map">{/*based on the activity in the city*/}</div>
     </div>
   );

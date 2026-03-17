@@ -1,29 +1,42 @@
 import { useState } from "react";
-//import {sendEmail} from '../services/emailService'; 
-//import type {formData} from '../types/inviteForm'; 
+import {sendInvite} from '../services/emailService'; 
+interface FormInvite {
+  onClose: () => void;
+  tripId : number; 
+}
 
-//interface FormInvite {}
-
-export default function Invite() {
-  const [invite, setInvite] = useState({name : '', email: ''}); 
-
+export default function Invite({onClose, tripId} : FormInvite) {
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInvite({...invite, [event.target.name]: event.target.value} )
+    if (event.target.name === "name") setName(event.target.value);
+    if (event.target.name === "email") setEmail(event.target.value);
   }
 
-  //const handleSubmit = (event : React.SubmitEvent) => {
-    //event.preventDefault();
-    //try {
-      //await sendEmail(...invite) 
-    //} catch(error) {
-      //console.log(error, "error no email send")
-    //}
-  //}
+  const handleSubmit = async (event : React.SubmitEvent) => {
+    event.preventDefault();
+    try {
+      await sendInvite(tripId, name, email)
+      setName('')
+      setEmail('')
+      onClose()
+    } catch(error) {
+      console.log(error, "error no email send")
+    }
+  }
 
   return (
-  <div>
-    <form className = "size-70  bg-gray-500 rounded-lg">
-      <h1 className="text-white font-semibold">Send an invite</h1>
+  <div className="fixed inset-0 bg-black/60 flex items-center justify-center text-center"
+      onClick={onClose}
+      >
+        <div
+        className="bg-black/60 p-6 rounded-md w-96"
+        onClick={(e) => e.stopPropagation()}
+      >
+    <div>
+      <h1 className="text-white font-semibold text-center">Send an invite</h1>
+    <form onSubmit={handleSubmit} className = "bg-gray-500 rounded-lg justify-center flex-col">
        <div>
         <label
           htmlFor="name"
@@ -35,10 +48,10 @@ export default function Invite() {
         type ="text" 
         id= "name"
         name="name"
-        value={invite.name} 
+        value={name} 
         onChange={handleChange} 
       
-        placeholder="Enter a name" 
+        placeholder="Ex: Joey Smith" 
         required
       />
       </div>
@@ -53,14 +66,16 @@ export default function Invite() {
         type ="text" 
         id= "email"
         name="email"
-        value={invite.email} 
+        value={email} 
         onChange={handleChange} 
         placeholder="Enter a mail" 
         required
       />
       </div>
-      <button className=" bg-gray-200 rounded-lg h-10 w-16" type="submit">Invite</button>
+      <button className=" bg-gray-200 rounded-lg h-10 w-16 mb-5" type="submit">Invite</button>
     </form>
+    </div>
+    </div>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import axios from "axios";
-import type {formData} from '../types/inviteForm'; 
 
-const apiURL = "http://127.0.0.1:3000/trips";
+const apiURL = "http://127.0.0.1:3000/invites";
 
 const authHeader = () => {
   const token = localStorage.getItem("token");
@@ -13,21 +12,21 @@ const authHeader = () => {
   };
 };
 
-export const sendInvite = async(FormData : formData) => {
+export const sendInvite = async(tripId: number, name : string, email: string) => {
     try {
-      const send = await axios.post(apiURL, FormData, authHeader())  ; 
+      const send = await axios.post(`${apiURL}/${tripId}`, {name, email}, authHeader())  ; 
       return send.data; 
     } catch (error) {
-      console.log(error, "Could not create activity");
+      console.log(error, "Could not send invite");
     }
 }
 
 export const acceptInvite = async() => {
     try {
-      const send = await axios.post(apiURL, authHeader())  ; 
+      const send = await axios.post(`${apiURL}/accept`, authHeader())  ; 
       return send.data; 
     } catch (error) {
-      console.log(error, "Could not create activity");
+      console.log(error, "Could not accept the invite");
     }
 }
 
