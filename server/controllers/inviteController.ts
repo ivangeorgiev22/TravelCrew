@@ -24,7 +24,7 @@ export const sendInvite = async (req: Request, res: Response) => {
         expiresIn: "24h",
       },
     );
-
+    console.log(req.body)
     await Invite.create({ email, token: inviteToken, tripId, expiryDate: new Date(Date.now() + 24 * 60 * 60 * 1000) }); // Save the invite to the database
 
     const inviteLink = `${process.env.CLIENT_URL}/accept-invite?token=${inviteToken}`; // create an invite link with the token
@@ -52,7 +52,7 @@ export const acceptInvitedMember = async (req: Request, res: Response) => {
   //verify token, find invite, add user to trip, delete invite
   const { inviteToken } = req.body;
   const userId = req.user?.id;
-  if (!userId) return res.json(401).json({ msg: "Missing credentials." });
+  if (!userId) return res.status(401).json({ msg: "Missing credentials." });
 
   try {
     const decoded = jwt.verify(
@@ -60,13 +60,18 @@ export const acceptInvitedMember = async (req: Request, res: Response) => {
       process.env.JWT_SECRET as string,
     ) as {
       email: string;
-      tripId: string;
+      tripId: number;
     };
 
-    await Invite.findOne({ where: { token: inviteToken } });
+    const invite = await Invite.findOne({ where: { token: inviteToken } });
+    
+    if(!invite) {
+      return res.status(404).json({msg: "Invite not found"});
+    }
+
     await TripMember.create({
       userId,
-      tripId: decoded.tripId,
+      tripId: invite.tripId,
     });
 
     await Invite.destroy({
@@ -75,7 +80,7 @@ export const acceptInvitedMember = async (req: Request, res: Response) => {
 
     res.status(200).json({
       msg: "Joined trip successfully!",
-      tripId: decoded.tripId,
+      tripId: invite.tripId,
     });
   } catch (error) {
     console.error(error);
