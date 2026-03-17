@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
+.calendar-wrapper {
+  max-width: 400px; /* constrain total width */
+  font-size: 12px; /* scales most text down */
+  margin: auto;
+}
+
 .calendar-wrapper .fc-theme-standard td,
 .calendar-wrapper .fc-theme-standard th {
   border: none;
 }
-
 .calendar-wrapper .fc-scrollgrid {
   border: none;
 }
 
 .calendar-wrapper .fc-daygrid-day-frame {
   padding: 5px;
+  max-height: 40px !important;
 }
 
 .calendar-wrapper .fc-daygrid-day-number {
-  font-size: 20px;
+  font-size: 12px;
   font-weight: 500;
   color: #374151;
 }

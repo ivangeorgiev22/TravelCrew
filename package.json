@@ -20,7 +20,6 @@
   "homepage": "https://github.com/ivangeorgiev22/TravelCrew#readme",
   "dependencies": {
     "@tailwindcss/vite": "^4.2.1",
-    "nodemailer": "^8.0.2",
     "tailwindcss": "^4.2.1"
   }
 }

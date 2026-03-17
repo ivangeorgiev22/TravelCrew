@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import { Request, Response } from "express";
-import { Invite, User } from "../models";
+import { Invite } from "../models";
 import jwt from "jsonwebtoken";
 import { TripMember } from "../models";
 
@@ -24,8 +24,13 @@ export const sendInvite = async (req: Request, res: Response) => {
         expiresIn: "24h",
       },
     );
-    console.log(req.body)
-    await Invite.create({ email, token: inviteToken, tripId, expiryDate: new Date(Date.now() + 24 * 60 * 60 * 1000) }); // Save the invite to the database
+    console.log(req.body);
+    await Invite.create({
+      email,
+      token: inviteToken,
+      tripId,
+      expiryDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
+    }); // Save the invite to the database
 
     const inviteLink = `${process.env.CLIENT_URL}/accept-invite?token=${inviteToken}`; // create an invite link with the token
 
@@ -64,9 +69,9 @@ export const acceptInvitedMember = async (req: Request, res: Response) => {
     };
 
     const invite = await Invite.findOne({ where: { token: inviteToken } });
-    
-    if(!invite) {
-      return res.status(404).json({msg: "Invite not found"});
+
+    if (!invite) {
+      return res.status(404).json({ msg: "Invite not found" });
     }
 
     const existing = await TripMember.findOne({
