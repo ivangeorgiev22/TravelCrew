@@ -28,7 +28,7 @@ export default function Invite({ onClose, tripId }: FormInvite) {
 
   return (
     <div
-      className="z-1001 fixed inset-0 bg-black/60 flex items-center justify-center text-center"
+      className="fixed inset-0 bg-black/60 flex items-center justify-center text-center z-1001"
       onClick={onClose}
     >
       <div

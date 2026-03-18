@@ -38,7 +38,7 @@ export default function ActivityForm({
 
   return (
     <div
-      className=" z-1001 fixed inset-0 bg-black/60 flex items-center justify-center"
+      className="fixed inset-0 bg-black/60 flex items-center justify-center z-1001"
       onClick={onClose}
     >
       <div

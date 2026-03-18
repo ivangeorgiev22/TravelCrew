@@ -145,6 +145,7 @@ export default function TripDetails() {
       </div>
       <Map activities={activities} />
       <div className="map">{/*based on the activity in the city*/}</div>
+      <Map activities={activities} />
     </div>
   );
 }
