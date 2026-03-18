@@ -46,13 +46,13 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="min-h-screen">
+    <div>
       <NavBar />
       <div className="bg-mist-100 min-h-screen">
       <div className="flex justify-between align-center container mx-auto mt-4 mb-4 border-b">
         <div className="flex flex-col justify-center">
-          <span>Welcome back,</span>
-          <h1 className="font-bold">{userName}</h1>
+          <span className="text-sm">Welcome back,</span>
+          <h1 className="font-bold text-xl">{userName}</h1>
         </div>
         <button
           className="m-4 bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
@@ -61,19 +61,19 @@ export default function Dashboard() {
           + Add a trip
         </button>
       </div>
-      <div className="container mx-auto grid grid-cols-2">
-        <div className="">
-          <div className="w-150">
-            <h1 className="mb-2 text-xl font-bold">Your Upcoming Trips</h1>
-            <div className="flex gap-6">
+      <div className="container mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
+        <div className="flex flex-col gap-10">
+          <div>
+            <h1 className="mb-3 text-xl font-bold">Your Upcoming Trips</h1>
+            <div className="flex flex-wrap gap-6">
               {ownTrips.map((trip) => (
                 <TripCard key={trip.id} trip={trip} />
               ))}
             </div>
           </div>
-          <div className="w-150 mt-4">
-            <h1 className="mb-2 text-xl font-bold">Shared With You</h1>
-            <div className="flex gap-4">
+          <div>
+            <h1 className="mb-3 text-xl font-bold">Shared With You</h1>
+            <div className="flex flex-wrap gap-6 pb-16">
               {memberTrips.map((trip) => (
                 <TripCard key={trip.id} trip={trip} />
               ))}
@@ -86,7 +86,7 @@ export default function Dashboard() {
             onTripCreate={refreshTrips}
           />
         )}
-        <div className="flex justify-end">
+        <div>
         <div className="w-80 calendar-wrapper bg-white rounded-xl shadow-lg p-6">
           <h2 className="font-bold text-xl mb-3">Trip Calendar</h2>
           <FullCalendar
