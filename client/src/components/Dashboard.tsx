@@ -11,6 +11,9 @@ export default function Dashboard() {
   const [ownTrips, setOwnTrips] = useState<TripData[]>([]);
   const [memberTrips, setMemberTrips] = useState<TripData[]>([]);
   const [isSeen, setIsSeen] = useState(false);
+  const [userName] = useState(() => {
+    return localStorage.getItem("userName") || "";
+  });
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -43,29 +46,38 @@ export default function Dashboard() {
   });
 
   return (
-    <div>
+    <div className="min-h-screen">
       <NavBar />
-      <div>
+      <div className="bg-mist-100 min-h-screen">
+      <div className="flex justify-between align-center container mx-auto mt-4 mb-4 border-b">
+        <div className="flex flex-col justify-center">
+          <span>Welcome back,</span>
+          <h1 className="font-bold">{userName}</h1>
+        </div>
         <button
           className="m-4 bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
           onClick={() => setIsSeen(true)}
         >
           + Add a trip
         </button>
-        <div className="ml-2">
-          <h1>Your Upcoming Trips</h1>
-          <div className="flex gap-4">
-            {ownTrips.map((trip) => (
-              <TripCard key={trip.id} trip={trip} />
-            ))}
+      </div>
+      <div className="container mx-auto grid grid-cols-2">
+        <div className="">
+          <div className="w-150">
+            <h1 className="mb-2 text-xl font-bold">Your Upcoming Trips</h1>
+            <div className="flex gap-6">
+              {ownTrips.map((trip) => (
+                <TripCard key={trip.id} trip={trip} />
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="ml-2">
-          <h1>Trips you've been invited to</h1>
-          <div className="flex gap-4">
-          {memberTrips.map((trip) => (
-            <TripCard key={trip.id} trip={trip} />
-          ))}
+          <div className="w-150 mt-4">
+            <h1 className="mb-2 text-xl font-bold">Shared With You</h1>
+            <div className="flex gap-4">
+              {memberTrips.map((trip) => (
+                <TripCard key={trip.id} trip={trip} />
+              ))}
+            </div>
           </div>
         </div>
         {isSeen && (
@@ -74,15 +86,18 @@ export default function Dashboard() {
             onTripCreate={refreshTrips}
           />
         )}
+        <div className="flex justify-end">
+        <div className="w-80 calendar-wrapper bg-white rounded-xl shadow-lg p-6">
+          <h2 className="font-bold text-xl mb-3">Trip Calendar</h2>
+          <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            events={calendarEvents}
+            height="267px"
+          />
+        </div>
+        </div>
       </div>
-      <div className="w-80 calendar-wrapper bg-white rounded-xl shadow-md border p-6 ml-100">
-        <h2 className="font-bold text-xl mb-3">Trip Calendar</h2>
-        <FullCalendar
-          plugins={[dayGridPlugin]}
-          initialView="dayGridMonth"
-          events={calendarEvents}
-          height="260px"
-        />
       </div>
     </div>
   );

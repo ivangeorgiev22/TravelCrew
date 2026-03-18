@@ -3,7 +3,8 @@
 .calendar-wrapper {
   max-width: 400px; /* constrain total width */
   font-size: 12px; /* scales most text down */
-  margin: auto;
+  max-height: 375px;
+  
 }
 
 .calendar-wrapper .fc-theme-standard td,
