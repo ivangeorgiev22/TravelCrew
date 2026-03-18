@@ -63,11 +63,16 @@ export default function Map({ activities }: Props) {
     }
   }, [activities]);
 
+  // You can use L.LatLngBounds and use the built in getCenter() function
+  //var bounds = L.LatLngBounds([60.22352998843195,24.94705001539827],[60.13500641212243,24.66432372755647]);
+  //var center = bounds.getCenter();
+
+
   return (
     <MapContainer
-      center={[48.8566, 2.3522]}
-      zoom={12}
-      style={{ height: "200px", width: "50%" }}
+      center={[60.0000,15.0000]}
+      zoom={4}
+      style={{ height: "200px", width: "100%" }}
     >
       <TileLayer
         attribution="&copy; OpenStreetMap"

@@ -14,6 +14,7 @@ import {deleteActivity} from '../services/activityService';
 import Map from '../components/Map';
 import "leaflet/dist/leaflet.css";
 
+// import Trip Data and do file for 
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
