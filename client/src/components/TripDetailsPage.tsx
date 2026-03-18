@@ -11,6 +11,7 @@ import Invite from './EmailInviteForm';
 import { FaPlus } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import {deleteActivity} from '../services/activityService'; 
+import Map from "./Map";
 
 
 export default function TripDetails() {
@@ -129,6 +130,7 @@ export default function TripDetails() {
         ))}
     </div>
       <div className="map">{/*based on the activity in the city*/}</div>
+      <Map activities={activities} />
     </div>
   );
 }
