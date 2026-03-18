@@ -71,7 +71,7 @@ export default function TripDetails() {
         <NavBar />
       </div>
       <div
-        className="h-125 w-full bg-cover bg-center mb-10"
+        className="h-50 w-full bg-cover bg-center mb-10"
         style={{ backgroundImage: `url(${image})` }}
       >
         <h1 className="text-white ml-10 font-bold leading-10">
@@ -143,9 +143,9 @@ export default function TripDetails() {
           </div>
         ))}
       </div>
-      <Map activities={activities} />
-      <div className="map">{/*based on the activity in the city*/}</div>
-      <Map activities={activities} />
+      <div className="flex justify-center">
+        <Map activities={activities} city={trip.destination} />
+      </div>
     </div>
   );
 }
