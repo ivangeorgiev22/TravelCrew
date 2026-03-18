@@ -1,5 +1,5 @@
 import { useState } from "react";
-import image from "../assets/brandon-kaida-2JwQoi-RBiI-unsplash.jpg";
+import image from "../assets/sophie-peng-LD_K2mv3sGI-unsplash.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import type { UserData } from "../types/userData";
 import { login, register } from "../services/auth";
@@ -60,13 +60,13 @@ export default function AuthPage() {
           <img
             src={image}
             alt="Landing Page"
-            className="h-lvh w-lvw object-cover"
+            className="h-lvh w-lvw object-[25%_75%] object-cover"
           />
         </div>
       </div>
 
       {/* Right side: Login form */}
-      <div className="w-full bg-white-100 lg:w-1/2 flex items-center justify-center">
+      <div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center">
         <div className="max-w-md w-full px-6 py-8">
           <h1 className="text-3xl font-semibold mb-1 text-black">
             {isLogin ? "Welcome back" : "Create an account"}
