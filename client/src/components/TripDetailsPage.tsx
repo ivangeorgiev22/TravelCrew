@@ -11,6 +11,8 @@ import Invite from './EmailInviteForm';
 import { FaPlus } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import {deleteActivity} from '../services/activityService'; 
+import Map from '../components/Map';
+import "leaflet/dist/leaflet.css";
 
 
 export default function TripDetails() {
@@ -81,11 +83,11 @@ export default function TripDetails() {
         {/* trip.startdate && trip.enddate*/}
       </div>
       <div className="grid justify-center">
-        <div className=" flex items-center border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg">
+        <div className="flex items-center border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg">
           <button className="inline-flex items-center gap-2" onClick={() => setIsSeen(true)}><FaPlus /> Add Activity</button>
         </div>
         {Object.entries(allActivities).map(([date, activity]) => (
-        <div key={date} className="font-serif text-lg  ">
+        <div key={date} className="font-serif text-lg">
           {" "}
           <details className=" border mb-10 bg-gray-200 justify-center">
             <summary className="mb-5 font-bold text-center justify-center">
@@ -109,7 +111,7 @@ export default function TripDetails() {
           />
         )}
       </div>
-      <div className="flex justify-end mr-20 mb-10">
+      <div className="flex justify-end mr-20 mb-10"> {/*in a box with row for */}
         <button className=" bg-gray-900 text-white rounded-lg text-center text-lg inline-flex items-center gap-2" 
         onClick={() => setMembers(true)}
         >
@@ -128,7 +130,10 @@ export default function TripDetails() {
           </div>
         ))}
     </div>
-      <div className="map">{/*based on the activity in the city*/}</div>
+      <div className="map">{/*based on the activity in the city*/}
+        <Map activities={activities}/>
+
+      </div>
     </div>
   );
 }
