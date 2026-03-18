@@ -7,7 +7,7 @@ import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
 import ActivityForm from "./AcitivityForm";
-import Invite from './EmailInviteForm'; 
+import Invite from "./EmailInviteForm";
 import { FaPlus } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import {deleteActivity} from '../services/activityService'; 
@@ -21,7 +21,6 @@ export default function TripDetails() {
   const [isSeen, setIsSeen] = useState(false);
   const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
-  
 
   useEffect(() => {
     const fetchTrip = async () => {
@@ -40,26 +39,31 @@ export default function TripDetails() {
   };
 
   const groupedActivities = (activities: ActivityData[]) => {
-    return activities.reduce((group, activity) => {
-      const date = activity.date.split('T')[0]; 
-  if (!group[date]) {
-        group[date] = [];
-    }
-    group[date].push(activity);
-    return group;
-  }, {} as Record<string, ActivityData[]>); 
-  }
+    return activities.reduce(
+      (group, activity) => {
+        const date = activity.date.split("T")[0];
+        if (!group[date]) {
+          group[date] = [];
+        }
+        group[date].push(activity);
+        return group;
+      },
+      {} as Record<string, ActivityData[]>,
+    );
+  };
 
   const activityDeleted = async (id: number) => {
     try {
       await deleteActivity(id);
-      setActivities(oldActivities => oldActivities.filter(oldActivity => oldActivity.id !== id));
+      setActivities((oldActivities) =>
+        oldActivities.filter((oldActivity) => oldActivity.id !== id),
+      );
     } catch (error) {
-      console.log(error, "impossible to delete activity")
+      console.log(error, "impossible to delete activity");
     }
-  }
-   
-  const allActivities = groupedActivities(activities); 
+  };
+
+  const allActivities = groupedActivities(activities);
 
   if (!trip) return <p>Loading trip...</p>;
 
@@ -115,18 +119,17 @@ export default function TripDetails() {
         <button className=" bg-gray-900 text-white rounded-lg text-center text-lg inline-flex items-center gap-2" 
         onClick={() => setMembers(true)}
         >
-        <FaPlus /> Add Members
+          <FaPlus /> Add Members
         </button>
         {addMembers && (
-        < Invite 
-        onClose={() => setMembers(false)}
-        tripId={Number(id)} 
-        />
+          <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
         )}
         {trip.Users.map((member) => (
           <div key={member.id}>
             <span>{member.name}</span>
-            <span className="ml-2">{member.TripMember.role === "owner" ? "Owner" : "Member"}</span>
+            <span className="ml-2">
+              {member.TripMember.role === "owner" ? "Owner" : "Member"}
+            </span>
           </div>
         ))}
     </div>

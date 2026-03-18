@@ -34,7 +34,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 flex items-center justify-center"
+      className="fixed inset-0 bg-black/60 flex items-center justify-center z-10"
       onClick={onClose}
     >
       <div

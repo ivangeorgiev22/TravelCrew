@@ -1,33 +1,11 @@
-//SETTING UP
-
-//npm i react-leaflet @types/leaflet leaflet
-//create component and add it to tripdetailpage
-//import leaftlet css for map to render correctly in main.tsx or map.tsx
-//create a div to surround the <MapContainer /> with tailwindcss styling height/width/positioning
-//use tilelayer for choosing the type of map we want rendered
-//create mock file with locations from string (location input in the activity form) to position[lat,long]
-
-//CREATING PINPOINTS
-
-//IN PARENT COMPONENT: TRIP DETAILS PAGE
-//create a state array to store all markers [markers, setMarkers] = useState([]);
-//create an addPlace function to add new markers by their location (prev => ...prev, [lat, long]) from match(string->position) in the mock file
-//pass state as props markers={markers} to map(child) component
-
-//IN MAP COMPONENT
-//add markers to props from parent component
-//map over markers array to display them in the map
 //we can customize the marker icon with Icon and pass it as a prop <Marker icon={styledIcon}/>
 
-//IN ACTIVITY FORM
-//call addPlace function (passed as prop from the parent TripDetailsPage) on submit
-
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { ActivityData } from "../types/activityData";
 
 interface Props {
-    activities: ActivityData[];
+  activities: ActivityData[];
 }
 
 interface Coordinates {
@@ -36,58 +14,82 @@ interface Coordinates {
 }
 
 export default function Map({ activities }: Props) {
-    const [markers, setMarkers] = useState<Record<number, Coordinates>>({});
-    
-    useEffect(() => {
-        const fetchMarkers = async () => {
-            const newMarkers: Record<number, Coordinates> = {};
-            for (const activity of activities) {
-                const res = await fetch(
-                    `https://nominatim.openstreetmap.org/search?q=${activity.location}&format=json&limit=1`
-                );
-                const data = await res.json();
-                
+  const [markers, setMarkers] = useState<Record<number, Coordinates>>({});
+  // current cache in localStorage
+  const cache = useRef<Record<string, Coordinates>>(
+    JSON.parse(localStorage.getItem("placesCache") || "{}"),
+  );
+
+  useEffect(() => {
+    const fetchMarkers = async () => {
+      const newMarkers: Record<number, Coordinates> = {};
+      await Promise.all(
+        activities.map(async (activity) => {
+          // check if location is already in cache
+          const location = activity.location;
+
+          if (!cache.current[location]) {
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`,
+            );
+            const data = await res.json();
+            console.log("api data", data);
+
             if (data.length > 0) {
-              newMarkers[Number(activity.id)] = {
+              cache.current[location] = {
                 lat: parseFloat(data[0].lat),
                 lng: parseFloat(data[0].lon),
-            };
+              };
+            }
+          }
+        }),
+      );
+
+      // update localStorage cache
+      localStorage.setItem("placesCache", JSON.stringify(cache.current));
+      console.log("cache updated", cache.current);
+
+      activities.forEach((activity) => {
+        const coords = cache.current[activity.location];
+        if (coords) {
+          newMarkers[Number(activity.id)] = coords;
         }
-        setMarkers(newMarkers);
+      });
+      setMarkers(newMarkers);
     };
-  };
 
-  fetchMarkers();
+    if (activities.length > 0) {
+      fetchMarkers();
+    }
   }, [activities]);
-  
+
   return (
-  <MapContainer
-  center={[48.8566, 2.3522]}
-  zoom={12}
-  style={{ height: "200px", width: "50%" }}
-  >
-    <TileLayer
-    attribution="&copy; OpenStreetMap"
-    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    />
+    <MapContainer
+      center={[48.8566, 2.3522]}
+      zoom={12}
+      style={{ height: "200px", width: "50%" }}
+    >
+      <TileLayer
+        attribution="&copy; OpenStreetMap"
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
 
-{activities.map((activity) => {
-    const coord = markers[Number(activity.id)];
-    
-    if (!coord) return null;
+      {activities.map((activity) => {
+        const coord = markers[Number(activity.id)];
+        if (!coord) return null;
 
-return (
-   <Marker key={activity.id} position={[coord.lat, coord.lng]}>
-    <Popup>
-        <strong>{activity.name}</strong>
-        <br />
-        {activity.location}
-        <br />
-        {activity.time}
-        </Popup>
-        </Marker>
+        return (
+          <Marker key={activity.id} position={[coord.lat, coord.lng]}>
+            <Popup>
+              <strong>{activity.name}</strong>
+              <br />
+              {activity.location}
+              <br />
+              {activity.time}
+            </Popup>
+          </Marker>
         );
-        })}
-        </MapContainer>
-        );
+      })}
+    </MapContainer>
+  );
 }
