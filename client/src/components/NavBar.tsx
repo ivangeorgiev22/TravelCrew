@@ -24,14 +24,12 @@ export default function NavBar() {
           TravelCrew
         </h1>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-emerald-700">
+          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500">
             <span className="text-sm font-semibold text-white">
               {userName.charAt(0)}
             </span>
           </div>
-          <span className="text-sm hidden sm:block">
-            {userName}
-          </span>
+          <span className="text-sm hidden sm:block">{userName}</span>
           <button onClick={handleLogout} className="text-2xl cursor-pointer">
             <IoLogOut />
           </button>

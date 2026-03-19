@@ -34,15 +34,15 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/70 flex items-center justify-center z-10"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-10"
       onClick={onClose}
     >
       <div
-        className="bg-white p-6 rounded-md w-106 h-106"
+        className="bg-white p-6 rounded-xl w-106 h-106"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="">
-          <h1 className="text-3xl font-semibold text-black mb-6">
+          <h1 className="text-2xl font-semibold text-black mb-6">
             Create a Trip
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -100,7 +100,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
             </div>
             <button
               type="submit"
-              className="w-full mt-3 bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
+              className="w-full mt-3 bg-orange-600 text-white p-2 rounded-md hover:bg-orange-500 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
             >
               Create Trip
             </button>

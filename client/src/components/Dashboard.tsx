@@ -31,7 +31,7 @@ export default function Dashboard() {
   };
   //combine trips you own and trips you are a member of for calendar view
   const allTrips = [...ownTrips, ...memberTrips];
-  
+
   // Trip view in calendar
   const calendarEvents = allTrips.map((trip) => {
     const end = new Date(trip.endDate);
@@ -48,56 +48,74 @@ export default function Dashboard() {
   return (
     <div>
       <NavBar />
-      <div className="bg-mist-100 min-h-screen">
-      <div className="flex justify-between align-center container mx-auto mt-4 mb-4 border-b">
-        <div className="flex flex-col justify-center">
-          <span className="text-sm">Welcome back,</span>
-          <h1 className="font-bold text-xl">{userName}</h1>
+      <div className="`` min-h-screen">
+        <div className="flex justify-between items-center container mx-auto mt-6 mb-6 pb-4 border-b border-gray-200">
+          {" "}
+          <div className="flex flex-col justify-center">
+            <span className="text-md text-gray-500">Welcome back,</span>
+            <h1 className="font-semibold text-2xl text-gray-900">{userName}</h1>
+          </div>
+          <button
+            className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 focus:ring-2 focus:ring-orange-400 transition-all duration-200 shadow-sm"
+            onClick={() => setIsSeen(true)}
+          >
+            + Add a trip
+          </button>
         </div>
-        <button
-          className="m-4 bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
-          onClick={() => setIsSeen(true)}
-        >
-          + Add a trip
-        </button>
-      </div>
-      <div className="container mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
-        <div className="flex flex-col gap-10">
-          <div>
-            <h1 className="mb-3 text-xl font-bold">Your Upcoming Trips</h1>
-            <div className="flex flex-wrap gap-6">
-              {ownTrips.map((trip) => (
-                <TripCard key={trip.id} trip={trip} />
-              ))}
+        <div className="container mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
+          <div className="flex flex-col gap-10">
+            <div>
+              <h1 className="mb-4 text-lg font-semibold text-gray-900">
+                Your Upcoming Trips
+              </h1>
+              {ownTrips.length > 0 ? (
+                <div className="flex flex-wrap gap-5">
+                  {ownTrips.map((trip) => (
+                    <TripCard key={trip.id} trip={trip} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500">No upcoming trips.</p>
+              )}
+            </div>
+            <div>
+              <h1 className="mb-4 text-lg font-semibold text-gray-900">
+                Shared With You
+              </h1>
+              {memberTrips.length > 0 ? (
+                <div className="flex flex-wrap gap-5">
+                  {memberTrips.map((trip) => (
+                    <TripCard key={trip.id} trip={trip} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 text-md">
+                  No trips shared with you.
+                </p>
+              )}
             </div>
           </div>
+          {isSeen && (
+            <TripForm
+              onClose={() => setIsSeen(false)}
+              onTripCreate={refreshTrips}
+            />
+          )}
           <div>
-            <h1 className="mb-3 text-xl font-bold">Shared With You</h1>
-            <div className="flex flex-wrap gap-6 pb-16">
-              {memberTrips.map((trip) => (
-                <TripCard key={trip.id} trip={trip} />
-              ))}
+            <div className="w-80 calendar-wrapper bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+              {" "}
+              <h2 className="font-semibold text-lg text-gray-900 mb-4">
+                Trip Calendar
+              </h2>
+              <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                events={calendarEvents}
+                height="267px"
+              />
             </div>
           </div>
         </div>
-        {isSeen && (
-          <TripForm
-            onClose={() => setIsSeen(false)}
-            onTripCreate={refreshTrips}
-          />
-        )}
-        <div>
-        <div className="w-80 calendar-wrapper bg-white rounded-xl shadow-lg p-6">
-          <h2 className="font-bold text-xl mb-3">Trip Calendar</h2>
-          <FullCalendar
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            events={calendarEvents}
-            height="267px"
-          />
-        </div>
-        </div>
-      </div>
       </div>
     </div>
   );
