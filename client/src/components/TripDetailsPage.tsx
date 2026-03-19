@@ -13,6 +13,7 @@ import { MdDeleteForever } from "react-icons/md";
 import {deleteActivity} from '../services/activityService'; 
 import Map from '../components/Map';
 import "leaflet/dist/leaflet.css";
+import {format} from 'date-fns'
 
 // import Trip Data and do file for 
 
@@ -22,6 +23,7 @@ export default function TripDetails() {
   const [isSeen, setIsSeen] = useState(false);
   const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchTrip = async () => {
@@ -63,85 +65,133 @@ export default function TripDetails() {
       console.log(error, "impossible to delete activity");
     }
   };
-
   const allActivities = groupedActivities(activities);
+
+  //get num of days for each trip
+  const getTripDays = (startDate: string, endDate: string) => {
+    const dates = [];
+    const current = new Date(startDate);
+    const end = new Date(endDate);
+
+    while(current <= end) {
+      dates.push(new Date(current));
+      current.setDate(current.getDate() + 1);
+    }
+
+    return dates;
+  }
 
   if (!trip) return <p>Loading trip...</p>;
 
   return (
-    <div>
+    <div className="bg-mist-100">
       <div>
         <NavBar />
       </div>
       <div className="relative"> 
-      <img src={image} className="h-80 w-full object-cover mb-10"></img>
+        <img 
+          src={image} 
+          className="h-80 w-full object-cover mb-10">
+        </img>
         <div className="absolute inset-0 flex-col flex justify-end p-6">
-        <h1 className="text-white ml-10 font-bold leading-10 z-2000">
-          {trip.destination}
-        </h1>{" "}
-
-        <h1 className="text-white ml-10 font-bold leading-10">
-          {new Date(trip.startDate).toLocaleDateString()} -{" "}
-          {new Date(trip.endDate).toLocaleDateString()}
-        </h1>{" "}
+          <h1 className="text-white ml-10 font-bold leading-10 z-2000">
+            {trip.destination}
+          </h1>
+          <h1 className="text-white ml-10 font-bold leading-10">
+            {new Date(trip.startDate).toLocaleDateString()} -{" "}
+            {new Date(trip.endDate).toLocaleDateString()}
+          </h1>
         </div>
       </div>
-      <div className="container mx-auto grid lg:grid-cols-[1fr_550px] gap-8">
+      <div className="container mx-auto grid lg:grid-cols-[1fr_450px] gap-8">
         <div>
-          <button className=" hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer p-2 border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg inline-flex items-center gap-2" onClick={() => setIsSeen(true)}><FaPlus /> Add Activity</button>
-        <div>
-        {Object.entries(allActivities).map(([date, activity]) => (
-        <div key={date} className="font-serif text-lg">
-          {" "}
-          <details open className=" mb-5 justify-center group border border-gray-200 rounded-xl p-4 bg-white shadow-sm transition hover:shadow-md">
-            <summary className="font-bold justify-center list-none">
-              {date}
-            </summary>
-            {activity.map((activity) => (
-              <div key={activity.id} className="mt-5 flex justify-between">
-                {activity.time} - {activity.location} 
-                <button onClick={() => activity.id && activityDeleted(Number(activity.id))}
-                className="inline-flex opacity-0 hover:opacity-100 "><MdDeleteForever /></button>
-              </div>
-            ) )}
-          </details>
-        </div>
-        ))}
-        {isSeen && (
-          <ActivityForm
-            onClose={() => setIsSeen(false)}
-            onActivityCreate={refreshActivities}
-            tripId={Number(id)}
-          />
-        )}
-        </div>
-      </div>
-      <div className="max-w-5xl">
-      <div className="flex flex-col justify-end mb-10 p-5 border border-gray-200 rounded-xl"> 
-        <div className="flex flex-row-reverse justify-between">
-        <button className=" hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer p-2 border text-lg bg-gray-900 text-white rounded-lg inline-flex justify-center items-center gap-2" 
-        onClick={() => setMembers(true)}
-        >
-          <FaPlus /> Add Members
-        </button>
-        {addMembers && (
-          <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
-        )}
-        <h1 className="mt-2.25 font-bold text-2xl mb-2.5">The Crew</h1>
-        </div>
-        {trip.Users.map((member) => (
-          <div className="flex flex-col" key={member.id}>
-            <span>{member.name}</span>
-            <span className="text-sm text-gray-600">
-              {member.TripMember.role === "owner" ? "Owner" : "Member"}
-            </span>
+          <div className="p-2">
+            <h1 className="font-semibold text-xl">Itinerary</h1>
           </div>
-        ))}
-      </div>
-      <div className="flex justify-center">
-        <Map activities={activities} city={trip.destination} />
-      </div>
-      </div>
+          {getTripDays(trip.startDate, trip.endDate).map((date, index) => {
+            const formattedDate = date.toISOString().split("T")[0];
+            const dailyActivities = allActivities[formattedDate] || [];
+
+            return (
+              <details
+                open
+                key={formattedDate}
+                className="mb-5 group border border-gray-200 rounded-xl p-4 bg-white shadow-sm transition hover:shadow-md" 
+              >
+                <summary className="flex justify-between items-center list-none cursor-pointer">
+                  <div>
+                    <p className="font-semibold text-gray-800">
+                      Day {index + 1}
+                    </p>
+                    <p className="text-xs text-gray-400">
+                      {format(date, "do MMM")}
+                    </p>
+                  </div>
+                  <button
+                    className="text-gray-500 text-sm cursor-pointer hover hover:text-gray-800"
+                    onClick={() => {setIsSeen(true); setSelectedDate(formattedDate)}}
+                  >
+                   + Add Activity
+                  </button>
+                </summary>
+                <div className="mt-4 space-y-3">
+                  {dailyActivities.length === 0 ? (
+                    <p className="text-sm text-gray-500">
+                      No activities yet - add one
+                    </p>
+                  ):(
+                    dailyActivities.map((activity) => (
+                      <div key={activity.id} className="flex justify-between items-center bg-gray-100 p-3 rounded-lg">
+                        <div>
+                          <p className="text-sm">
+                            {activity.time} - {activity.location}
+                          </p>
+                        </div>
+
+                        <button 
+                          onClick={() => activity.id && activityDeleted(Number(activity.id))}
+                          className="opacity-0 group-hover:opacity-100 transition cursor-pointer"
+                        >
+                          <MdDeleteForever />
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </details>
+            );
+          })}
+          {isSeen && (
+            <ActivityForm onClose={() => setIsSeen(false)} onActivityCreate={refreshActivities} tripId={Number(id)} defaultDate={selectedDate} />
+          )}
+        
+        </div>
+        <div className=" flex flex-col gap-5">
+          <div className="flex justify-center shadow-sm rounded-xl">
+            <Map activities={activities} city={trip.destination} />
+          </div>
+          <div className="flex flex-col justify-end mb-10 p-5 border border-gray-200 rounded-xl bg-white shadow-sm transition hover:shadow-md"> 
+            <div className="flex flex-row-reverse justify-between">
+              <button className=" hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer p-2 border text-lg bg-gray-900 text-white rounded-lg inline-flex justify-center items-center gap-2" 
+                onClick={() => setMembers(true)}
+              >
+                <FaPlus /> Add Members
+              </button>
+              {addMembers && (
+                <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
+              )}
+              <h1 className="mt-2.25 font-bold text-2xl mb-2.5">The Crew</h1>
+            </div>
+            {trip.Users.map((member) => (
+              <div className="flex flex-col" key={member.id}>
+                <span>{member.name}</span>
+                <span className="text-sm text-gray-600">
+                  {member.TripMember.role === "owner" ? "Owner" : "Member"}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
