@@ -70,41 +70,40 @@ export default function TripDetails() {
 
   return (
     <div>
-      <div className="">
+      <div>
         <NavBar />
       </div>
-      <div
-        className="h-50 w-full bg-cover bg-center mb-10"
-        style={{ backgroundImage: `url(${image})` }}
-      >
-        <h1 className="text-white ml-10 font-bold leading-10">
+      <div className="relative"> 
+      <img src={image} className="h-80 w-full object-cover mb-10"></img>
+        <div className="absolute inset-0 flex-col flex justify-end p-6">
+        <h1 className="text-white ml-10 font-bold leading-10 z-2000">
           {trip.destination}
         </h1>{" "}
-        {/* trip.destination*/}
+
         <h1 className="text-white ml-10 font-bold leading-10">
           {new Date(trip.startDate).toLocaleDateString()} -{" "}
           {new Date(trip.endDate).toLocaleDateString()}
         </h1>{" "}
-        {/* trip.startdate && trip.enddate*/}
-      </div>
-      <div className="grid justify-center">
-        <div className="flex items-center border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg">
-          <button className="inline-flex items-center gap-2" onClick={() => setIsSeen(true)}><FaPlus /> Add Activity</button>
         </div>
+      </div>
+      <div className="container mx-auto grid lg:grid-cols-[1fr_550px] gap-8">
+        <div>
+          <button className=" hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer p-2 border text-center text-lg mb-10 bg-gray-900 text-white rounded-lg inline-flex items-center gap-2" onClick={() => setIsSeen(true)}><FaPlus /> Add Activity</button>
+        <div>
         {Object.entries(allActivities).map(([date, activity]) => (
         <div key={date} className="font-serif text-lg">
           {" "}
-          <details className=" border mb-10 bg-gray-200 justify-center">
-            <summary className="mb-5 font-bold text-center justify-center">
+          <details open className=" mb-5 justify-center group border border-gray-200 rounded-xl p-4 bg-white shadow-sm transition hover:shadow-md">
+            <summary className="font-bold justify-center list-none">
               {date}
             </summary>
             {activity.map((activity) => (
-              <div key={activity.id}>
-                {activity.name} - {activity.location} 
+              <div key={activity.id} className="mt-5 flex justify-between">
+                {activity.time} - {activity.location} 
                 <button onClick={() => activity.id && activityDeleted(Number(activity.id))}
-                className="inline-flex items-center"><MdDeleteForever /> Delete</button>
+                className="inline-flex opacity-0 hover:opacity-100 "><MdDeleteForever /></button>
               </div>
-            )  )}
+            ) )}
           </details>
         </div>
         ))}
@@ -115,9 +114,12 @@ export default function TripDetails() {
             tripId={Number(id)}
           />
         )}
+        </div>
       </div>
-      <div className="flex justify-end mr-20 mb-10"> {/*in a box with row for */}
-        <button className=" bg-gray-900 text-white rounded-lg text-center text-lg inline-flex items-center gap-2" 
+      <div className="max-w-5xl">
+      <div className="flex flex-col justify-end mb-10 p-5 border border-gray-200 rounded-xl"> 
+        <div className="flex flex-row-reverse justify-between">
+        <button className=" hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer p-2 border text-lg bg-gray-900 text-white rounded-lg inline-flex justify-center items-center gap-2" 
         onClick={() => setMembers(true)}
         >
           <FaPlus /> Add Members
@@ -125,10 +127,12 @@ export default function TripDetails() {
         {addMembers && (
           <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
         )}
+        <h1 className="mt-2.25 font-bold text-2xl mb-2.5">The Crew</h1>
+        </div>
         {trip.Users.map((member) => (
-          <div key={member.id}>
+          <div className="flex flex-col" key={member.id}>
             <span>{member.name}</span>
-            <span className="ml-2">
+            <span className="text-sm text-gray-600">
               {member.TripMember.role === "owner" ? "Owner" : "Member"}
             </span>
           </div>
@@ -136,6 +140,8 @@ export default function TripDetails() {
       </div>
       <div className="flex justify-center">
         <Map activities={activities} city={trip.destination} />
+      </div>
+      </div>
       </div>
     </div>
   );

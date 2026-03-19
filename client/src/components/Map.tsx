@@ -94,7 +94,8 @@ export default function Map({ activities, city }: Props) {
     <MapContainer
       center={center}
       zoom={12}
-      style={{ height: "350px", width: "600px" }}
+      style={{ height: "350px", width: "600px",}}
+      className="rounded-xl"
     >
       {cityCoords && <ChangeView center={center} />}
       <TileLayer

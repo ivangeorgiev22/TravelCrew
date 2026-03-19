@@ -42,7 +42,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="">
-          <h1 className="text-3xl font-semibold mb-3 text-black mb-6">
+          <h1 className="text-3xl font-semibold text-black mb-6">
             Create a Trip
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">

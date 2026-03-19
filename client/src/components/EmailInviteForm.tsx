@@ -28,30 +28,30 @@ export default function Invite({ onClose, tripId }: FormInvite) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 flex items-center justify-center text-center z-1001"
+      className="fixed inset-0 bg-black/70 flex items-center justify-center z-2000"
       onClick={onClose}
     >
       <div
-        className="bg-black/60 p-6 rounded-md w-96"
+        className="bg-white p-6 rounded-md w-106 h-"
         onClick={(e) => e.stopPropagation()}
       >
         <div>
-          <h1 className="text-white font-semibold text-center">
+          <h1 className="text-3xl font-semibold mb-6 text-black">
             Send an invite
           </h1>
           <form
             onSubmit={handleSubmit}
-            className="bg-gray-500 rounded-lg justify-center flex-col"
+            className="space-y-4"
           >
             <div>
               <label
                 htmlFor="name"
-                className="block text-base font-medium text-white mt-5"
+                className="block text-sm font-medium text-gray-800 mb-1"
               >
                 Name
               </label>
               <input
-                className=" bg-gray-100 mb-5 w-32"
+                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
                 type="text"
                 id="name"
                 name="name"
@@ -64,12 +64,12 @@ export default function Invite({ onClose, tripId }: FormInvite) {
             <div>
               <label
                 htmlFor="email"
-                className="block text-base font-medium text-white"
+                className="block text-sm font-medium text-gray-800 mb-1"
               >
                 Email
               </label>
               <input
-                className=" bg-gray-100 mb-5 w-32"
+                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 type="text"
                 id="email"
                 name="email"
@@ -80,7 +80,7 @@ export default function Invite({ onClose, tripId }: FormInvite) {
               />
             </div>
             <button
-              className=" bg-gray-200 rounded-lg h-10 w-16 mb-5"
+              className="w-full mt-3 bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
               type="submit"
             >
               Invite
