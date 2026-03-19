@@ -6,18 +6,20 @@ interface FormProp {
   onClose: () => void;
   onActivityCreate: () => void;
   tripId: number;
+  defaultDate: string | null
 }
 
 export default function ActivityForm({
   onClose,
   onActivityCreate,
   tripId,
+  defaultDate
 }: FormProp) {
   const [formData, setFormData] = useState({
     id: "",
     name: "",
     location: "",
-    date: "",
+    date: defaultDate || "",
     time: "",
   });
 
