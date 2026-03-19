@@ -61,9 +61,10 @@ h3 {
 }
 
 .calendar-wrapper .fc-bg-event {
-  background-color: rgb(253, 85, 33) !important;
+  background-color: rgb(252, 2, 2) !important;
   border-radius: 17px;
   height: 90% !important;
+  opacity: 0.5;
 }
 
 .calendar-wrapper .fc-daygrid-day {

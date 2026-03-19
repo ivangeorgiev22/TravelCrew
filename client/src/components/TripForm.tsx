@@ -38,7 +38,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
       onClick={onClose}
     >
       <div
-        className="bg-white p-6 rounded-xl w-106 h-106"
+        className="bg-mist-100 p-6 rounded-xl w-106 h-106"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="">
@@ -100,7 +100,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
             </div>
             <button
               type="submit"
-              className="w-full mt-3 bg-orange-600 text-white p-2 rounded-md hover:bg-orange-500 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
+              className="w-full mt-3 bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
             >
               Create Trip
             </button>

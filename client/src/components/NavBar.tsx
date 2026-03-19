@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import { IoLogOut } from "react-icons/io5";
 import { logout } from "../services/auth";
+import image from "../assets/LOGOTEST.png";
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -15,14 +16,13 @@ export default function NavBar() {
   };
 
   return (
-    <div className="bg-white shadow-xl">
-      <div className="container mx-auto px-1 flex items-center justify-between h-16">
-        <h1
+    <div className="bg-white shadow-[0_4px_10px_rgba(0,0,0,0.20)] relative z-10">
+      <div className="container mx-auto flex items-center justify-between h-16">
+        <img
+          src={image}
           onClick={() => navigate("/dashboard")}
-          className="cursor-pointer font-bold text-lg"
-        >
-          TravelCrew
-        </h1>
+          className="cursor-pointer w-35"
+        />
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500">
             <span className="text-sm font-semibold text-white">

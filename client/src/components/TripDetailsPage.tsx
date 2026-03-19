@@ -14,6 +14,7 @@ import { deleteActivity } from "../services/activityService";
 import Map from "../components/Map";
 import "leaflet/dist/leaflet.css";
 import { format } from "date-fns";
+import { IoPersonAdd } from "react-icons/io5";
 
 // import Trip Data and do file for
 
@@ -84,20 +85,20 @@ export default function TripDetails() {
   if (!trip) return <p>Loading trip...</p>;
 
   return (
-    <div>
+    <div className="bg-mist-100">
       <div>
         <NavBar />
       </div>
       <div className="relative">
         {/* <img src={image} className="h-60 w-full object-cover mb-10"></img> */}
-        <div className="shadow-lg shadow-gray-400 bg-gradient-to-br from-orange-400 to-rose-500 h-50 w-full object-cover mb-10"></div>
+        <div className="shadow-xl bg-gradient-to-br from-orange-400 to-rose-500 h-50 w-full object-cover mb-10"></div>
         <div className="absolute inset-0 flex-col flex justify-end p-6">
-          <h1 className="text-white ml-10 font-bold leading-10 z-2000">
+          <h1 className="text-white ml-10 font-semibold text-3xl">
             {trip.destination}
           </h1>
-          <h1 className="text-white ml-10 font-bold leading-10">
-            {new Date(trip.startDate).toLocaleDateString()} -{" "}
-            {new Date(trip.endDate).toLocaleDateString()}
+          <h1 className="text-white ml-10 leading-10 text-sm">
+            {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
+            {format(new Date(trip.endDate), "MMM dd, yyyy")}
           </h1>
         </div>
       </div>
@@ -107,7 +108,7 @@ export default function TripDetails() {
             <h1 className="font-semibold text-xl">Itinerary</h1>
           </div>
           {getTripDays(trip.startDate, trip.endDate).map((date, index) => {
-            const formattedDate = date.toISOString().split("T")[0];
+            const formattedDate = format(date, "yyyy-MM-dd");
             const dailyActivities = allActivities[formattedDate] || [];
 
             return (
@@ -176,27 +177,27 @@ export default function TripDetails() {
             />
           )}
         </div>
-        <div className=" flex flex-col gap-5">
-          <div className="flex justify-center shadow-sm rounded-xl">
+        <div className=" flex flex-col gap-5 pt-11">
+          <div className="flex justify-center">
             <Map activities={activities} city={trip.destination} />
           </div>
           <div className="flex flex-col justify-end mb-10 p-5 border border-gray-200 rounded-xl bg-white shadow-sm transition hover:shadow-md">
             <div className="flex flex-row-reverse justify-between">
               <button
-                className=" hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer p-2 border text-lg bg-gray-900 text-white rounded-lg inline-flex justify-center items-center gap-2"
+                className="cursor-pointer p-2 text-md text-gray-500 border rounded-lg inline-flex justify-center items-center gap-2 hover:border-gray-700 hover:text-gray-700"
                 onClick={() => setMembers(true)}
               >
-                <FaPlus /> Add Members
+                <IoPersonAdd /> Invite
               </button>
               {addMembers && (
                 <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
               )}
-              <h1 className="mt-2.25 font-bold text-2xl mb-2.5">The Crew</h1>
+              <h1 className="mt-2.25 font-bold text-xl mb-2.5">The Crew</h1>
             </div>
             {trip.Users.map((member) => (
               <div className="flex flex-col" key={member.id}>
                 <span>{member.name}</span>
-                <span className="text-sm text-gray-600">
+                <span className="text-xs text-gray-400">
                   {member.TripMember.role === "owner" ? "Owner" : "Member"}
                 </span>
               </div>
