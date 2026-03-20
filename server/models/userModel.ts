@@ -1,7 +1,6 @@
 import { Sequelize, DataTypes, Model } from "sequelize";
 
 export default (sequelize: Sequelize) => {
-  
   class User extends Model {
     declare id: number;
     declare name: string;
@@ -17,17 +16,18 @@ export default (sequelize: Sequelize) => {
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true,
       },
       passwordHash: {
         type: DataTypes.STRING,
-        allowNull: false
-      }
+        allowNull: false,
+      },
     },
     {
       sequelize,
-      modelName: "User"
-    }
+      modelName: "User",
+    },
   );
   return User;
-}
+};

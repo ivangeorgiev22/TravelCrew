@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getActivities } from "../services/activityService";
 import { getTrip } from "../services/tripService";
-// import image from "../assets/panoramic.jpg";
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
@@ -15,6 +14,8 @@ import Map from "../components/Map";
 import "leaflet/dist/leaflet.css";
 import { format } from "date-fns";
 import { IoPersonAdd } from "react-icons/io5";
+import { CiCalendar } from "react-icons/ci";
+import { GrMapLocation } from "react-icons/gr";
 
 // import Trip Data and do file for
 
@@ -110,13 +111,19 @@ export default function TripDetails() {
               <button onClick={() => handleTripDelete(Number(id))} className="text-gray-200 text-md hover hover:text-white cursor-pointer">Delete</button>
             )}
           </div>
-          <h1 className="text-white ml-10 font-semibold text-3xl">
+          <div className="flex items-center gap-2 pl-10">
+             <GrMapLocation className="text-white text-3xl" />
+          <h1 className="text-white font-semibold text-3xl">
             {trip.destination}
           </h1>
-          <h1 className="text-white ml-10 leading-10 text-sm">
-            {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
-            {format(new Date(trip.endDate), "MMM dd, yyyy")}
-          </h1>
+          </div>
+          <div className="flex items-center gap-1 pl-10">
+            <CiCalendar className="text-white" />
+            <h1 className="text-white leading-10 text-sm">
+              {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
+              {format(new Date(trip.endDate), "MMM dd, yyyy")}
+            </h1>
+          </div>
         </div>
       </div>
       <div className="container mx-auto grid lg:grid-cols-[1fr_450px] gap-8">
@@ -212,11 +219,16 @@ export default function TripDetails() {
               <h1 className="mt-2.25 font-bold text-xl mb-2.5">The Crew</h1>
             </div>
             {trip.Users.map((member) => (
-              <div className="flex flex-col" key={member.id}>
-                <span>{member.name}</span>
-                <span className="text-xs text-gray-400">
-                  {member.TripMember.role === "owner" ? "Owner" : "Member"}
-                </span>
+              <div className="flex items-center gap-3 my-1" key={member.id}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500 text-white">
+                  {member.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="flex flex-col">
+                  <p>{member.name}</p>
+                  <p className="text-xs text-gray-400">
+                    {member.TripMember.role === "owner" ? "Owner" : "Member"}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

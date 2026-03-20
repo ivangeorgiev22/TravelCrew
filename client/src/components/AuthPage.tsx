@@ -6,6 +6,7 @@ import { login, register } from "../services/auth";
 import logo from "../assets/logoDesign.png";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
+import axios from "axios";
 import { GoSun } from "react-icons/go";
 import { FaMoon } from "react-icons/fa";
 
@@ -16,6 +17,7 @@ export default function AuthPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.state?.from || "/dashboard"; // Get the intended destination after login
@@ -35,6 +37,7 @@ export default function AuthPage() {
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setError(null);
     // capitalize the first letter of each word in the name input
     if (e.target.name === "name")
       setName(
@@ -55,9 +58,14 @@ export default function AuthPage() {
         await login({ email, password } as UserData);
         setEmail("");
         setPassword("");
-        navigate(path); // Redirect to intended destination (dashboard or trip details page)
-      } catch (error) {
-        console.log(error, "Login error");
+        navigate(path); // Redirect to intended destination (dashboard or trip details page if invited)
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          const message = error.response?.data?.msg;
+          setError(message || "Something went wrong. Please try again.");
+        } else {
+          setError("Unexpected error. Please try again.");
+        }
       }
     } else if (!isLogin) {
       try {
@@ -66,18 +74,25 @@ export default function AuthPage() {
         setEmail("");
         setPassword("");
         setIsLogin(true);
-      } catch (error) {
-        console.log(error, "Cannot Register");
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          const message = error.response?.data?.msg;
+          setError(message || "Something went wrong. Please try again.");
+        } else {
+          setError("Unexpected error. Please try again.");
+        }
       }
     }
   };
 
   const visitLogin = () => {
     setIsLogin(true);
+    setError(null);
   };
 
   const visitRegister = () => {
     setIsLogin(false);
+    setError(null);
   };
 
   return (
@@ -100,12 +115,7 @@ export default function AuthPage() {
         <FaMoon /> || <GoSun />
       </button>
         <div className="flex justify-start w-105">
-          <img
-            src={logo}
-            alt="TravelCrew logo"
-            className="w-37"
-            onClick={() => navigate("/")}
-          />
+          <img src={logo} alt="TravelCrew logo" className="w-37" />
         </div>
         <div className="max-w-md w-full px-6 py-2">
           <h1 className="text-3xl font-semibold mb-1 text-black">
@@ -116,6 +126,11 @@ export default function AuthPage() {
               ? "Sign in to keep planning your next adventure"
               : "Sign up to start planning your next adventure"}
           </h1>
+          {error && (
+            <div role="alert" className="mb-4 text-sm text-red-600">
+              {error}
+            </div>
+          )}
           <form
             action="#"
             method="POST"
