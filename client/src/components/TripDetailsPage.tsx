@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getActivities } from "../services/activityService";
-import { getTrip } from "../services/tripService";
-// import image from "../assets/panoramic.jpg";
+import { getTrip, updateTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
@@ -15,8 +14,7 @@ import Map from "../components/Map";
 import "leaflet/dist/leaflet.css";
 import { format } from "date-fns";
 import { IoPersonAdd } from "react-icons/io5";
-
-// import Trip Data and do file for
+import { FaEdit } from "react-icons/fa";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
@@ -71,14 +69,26 @@ export default function TripDetails() {
   const handleTripDelete = async (id: number) => {
     try {
       await deleteTrip(id);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
+
+  const handleTripUpdate = async (id: number, tripData: TripData) => {
+    try {
+      const updatedTrip = await updateTrip(id, tripData);
+      setTrip(updatedTrip);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   //toggle deleteTrip button visibility based on user role
   const userName = localStorage.getItem("userName");
-  const isOwner = trip?.Users.some((user) => user.name === userName && user.TripMember.role === 'owner');
+  const isOwner = trip?.Users.some(
+    (user) => user.name === userName && user.TripMember.role === "owner",
+  );
 
   //get num of days for each trip
   const getTripDays = (startDate: string, endDate: string) => {
@@ -102,12 +112,30 @@ export default function TripDetails() {
         <NavBar />
       </div>
       <div className="relative">
-        {/* <img src={image} className="h-60 w-full object-cover mb-10"></img> */}
-        <div className="shadow-xl bg-gradient-to-br from-orange-400 to-rose-500 h-50 w-full object-cover mb-10"></div>
+        <div className="shadow-xl bg-linear-to-br from-orange-400 to-rose-500 h-50 w-full object-cover mb-10"></div>
         <div className="absolute inset-0 flex-col flex justify-end p-6">
-          <div className="flex justify-end my-10 mx-5">
+          <div className="flex justify-end my-10 mx-5 gap-4">
             {isOwner && (
-              <button onClick={() => handleTripDelete(Number(id))} className="text-gray-200 text-md hover hover:text-white cursor-pointer">Delete</button>
+              <>
+                <div className="flex gap-1 items-center">
+                  <FaEdit className="text-white" />
+                  <button
+                    onClick={() => handleTripUpdate(Number(id), trip)}
+                    className="text-gray-200 text-md hover hover:text-white cursor-pointer"
+                  >
+                    Edit
+                  </button>
+                </div>
+                <div className="flex items-center">
+                  <MdDeleteForever className="text-white text-lg" />
+                  <button
+                    onClick={() => handleTripDelete(Number(id))}
+                    className="text-gray-200 text-md hover hover:text-white cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
             )}
           </div>
           <h1 className="text-white ml-10 font-semibold text-3xl">
