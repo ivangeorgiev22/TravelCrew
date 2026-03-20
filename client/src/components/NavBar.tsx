@@ -26,7 +26,7 @@ export default function NavBar() {
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500">
             <span className="text-sm font-semibold text-white">
-              {userName.charAt(0)}
+              {userName.charAt(0).toUpperCase()}
             </span>
           </div>
           <span className="text-sm hidden sm:block">{userName}</span>
