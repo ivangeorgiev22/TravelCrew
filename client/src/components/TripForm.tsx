@@ -1,24 +1,16 @@
 import { useState } from "react";
-import { createTrip, updateTrip } from "../services/tripService";
+import { createTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 
 interface FormProp {
   onClose: () => void;
   onTripCreate: () => void;
-  onTripUpdate: () => void;
-  trip?: TripData; // Optional prop for editing an existing trip
 }
-export default function TripForm({
-  onClose,
-  onTripCreate,
-  onTripUpdate,
-  trip,
-}: FormProp) {
-  const isEditing = !!trip; // Determine if we are in edit mode based on the presence of a trip prop
+export default function TripForm({ onClose, onTripCreate }: FormProp) {
   const [formData, setFormData] = useState({
-    destination: trip?.destination ?? "",
-    startDate: trip?.startDate.split("T")[0] ?? "",
-    endDate: trip?.endDate.split("T")[0] ?? "",
+    destination: "",
+    startDate: "",
+    endDate: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,21 +20,15 @@ export default function TripForm({
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
-      if (isEditing && trip?.id) {
-        // If editing, call updateTrip with the existing trip data merged with the new form data
-        await updateTrip(trip.id, { ...trip, ...formData });
-        onTripUpdate();
-      } else {
-        const newTrip = await createTrip(formData as TripData);
-        if (new Date(newTrip.startDate).getTime() < Date.now()) {
-          console.log("Error creating new trip");
-          return;
-        }
-        onTripCreate();
+      const newTrip = await createTrip(formData as TripData);
+      if (new Date(newTrip.startDate).getTime() < Date.now()) {
+        console.log("Error creating new trip");
+        return;
       }
+      onTripCreate();
       onClose();
     } catch (error) {
-      console.log(error, `Error ${isEditing ? "updating" : "creating"} trip`);
+      console.log(error, "Error creating trip");
     }
   };
 
@@ -57,7 +43,8 @@ export default function TripForm({
       >
         <div className="">
           <h1 className="text-2xl font-semibold text-black mb-6">
-            {isEditing ? "Edit Trip" : "Create a Trip"}
+            {/* {isEditing ? "Edit Trip" : "Create a Trip"} */}
+            Create a Trip
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -75,7 +62,7 @@ export default function TripForm({
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
                 value={formData.destination}
                 onChange={handleChange}
-                disabled={isEditing}
+                // disabled={isEditing}
                 required
               />
             </div>
@@ -117,7 +104,8 @@ export default function TripForm({
               type="submit"
               className="w-full mt-3 bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
             >
-              {isEditing ? "Save Changes" : "Create"}
+              {/* {isEditing ? "Save Changes" : "Create"} */}
+              Create
             </button>
           </form>
         </div>

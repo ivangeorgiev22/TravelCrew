@@ -17,7 +17,6 @@ import { IoPersonAdd } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { CiCalendar } from "react-icons/ci";
 import { GrMapLocation } from "react-icons/gr";
-import TripForm from "./TripForm";
 
 // import Trip Data and do file for
 
@@ -25,7 +24,6 @@ export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
   const [isSeen, setIsSeen] = useState(false);
-  const [editTrip, setEditTrip] = useState(false);
   const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -115,22 +113,15 @@ export default function TripDetails() {
           <div className="flex justify-end my-10 mx-5 gap-4">
             {isOwner && (
               <>
-                <div className="flex gap-1 items-center">
+                <div className="flex gap-1 items-center hover hover:text-white cursor-pointer">
                   <FaEdit className="text-white text-md" />
-                  <button
-                    onClick={() => {
-                      setEditTrip(true);
-                    }}
-                    className="text-gray-200 text-md hover hover:text-white cursor-pointer"
-                  >
-                    Edit
-                  </button>
+                  <button className="text-gray-200 text-md">Edit</button>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center hover hover:text-white cursor-pointer">
                   <MdDeleteForever className="text-white text-lg" />
                   <button
                     onClick={() => handleTripDelete(Number(id))}
-                    className="text-gray-200 text-md hover hover:text-white cursor-pointer"
+                    className="text-gray-200 text-md"
                   >
                     Delete
                   </button>
@@ -277,17 +268,6 @@ export default function TripDetails() {
           </div>
         </div>
       </div>
-      {editTrip && (
-        <TripForm
-          trip={trip}
-          onClose={() => setEditTrip(false)}
-          onTripCreate={refreshActivities}
-          onTripUpdate={async () => {
-            const updatedTrip = await getTrip(Number(id));
-            setTrip(updatedTrip);
-          }}
-        />
-      )}
     </div>
   );
 }

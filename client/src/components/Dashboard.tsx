@@ -101,7 +101,6 @@ export default function Dashboard() {
             <TripForm
               onClose={() => setIsSeen(false)}
               onTripCreate={refreshTrips}
-              onTripUpdate={refreshTrips}
             />
           )}
           <div>
