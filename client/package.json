@@ -25,6 +25,7 @@
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "@vectorial1024/leaflet-color-markers": "^3.0.2",
     "@vitejs/plugin-react": "^5.1.1",
     "axios": "^1.13.6",
     "date-fns": "^4.1.0",
