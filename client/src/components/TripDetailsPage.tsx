@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getActivities } from "../services/activityService";
-import { getTrip, updateTrip } from "../services/tripService";
+import { getTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
@@ -17,11 +17,13 @@ import { IoPersonAdd } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { CiCalendar } from "react-icons/ci";
 import { GrMapLocation } from "react-icons/gr";
+import TripForm from "./TripForm";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
   const [isSeen, setIsSeen] = useState(false);
+  const [editTrip, setEditTrip] = useState(false);
   const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -77,15 +79,6 @@ export default function TripDetails() {
     }
   };
 
-  const handleTripUpdate = async (id: number, tripData: TripData) => {
-    try {
-      const updatedTrip = await updateTrip(id, tripData);
-      setTrip(updatedTrip);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   //toggle deleteTrip button visibility based on user role
   const userName = localStorage.getItem("userName");
   const isOwner = trip?.Users.some(
@@ -120,9 +113,11 @@ export default function TripDetails() {
             {isOwner && (
               <>
                 <div className="flex gap-1 items-center">
-                  <FaEdit className="text-white" />
+                  <FaEdit className="text-white text-md" />
                   <button
-                    onClick={() => handleTripUpdate(Number(id), trip)}
+                    onClick={() => {
+                      setEditTrip(true);
+                    }}
                     className="text-gray-200 text-md hover hover:text-white cursor-pointer"
                   >
                     Edit
@@ -263,6 +258,17 @@ export default function TripDetails() {
           </div>
         </div>
       </div>
+      {editTrip && (
+        <TripForm
+          trip={trip}
+          onClose={() => setEditTrip(false)}
+          onTripCreate={refreshActivities}
+          onTripUpdate={async () => {
+            const updatedTrip = await getTrip(Number(id));
+            setTrip(updatedTrip);
+          }}
+        />
+      )}
     </div>
   );
 }

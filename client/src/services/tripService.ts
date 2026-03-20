@@ -53,6 +53,7 @@ export const updateTrip = async (id: number, tripData: TripData) => {
       tripData,
       authHeader(),
     );
+    if (!response.data) throw new Error("Could not update trip.");
     return response.data;
   } catch (error) {
     console.error(error);

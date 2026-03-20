@@ -1,16 +1,24 @@
 import { useState } from "react";
-import { createTrip } from "../services/tripService";
+import { createTrip, updateTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 
 interface FormProp {
   onClose: () => void;
   onTripCreate: () => void;
+  onTripUpdate: () => void;
+  trip?: TripData; // Optional prop for editing an existing trip
 }
-export default function TripForm({ onClose, onTripCreate }: FormProp) {
+export default function TripForm({
+  onClose,
+  onTripCreate,
+  onTripUpdate,
+  trip,
+}: FormProp) {
+  const isEditing = !!trip; // Determine if we are in edit mode based on the presence of a trip prop
   const [formData, setFormData] = useState({
-    destination: "",
-    startDate: "",
-    endDate: "",
+    destination: trip?.destination ?? "",
+    startDate: trip?.startDate.split("T")[0] ?? "",
+    endDate: trip?.endDate.split("T")[0] ?? "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,21 +28,27 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
-      const newTrip = await createTrip(formData as TripData);
-      if (new Date(newTrip.startDate).getTime() < Date.now()) {
-        console.log("Error creating new trip");
-        return;
+      if (isEditing && trip?.id) {
+        // If editing, call updateTrip with the existing trip data merged with the new form data
+        await updateTrip(trip.id, { ...trip, ...formData });
+        onTripUpdate();
+      } else {
+        const newTrip = await createTrip(formData as TripData);
+        if (new Date(newTrip.startDate).getTime() < Date.now()) {
+          console.log("Error creating new trip");
+          return;
+        }
+        onTripCreate();
       }
-      onTripCreate();
       onClose();
     } catch (error) {
-      console.log(error, "Error creating new trip");
+      console.log(error, `Error ${isEditing ? "updating" : "creating"} trip`);
     }
   };
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-10"
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-1001"
       onClick={onClose}
     >
       <div
@@ -43,7 +57,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
       >
         <div className="">
           <h1 className="text-2xl font-semibold text-black mb-6">
-            Create a Trip
+            {isEditing ? "Edit Trip" : "Create a Trip"}
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -61,6 +75,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
                 value={formData.destination}
                 onChange={handleChange}
+                disabled={isEditing}
                 required
               />
             </div>
@@ -102,7 +117,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
               type="submit"
               className="w-full mt-3 bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
             >
-              Create Trip
+              {isEditing ? "Save Changes" : "Create"}
             </button>
           </form>
         </div>

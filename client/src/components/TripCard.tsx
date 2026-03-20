@@ -33,10 +33,10 @@ export default function TripCard({ trip }: TripCardProps) {
           <div className="text-white text-lg">
             <CiCalendar />
           </div>
-        <p className="text-white text-sm  opacity-90">
-          {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
-          {format(new Date(trip.endDate), "MMM dd, yyyy")}
-        </p>
+          <p className="text-white text-sm  opacity-90">
+            {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
+            {format(new Date(trip.endDate), "MMM dd, yyyy")}
+          </p>
         </div>
       </div>
     </div>

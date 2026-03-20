@@ -97,6 +97,7 @@ export default function Map({ activities, city }: Props) {
       zoom={12}
       style={{ height: "350px", width: "600px" }}
       className="rounded-xl"
+      scrollWheelZoom={false}
     >
       {cityCoords && <ChangeView center={center} />}
       <TileLayer
