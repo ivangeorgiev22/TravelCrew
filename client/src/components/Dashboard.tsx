@@ -75,7 +75,9 @@ export default function Dashboard() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500">No upcoming trips.</p>
+                <div className="border rounded-2xl border-mist-300 text-center shadow-[0_4px_10px_rgba(0,0,0,0.20)]">
+                  <p className="text-gray-500 p-7">No upcoming trips.</p>
+                </div>
               )}
             </div>
             <div>
@@ -89,9 +91,9 @@ export default function Dashboard() {
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500 text-md">
-                  No trips shared with you.
-                </p>
+                <div className="border rounded-2xl border-mist-300 text-center shadow-[0_4px_10px_rgba(0,0,0,0.20)]">
+                  <p className="text-gray-500 p-7">No trips shared with you.</p>
+                </div>
               )}
             </div>
           </div>

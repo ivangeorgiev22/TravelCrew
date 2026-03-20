@@ -1,8 +1,9 @@
 import { useState } from "react";
-import image from "../assets/sophie-peng-LD_K2mv3sGI-unsplash.jpg";
+import image from "../assets/59AA7420-4989-4BBF-8598-C771D4F17FFC.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import type { UserData } from "../types/userData";
 import { login, register } from "../services/auth";
+import logo from "../assets/logoDesign.png";
 
 export default function AuthPage() {
   const [name, setName] = useState("");
@@ -60,14 +61,22 @@ export default function AuthPage() {
           <img
             src={image}
             alt="Landing Page"
-            className="h-lvh w-lvw object-[25%_75%] object-cover"
+            className="h-lvh w-lvw object-[25%_40%] object-cover"
           />
         </div>
       </div>
 
       {/* Right side: Login form */}
-      <div className="w-full bg-gray-100 lg:w-1/2 flex items-center justify-center">
-        <div className="max-w-md w-full px-6 py-8">
+      <div className="w-full bg-mist-100 lg:w-1/2 flex flex-col items-center justify-center ">
+        <div className="flex justify-start w-105">
+          <img
+            src={logo}
+            alt="Logo"
+            className="w-37"
+            onClick={() => navigate("/")}
+          />
+        </div>
+        <div className="max-w-md w-full px-6 py-2">
           <h1 className="text-3xl font-semibold mb-1 text-black">
             {isLogin ? "Welcome back" : "Create an account"}
           </h1>
@@ -141,7 +150,7 @@ export default function AuthPage() {
             <div>
               <button
                 type="submit"
-                className="w-full bg-black text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
+                className="w-full bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
               >
                 {isLogin ? "Sign In" : "Sign Up"}
               </button>
