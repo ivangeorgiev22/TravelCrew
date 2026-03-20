@@ -182,7 +182,7 @@ export default function TripDetails() {
                         <div className="flex gap-2">
                           <button 
                             onClick={() => {setEditActivity(activity); setIsSeen(true)}}
-                            className="cursor-pointer text-gray-700"
+                            className="cursor-pointer text-gray-700 transition duration-200 hover:scale-110 overflow-hidden"
                           >
                             <FaEdit />
                           </button>
@@ -190,7 +190,7 @@ export default function TripDetails() {
                             onClick={() =>
                               activity.id && activityDeleted(Number(activity.id))
                             }
-                            className="cursor-pointer text-lg text-gray-700"
+                            className="cursor-pointer text-lg text-gray-700 transition duration-200 hover:scale-110 overflow-hidden"
                           >
                             <MdDeleteForever />
                           </button>
