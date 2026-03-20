@@ -26,19 +26,19 @@ const Activity = ActivityModel(sequelize);
 const Invite = InviteModel(sequelize);
 const TripMember = TripMemberModel(sequelize);
 
-User.hasMany(Trip, { foreignKey: "ownerId" });
+User.hasMany(Trip, { foreignKey: "ownerId", onDelete: "CASCADE" });
 Trip.belongsTo(User, { foreignKey: "ownerId" });
 
-Trip.hasMany(Activity, { foreignKey: "tripId" });
-Activity.belongsTo(Trip, { foreignKey: "tripId" });
+Trip.hasMany(Activity, { foreignKey: "tripId", onDelete: "CASCADE" });
+Activity.belongsTo(Trip, { foreignKey: "tripId", onDelete: "CASCADE" });
 
-User.hasMany(Activity, { foreignKey: "createdBy" });
+User.hasMany(Activity, { foreignKey: "createdBy", onDelete: "CASCADE" });
 Activity.belongsTo(User, { foreignKey: "createdBy" });
 
 Invite.belongsTo(Trip, { foreignKey: "tripId" });
 Trip.hasMany(Invite, { foreignKey: "tripId" });
 
-User.belongsToMany(Trip, { through: TripMember, foreignKey: "userId" });
-Trip.belongsToMany(User, { through: TripMember, foreignKey: "tripId" });
+User.belongsToMany(Trip, { through: TripMember, foreignKey: "userId", onDelete: "CASCADE" });
+Trip.belongsToMany(User, { through: TripMember, foreignKey: "tripId", onDelete: "CASCADE" });
 
 export { User, Trip, Activity, Invite, TripMember };
