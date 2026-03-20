@@ -29,6 +29,11 @@ export const createActivity = async (
   return response.data;
 };
 
+export const editActivity = async (id: number, data: Partial<ActivityData>) => {
+  const response = await axios.patch(`${apiURL}/${id}`, data, authHeader());
+  return response.data;
+}
+
 export const deleteActivity = async (id: number) => {
   try {
     const response = await axios.delete(`${apiURL}/${id}`, authHeader());

@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { IoPersonAdd } from "react-icons/io5";
 import { CiCalendar } from "react-icons/ci";
 import { GrMapLocation } from "react-icons/gr";
+import { FaEdit } from "react-icons/fa";
 
 // import Trip Data and do file for
 
@@ -26,6 +27,7 @@ export default function TripDetails() {
   const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [editActivity, setEditActivity] = useState<ActivityData | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -153,6 +155,7 @@ export default function TripDetails() {
                   <button
                     className="text-gray-500 text-sm cursor-pointer hover hover:text-gray-800"
                     onClick={() => {
+                      setEditActivity(null);
                       setIsSeen(true);
                       setSelectedDate(formattedDate);
                     }}
@@ -176,15 +179,22 @@ export default function TripDetails() {
                             {activity.time} - {activity.location}
                           </p>
                         </div>
-
-                        <button
-                          onClick={() =>
-                            activity.id && activityDeleted(Number(activity.id))
-                          }
-                          className="opacity-0 group-hover:opacity-100 transition cursor-pointer"
-                        >
-                          <MdDeleteForever />
-                        </button>
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => {setEditActivity(activity); setIsSeen(true)}}
+                            className="cursor-pointer text-gray-700"
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            onClick={() =>
+                              activity.id && activityDeleted(Number(activity.id))
+                            }
+                            className="cursor-pointer text-lg text-gray-700"
+                          >
+                            <MdDeleteForever />
+                          </button>
+                        </div>
                       </div>
                     ))
                   )}
@@ -194,10 +204,11 @@ export default function TripDetails() {
           })}
           {isSeen && (
             <ActivityForm
-              onClose={() => setIsSeen(false)}
+              onClose={() => {setIsSeen(false); setEditActivity(null)}}
               onActivityCreate={refreshActivities}
               tripId={Number(id)}
               defaultDate={selectedDate}
+              activity={editActivity}
             />
           )}
         </div>
