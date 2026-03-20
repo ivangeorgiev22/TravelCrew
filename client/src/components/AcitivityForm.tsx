@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState, } from "react";
 import type { ActivityData } from "../types/activityData";
-import { createActivity } from "../services/activityService";
+import { createActivity, editActivity } from "../services/activityService";
 
 interface FormProp {
   onClose: () => void;
   onActivityCreate: () => void;
   tripId: number;
   defaultDate: string | null;
+  activity?: ActivityData | null;
 }
 
 export default function ActivityForm({
@@ -14,14 +15,25 @@ export default function ActivityForm({
   onActivityCreate,
   tripId,
   defaultDate,
+  activity
 }: FormProp) {
   const [formData, setFormData] = useState({
-    id: "",
     name: "",
     location: "",
     date: defaultDate || "",
     time: "",
   });
+  useEffect(() => {
+    if(activity) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setFormData({
+        name: activity.name,
+        location: activity.location,
+        date: activity.date.split("T")[0],
+        time: activity.time
+      })
+    }
+  }, [activity]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,11 +42,15 @@ export default function ActivityForm({
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
-      await createActivity({ ...formData, tripId } as ActivityData);
+      if(activity) {
+        await editActivity(activity.id, formData);
+      } else {
+        await createActivity({ ...formData, tripId } as ActivityData);
+      }
       onActivityCreate();
       onClose();
     } catch (error) {
-      console.log(error, "Error creating new activity.");
+      console.log(error, "Error saving activity.");
     }
   };
 
@@ -126,7 +142,7 @@ export default function ActivityForm({
               type="submit"
               className="w-full mt-3 bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
             >
-              Add
+              {activity ? "Save Changes" : "Add"}
             </button>
           </form>
         </div>

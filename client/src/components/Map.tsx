@@ -95,6 +95,7 @@ export default function Map({ activities, city }: Props) {
     <MapContainer
       center={center}
       zoom={12}
+      scrollWheelZoom = {false}
       style={{ height: "350px", width: "600px" }}
       className="rounded-xl"
       scrollWheelZoom={false}
