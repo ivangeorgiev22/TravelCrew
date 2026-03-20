@@ -2,7 +2,6 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useEffect, useState, useRef } from "react";
 import type { ActivityData } from "../types/activityData";
 import { redIcon } from "@vectorial1024/leaflet-color-markers";
-import { orangeIcon } from "@vectorial1024/leaflet-color-markers";
 
 interface Props {
   activities: ActivityData[];

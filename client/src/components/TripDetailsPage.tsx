@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getActivities } from "../services/activityService";
 import { getTrip } from "../services/tripService";
-// import image from "../assets/panoramic.jpg";
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";

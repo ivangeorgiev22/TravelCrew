@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router";
 import type { TripData } from "../types/tripData";
-// import img from "../assets/landingpage.jpg";
 import { format } from "date-fns";
 
 interface TripCardProps {
