@@ -49,14 +49,14 @@ export default function Dashboard() {
     <div>
       <NavBar />
       <div className="bg-mist-100 min-h-screen">
-        <div className="flex justify-between items-center container mx-auto mb-6 pb-4 pt-5 border-b border-gray-200">
+        <div className="flex justify-between items-center container mx-auto mb-6 pb-4 pt-5 border-b border-mist-300">
           {" "}
           <div className="flex flex-col justify-center">
             <span className="text-md text-gray-500">Welcome back,</span>
             <h1 className="font-semibold text-2xl text-gray-900">{userName}</h1>
           </div>
           <button
-            className="bg-gradient-to-br from-orange-400 to-rose-500 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-orange-600 focus:ring-2 focus:ring-orange-400 transition-all duration-200 shadow-sm"
+            className="bg-linear-to-br from-orange-400 to-rose-500 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-orange-600 focus:ring-2 focus:ring-orange-400 transition-all duration-200 shadow-sm"
             onClick={() => setIsSeen(true)}
           >
             + Add a trip

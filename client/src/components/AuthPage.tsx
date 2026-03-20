@@ -18,7 +18,14 @@ export default function AuthPage() {
   const path = location.state?.from || "/dashboard"; // Get the intended destination after login
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.name === "name") setName(e.target.value);
+    // capitalize the first letter of each word in the name input
+    if (e.target.name === "name")
+      setName(
+        e.target.value
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+      );
     if (e.target.name === "email") setEmail(e.target.value);
     if (e.target.name === "password") setPassword(e.target.value);
   };
@@ -63,7 +70,7 @@ export default function AuthPage() {
         <div className=" flex flex-col items-center">
           <img
             src={image}
-            alt="Landing Page"
+            alt="Landing page image of a group of people walking on the beach at sunset"
             className="h-lvh w-lvw object-[25%_40%] object-cover"
           />
         </div>
@@ -74,7 +81,7 @@ export default function AuthPage() {
         <div className="flex justify-start w-105">
           <img
             src={logo}
-            alt="Logo"
+            alt="TravelCrew logo"
             className="w-37"
             onClick={() => navigate("/")}
           />
@@ -98,26 +105,27 @@ export default function AuthPage() {
               <div>
                 <label
                   htmlFor="name"
-                  aria-label="Name"
                   className="block text-sm font-medium text-gray-800"
                 >
                   Name
                 </label>
                 <input
-                  type="name"
+                  type="text"
                   id="name"
                   name="name"
-                  placeholder="Your Name"
+                  placeholder="Enter your name"
                   className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                   value={name}
                   onChange={handleChange}
+                  required
+                  pattern=".{3,}"
+                  title="Name must contain at least 3 characters"
                 />
               </div>
             )}
             <div>
               <label
                 htmlFor="email"
-                aria-label="Email"
                 className="block text-sm font-medium text-gray-800"
               >
                 Email
@@ -130,12 +138,15 @@ export default function AuthPage() {
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={email}
                 onChange={handleChange}
+                required
+                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                title="Please enter a valid email address"
+                autoComplete="email"
               />
             </div>
             <div className="relative">
               <label
                 htmlFor="password"
-                aria-label="Password"
                 className="block text-sm font-medium text-gray-800"
               >
                 Password
@@ -148,10 +159,14 @@ export default function AuthPage() {
                 className="mt-1 p-2 pr-10 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={password}
                 onChange={handleChange}
+                required
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                title="Must contain at least 8 characters with uppercase, lowercase, and a number."
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
                 className="absolute right-2 top-11 -translate-y-1/2 text-gray-500 text-xl cursor-pointer"
               >
                 {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
@@ -160,7 +175,7 @@ export default function AuthPage() {
             <div>
               <button
                 type="submit"
-                className="w-full bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300"
+                className="cursor-pointer w-full bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-orange-600 focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
               >
                 {isLogin ? "Sign In" : "Sign Up"}
               </button>
