@@ -8,7 +8,6 @@ import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
 import ActivityForm from "./AcitivityForm";
 import Invite from "./EmailInviteForm";
-import { FaPlus } from "react-icons/fa";
 import { MdDeleteForever } from "react-icons/md";
 import { deleteActivity } from "../services/activityService";
 import Map from "../components/Map";
@@ -85,7 +84,7 @@ export default function TripDetails() {
   if (!trip) return <p>Loading trip...</p>;
 
   return (
-    <div className="bg-mist-100">
+    <div className="bg-mist-100 min-h-screen">
       <div>
         <NavBar />
       </div>

@@ -62,7 +62,7 @@ export default function Dashboard() {
             + Add a trip
           </button>
         </div>
-        <div className="container mx-auto grid lg:grid-cols-[1fr_320px] gap-8">
+        <div className="container mx-auto grid lg:grid-cols-[1fr_320px] gap-8 pb-10">
           <div className="flex flex-col gap-10">
             <div>
               <h1 className="mb-4 text-lg font-semibold text-gray-900">

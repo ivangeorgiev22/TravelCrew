@@ -4,11 +4,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import type { UserData } from "../types/userData";
 import { login, register } from "../services/auth";
 import logo from "../assets/logoDesign.png";
+import { IoEyeOffOutline } from "react-icons/io5";
+import { IoEyeOutline } from "react-icons/io5";
 
 export default function AuthPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -129,7 +132,7 @@ export default function AuthPage() {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className="relative">
               <label
                 htmlFor="password"
                 aria-label="Password"
@@ -138,14 +141,21 @@ export default function AuthPage() {
                 Password
               </label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 placeholder="••••••••"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                className="mt-1 p-2 pr-10 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={password}
                 onChange={handleChange}
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-2 top-11 -translate-y-1/2 text-gray-500 text-xl cursor-pointer"
+              >
+                {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
+              </button>
             </div>
             <div>
               <button
@@ -162,7 +172,7 @@ export default function AuthPage() {
                 Don't have an account?{" "}
                 <button
                   onClick={visitRegister}
-                  className="text-black hover:underline"
+                  className="text-black hover:underline cursor-pointer"
                 >
                   Sign up here
                 </button>
@@ -172,7 +182,7 @@ export default function AuthPage() {
                 Already have an account?{" "}
                 <button
                   onClick={visitLogin}
-                  className="text-black hover:underline"
+                  className="text-black hover:underline cursor-pointer"
                 >
                   Sign in here
                 </button>
