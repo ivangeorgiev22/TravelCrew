@@ -212,11 +212,16 @@ export default function TripDetails() {
               <h1 className="mt-2.25 font-bold text-xl mb-2.5">The Crew</h1>
             </div>
             {trip.Users.map((member) => (
-              <div className="flex flex-col" key={member.id}>
-                <span>{member.name}</span>
-                <span className="text-xs text-gray-400">
-                  {member.TripMember.role === "owner" ? "Owner" : "Member"}
-                </span>
+              <div className="flex items-center gap-3 my-1" key={member.id}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500 text-white">
+                  {member.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="flex flex-col">
+                  <p>{member.name}</p>
+                  <p className="text-xs text-gray-400">
+                    {member.TripMember.role === "owner" ? "Owner" : "Member"}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
