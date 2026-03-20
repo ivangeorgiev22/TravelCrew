@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getActivities } from "../services/activityService";
 import { getTrip } from "../services/tripService";
 // import image from "../assets/panoramic.jpg";
@@ -10,6 +10,7 @@ import ActivityForm from "./AcitivityForm";
 import Invite from "./EmailInviteForm";
 import { MdDeleteForever } from "react-icons/md";
 import { deleteActivity } from "../services/activityService";
+import { deleteTrip } from "../services/tripService";
 import Map from "../components/Map";
 import "leaflet/dist/leaflet.css";
 import { format } from "date-fns";
@@ -24,6 +25,7 @@ export default function TripDetails() {
   const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTrip = async () => {
@@ -54,6 +56,7 @@ export default function TripDetails() {
       {} as Record<string, ActivityData[]>,
     );
   };
+  const allActivities = groupedActivities(activities);
 
   const activityDeleted = async (id: number) => {
     try {
@@ -65,7 +68,17 @@ export default function TripDetails() {
       console.log(error, "impossible to delete activity");
     }
   };
-  const allActivities = groupedActivities(activities);
+  const handleTripDelete = async (id: number) => {
+    try {
+      await deleteTrip(id);
+      navigate('/dashboard');
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  //toggle deleteTrip button visibility based on user role
+  const userName = localStorage.getItem("userName");
+  const isOwner = trip?.Users.some((user) => user.name === userName && user.TripMember.role === 'owner');
 
   //get num of days for each trip
   const getTripDays = (startDate: string, endDate: string) => {
@@ -92,6 +105,11 @@ export default function TripDetails() {
         {/* <img src={image} className="h-60 w-full object-cover mb-10"></img> */}
         <div className="shadow-xl bg-gradient-to-br from-orange-400 to-rose-500 h-50 w-full object-cover mb-10"></div>
         <div className="absolute inset-0 flex-col flex justify-end p-6">
+          <div className="flex justify-end my-10 mx-5">
+            {isOwner && (
+              <button onClick={() => handleTripDelete(Number(id))} className="text-gray-200 text-md hover hover:text-white cursor-pointer">Delete</button>
+            )}
+          </div>
           <h1 className="text-white ml-10 font-semibold text-3xl">
             {trip.destination}
           </h1>

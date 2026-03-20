@@ -81,3 +81,30 @@ export const postTrip = async (req: Request, res: Response) => {
     res.status(500).json({msg: "Internal Server Error"});
   };
 };
+
+export const deleteTrip = async(req: Request, res: Response) => {
+  const tripId = req.params.id;
+  const userId = req.user!.id;
+  try {
+    const tripOwner = await TripMember.findOne({
+      where: {
+        tripId: tripId,
+        userId: userId,
+        role: "owner"
+      }
+    });
+
+    if(!tripOwner) {
+      return res.status(403).json({msg: "Not authorized"});
+    }
+
+    await Trip.destroy({
+      where: {id: tripId}
+    });
+    
+    res.status(204).json({msg: "Trip deleted successfully!"});
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({msg: "Internal Server Error"});
+  }
+}

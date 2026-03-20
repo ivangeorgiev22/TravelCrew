@@ -36,3 +36,12 @@ export const createTrip = async (tripData: TripData): Promise<TripData> => {
   if (!res.data) throw new Error("Could not create trip.");
   return res.data;
 };
+
+export const deleteTrip = async (id: number) => {
+  try {
+    const response = await axios.delete(`${apiURL}/${id}`, authHeader())
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}

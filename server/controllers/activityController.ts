@@ -48,7 +48,7 @@ export const deleteActivity = async (req: Request, res: Response) => {
       where: {id: req.params.id}
     });
 
-    res.status(200).json({msg: "Activity deleted"});
+    res.status(204).json({msg: "Activity deleted"});
   } catch (error) {
     console.error(error);
     res.status(500).json({msg: "Internal Server Error"});
