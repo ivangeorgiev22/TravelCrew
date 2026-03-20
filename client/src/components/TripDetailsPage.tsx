@@ -15,6 +15,8 @@ import "leaflet/dist/leaflet.css";
 import { format } from "date-fns";
 import { IoPersonAdd } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
+import { CiCalendar } from "react-icons/ci";
+import { GrMapLocation } from "react-icons/gr";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
@@ -138,13 +140,19 @@ export default function TripDetails() {
               </>
             )}
           </div>
-          <h1 className="text-white ml-10 font-semibold text-3xl">
-            {trip.destination}
-          </h1>
-          <h1 className="text-white ml-10 leading-10 text-sm">
-            {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
-            {format(new Date(trip.endDate), "MMM dd, yyyy")}
-          </h1>
+          <div className="flex items-center gap-2 pl-10">
+            <GrMapLocation className="text-white text-3xl" />
+            <h1 className="text-white font-semibold text-3xl">
+              {trip.destination}
+            </h1>
+          </div>
+          <div className="flex items-center gap-1 pl-10">
+            <CiCalendar className="text-white" />
+            <h1 className="text-white leading-10 text-sm">
+              {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
+              {format(new Date(trip.endDate), "MMM dd, yyyy")}
+            </h1>
+          </div>
         </div>
       </div>
       <div className="container mx-auto grid lg:grid-cols-[1fr_450px] gap-8">
