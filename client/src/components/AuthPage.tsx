@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import image from "../assets/59AA7420-4989-4BBF-8598-C771D4F17FFC.jpg";
 import { useNavigate, useLocation } from "react-router-dom";
 import type { UserData } from "../types/userData";
@@ -6,6 +6,9 @@ import { login, register } from "../services/auth";
 import logo from "../assets/logoDesign.png";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
+import { GoSun } from "react-icons/go";
+import { FaMoon } from "react-icons/fa";
+
 
 export default function AuthPage() {
   const [name, setName] = useState("");
@@ -16,6 +19,20 @@ export default function AuthPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.state?.from || "/dashboard"; // Get the intended destination after login
+
+  const [theme, setTheme] = useState("light")
+  const handleTheme = () => {
+    setTheme(theme === 'dark' ? "light":"dark")
+  }
+
+  useEffect(() => {
+    if(theme === "dark") {
+      document.documentElement.classList.add("dark")
+    } else {
+      document.documentElement.classList.remove("dark")
+    }
+  }, [theme])
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // capitalize the first letter of each word in the name input
@@ -77,7 +94,11 @@ export default function AuthPage() {
       </div>
 
       {/* Right side: Login form */}
-      <div className="w-full bg-mist-100 lg:w-1/2 flex flex-col items-center justify-center ">
+      <div className="w-full bg-mist-100 dark:bg-black lg:w-1/2 flex flex-col items-center justify-center ">
+      <button onClick={handleTheme} className="border bg-amber-700 px-4 py-2 rounded-lg">
+        {}
+        <FaMoon /> || <GoSun />
+      </button>
         <div className="flex justify-start w-105">
           <img
             src={logo}

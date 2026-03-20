@@ -103,7 +103,7 @@ export default function TripDetails() {
       </div>
       <div className="relative">
         {/* <img src={image} className="h-60 w-full object-cover mb-10"></img> */}
-        <div className="shadow-xl bg-gradient-to-br from-orange-400 to-rose-500 h-50 w-full object-cover mb-10"></div>
+        <div className="shadow-xl bg-linear-to-br from-orange-400 to-rose-500 h-50 w-full object-cover mb-10"></div>
         <div className="absolute inset-0 flex-col flex justify-end p-6">
           <div className="flex justify-end my-10 mx-5">
             {isOwner && (
