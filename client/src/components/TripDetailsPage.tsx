@@ -12,7 +12,7 @@ import { deleteActivity } from "../services/activityService";
 import { deleteTrip } from "../services/tripService";
 import Map from "../components/Map";
 import "leaflet/dist/leaflet.css";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { IoPersonAdd } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { CiCalendar } from "react-icons/ci";
@@ -23,7 +23,7 @@ import { GrMapLocation } from "react-icons/gr";
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
-  const [isSeen, setIsSeen] = useState(false);
+  const [isSeen, setIsSeen] = useState(false); // State to control visibility of the activity form
   const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -138,8 +138,8 @@ export default function TripDetails() {
           <div className="flex items-center gap-1 pl-10">
             <CiCalendar className="text-white" />
             <h1 className="text-white leading-10 text-sm">
-              {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
-              {format(new Date(trip.endDate), "MMM dd, yyyy")}
+              {format(parseISO(trip.startDate), "MMM dd, yyyy")} –{" "}
+              {format(parseISO(trip.endDate), "MMM dd, yyyy")}
             </h1>
           </div>
         </div>
