@@ -17,6 +17,7 @@ import { IoPersonAdd } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { CiCalendar } from "react-icons/ci";
 import { GrMapLocation } from "react-icons/gr";
+import TripForm from "./TripForm";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
@@ -26,6 +27,7 @@ export default function TripDetails() {
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [editActivity, setEditActivity] = useState<ActivityData | null>(null);
+  const [editTrip, setEditTrip] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +44,11 @@ export default function TripDetails() {
   const refreshActivities = async () => {
     const data = await getActivities(Number(id));
     setActivities(data);
+  };
+
+  const refreshTrip = async () => {
+    const data = await getTrip(Number(id));
+    setTrip(data);
   };
 
   const groupedActivities = (activities: ActivityData[]) => {
@@ -78,6 +85,12 @@ export default function TripDetails() {
     }
   };
 
+  const handleTripEdit = async () => {
+    refreshTrip();
+    refreshActivities();
+    setEditTrip(false);
+  };
+
   //toggle deleteTrip button visibility based on user role
   const userName = localStorage.getItem("userName");
   const isOwner = trip?.Users.some(
@@ -111,19 +124,20 @@ export default function TripDetails() {
           <div className="flex justify-end my-10 mx-5 gap-4">
             {isOwner && (
               <>
-                <div className="flex gap-1 items-center hover hover:text-white cursor-pointer">
+                <button
+                  onClick={() => setEditTrip(true)}
+                  className="text-gray-200 text-md cursor-pointer flex gap-1 items-center hover hover:text-white"
+                >
                   <FaEdit className="text-white text-md" />
-                  <button className="text-gray-200 text-md">Edit</button>
-                </div>
-                <div className="flex items-center hover hover:text-white cursor-pointer">
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleTripDelete(Number(id))}
+                  className="text-gray-200 text-md flex items-center hover hover:text-white cursor-pointer"
+                >
                   <MdDeleteForever className="text-white text-lg" />
-                  <button
-                    onClick={() => handleTripDelete(Number(id))}
-                    className="text-gray-200 text-md"
-                  >
-                    Delete
-                  </button>
-                </div>
+                  Delete
+                </button>
               </>
             )}
           </div>
@@ -234,6 +248,13 @@ export default function TripDetails() {
               tripId={Number(id)}
               defaultDate={selectedDate}
               activity={editActivity}
+            />
+          )}
+          {editTrip && (
+            <TripForm
+              trip={trip}
+              onClose={() => setEditTrip(false)}
+              onTripEdit={handleTripEdit}
             />
           )}
         </div>
