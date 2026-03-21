@@ -4,8 +4,8 @@ export default (sequelize: Sequelize) => {
   class Trip extends Model {
     declare id: number;
     declare destination: string;
-    declare startDate: Date;
-    declare endDate: Date;
+    declare startDate: string;
+    declare endDate: string;
     declare ownerId: number;
   }
 

@@ -18,8 +18,6 @@ import { FaEdit } from "react-icons/fa";
 import { CiCalendar } from "react-icons/ci";
 import { GrMapLocation } from "react-icons/gr";
 
-// import Trip Data and do file for
-
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
@@ -149,7 +147,11 @@ export default function TripDetails() {
           <div className="p-2">
             <h1 className="font-semibold text-xl">Itinerary</h1>
           </div>
-          {getTripDays(trip.startDate, trip.endDate).map((date, index) => {
+          {getTripDays(
+            // date is stored as a string in the database and needs to be parsed to have the activites display the correct dates
+            parseISO(trip.startDate).toISOString(),
+            parseISO(trip.endDate).toISOString(),
+          ).map((date, index) => {
             const formattedDate = format(date, "yyyy-MM-dd");
             const dailyActivities = allActivities[formattedDate] || [];
 
