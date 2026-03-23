@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IoLogOut } from "react-icons/io5";
 import { logout } from "../services/auth";
 import image from "../assets/transparentLogo.png";
-import {useTheme} from "../context/theme/useTheme";
+import { useTheme } from "../context/theme/useTheme";
 import { FaMoon } from "react-icons/fa";
 import { GoSun } from "react-icons/go";
 
@@ -13,7 +13,7 @@ export default function NavBar() {
     return localStorage.getItem("userName") || "";
   });
 
-   const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
   const handleLogout = () => {
     logout();
@@ -29,19 +29,22 @@ export default function NavBar() {
           className="cursor-pointer w-35"
         />
         <div className="flex items-center gap-3">
-          <button 
-        onClick={toggleTheme}
-        className="bg-btn-primary text-primary-txt p-2 rounded text-2xl"
-      >
-        {theme === 'dark' ? (<GoSun />):(<FaMoon />)}
-      </button>
+          <button
+            onClick={toggleTheme}
+            className="bg-btn-primary cursor-pointer text-primary-txt p-2 rounded text-2xl"
+          >
+            {theme === "dark" ? <GoSun /> : <FaMoon />}
+          </button>
           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500">
             <span className="text-sm font-semibold text-white">
               {userName.charAt(0).toUpperCase()}
             </span>
           </div>
           <span className="text-primary-txt text-sm sm:block">{userName}</span>
-          <button onClick={handleLogout} className="text-2xl cursor-pointer text-primary-txt">
+          <button
+            onClick={handleLogout}
+            className="text-2xl cursor-pointer text-primary-txt"
+          >
             <IoLogOut />
           </button>
         </div>

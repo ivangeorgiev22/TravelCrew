@@ -18,6 +18,8 @@ import { FaEdit } from "react-icons/fa";
 import { CiCalendar } from "react-icons/ci";
 import { GrMapLocation } from "react-icons/gr";
 import TripForm from "./TripForm";
+import { IoLocationOutline } from "react-icons/io5";
+import { GoClock } from "react-icons/go";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
@@ -77,8 +79,10 @@ export default function TripDetails() {
     }
   };
   const handleTripDelete = async (id: number) => {
-    const confirmed = window.confirm("Are you sure you want to delete this trip?");
-    if(!confirmed) return;
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this trip?",
+    );
+    if (!confirmed) return;
     try {
       await deleteTrip(id);
       navigate("/dashboard");
@@ -116,7 +120,7 @@ export default function TripDetails() {
   if (!trip) return <p>Loading trip...</p>;
 
   return (
-    <div className="bg-primary min-h-screen">
+    <div className="bg-primary min-h-screen max-w-screen">
       <div>
         <NavBar />
       </div>
@@ -161,7 +165,9 @@ export default function TripDetails() {
       <div className="container mx-auto grid lg:grid-cols-[1fr_450px] gap-8">
         <div>
           <div className="p-2">
-            <h1 className="font-semibold text-xl text-primary-txt">Itinerary</h1>
+            <h1 className="font-semibold text-xl text-primary-txt">
+              Itinerary
+            </h1>
           </div>
           {getTripDays(
             // date is stored as a string in the database and needs to be parsed to have the activites display the correct dates
@@ -175,7 +181,7 @@ export default function TripDetails() {
               <details
                 open
                 key={formattedDate}
-                className="mb-5 group border border-gray-200 rounded-xl p-4 bg-secondary shadow-sm transition hover:shadow-md"
+                className="mb-5 max-w-screen group border border-gray-200 rounded-xl p-4 bg-secondary shadow-sm transition hover:shadow-md"
               >
                 <summary className="flex justify-between items-center list-none cursor-pointer">
                   <div>
@@ -197,7 +203,7 @@ export default function TripDetails() {
                     + Add Activity
                   </button>
                 </summary>
-                <div className="mt-4 space-y-3">
+                <div className="mt-4 space-y-3 max-w-screen">
                   {dailyActivities.length === 0 ? (
                     <p className="text-sm text-primary-txt ">
                       No activities yet - add one
@@ -208,10 +214,18 @@ export default function TripDetails() {
                         key={activity.id}
                         className="flex justify-between items-center bg-tertiary p-3 rounded-lg"
                       >
-                        <div>
-                          <p className="text-sm text-primary-txt">
-                            {activity.time} - {activity.location}
-                          </p>
+                        <div className="text-sm text-primary-txt">
+                          <div className="flex items-center gap-2 font-semibold">
+                            {activity.name}
+                            <div className="flex items-center gap-1 font-normal">
+                              <GoClock />
+                              {activity.time}{" "}
+                            </div>
+                          </div>
+                          <div className="flex gap-1 text-[13px] items-center mt-1">
+                            <IoLocationOutline />
+                            {activity.location}{" "}
+                          </div>
                         </div>
                         <div className="flex gap-2">
                           <button
@@ -260,7 +274,7 @@ export default function TripDetails() {
             />
           )}
         </div>
-        <div className=" flex flex-col gap-5 pt-11">
+        <div className=" flex flex-col gap-5 pt-11 max-w-screen">
           <div className="flex justify-center">
             <Map activities={activities} city={trip.destination} />
           </div>
@@ -275,10 +289,15 @@ export default function TripDetails() {
               {addMembers && (
                 <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
               )}
-              <h1 className="mt-2.25 font-bold text-xl mb-2.5 text-primary-txt">The Crew</h1>
+              <h1 className="mt-2.25 font-bold text-xl mb-2.5 text-primary-txt">
+                The Crew
+              </h1>
             </div>
             {trip.Users.map((member) => (
-              <div className="flex items-center gap-3 my-1 text-primary-txt" key={member.id}>
+              <div
+                className="flex items-center gap-3 my-1 text-primary-txt"
+                key={member.id}
+              >
                 <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500 text-white ">
                   {member.name.charAt(0).toUpperCase()}
                 </div>
