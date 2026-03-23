@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createTrip, updateTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
+import { format } from "date-fns";
 
 interface FormProp {
   onClose: () => void;
@@ -20,6 +21,7 @@ export default function TripForm({
     endDate: trip ? trip.endDate : "",
   });
 
+  const today = format(new Date(), "yyyy-MM-dd");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -97,6 +99,7 @@ export default function TripForm({
                 name="startDate"
                 className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 value={formData.startDate}
+                min={today}
                 onChange={handleChange}
                 required
               />

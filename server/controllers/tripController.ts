@@ -136,6 +136,19 @@ export const updateTrip = async (req: Request, res: Response) => {
         returning: true,
       },
     );
+
+    await Activity.destroy({
+      where: {
+        tripId: tripId,
+        date: {
+          [Op.or]: [
+            { [Op.lt]: new Date(startDate) },
+            { [Op.gt]: new Date(endDate) },
+          ],
+        },
+      },
+    });
+
     res.status(200).json({ msg: "Trip updated successfully!" });
   } catch (error) {
     console.error(error);

@@ -17,7 +17,7 @@ interface Coordinates {
 // because MapContainer doesn't automatically update its center after initial render
 function ChangeView({ center }: { center: [number, number] }) {
   const map = useMap();
-  map.setView(center, 12);
+  map.setView(center, 11);
   return null;
 }
 
@@ -94,7 +94,7 @@ export default function Map({ activities, city }: Props) {
   return (
     <MapContainer
       center={center}
-      zoom={12}
+      zoom={11}
       scrollWheelZoom={false}
       style={{ height: "350px", width: "600px" }}
       className="rounded-xl"
