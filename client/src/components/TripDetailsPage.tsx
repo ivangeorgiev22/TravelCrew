@@ -182,12 +182,12 @@ export default function TripDetails() {
                     <p className="font-semibold text-primary-txt ">
                       Day {index + 1}
                     </p>
-                    <p className="text-xs text-primary-txt ">
+                    <p className="text-xs text-secondary-txt ">
                       {format(date, "do MMM")}
                     </p>
                   </div>
                   <button
-                    className="text-primary-txt  text-sm cursor-pointer hover hover:text-gray-800"
+                    className="text-secondary-txt  text-sm cursor-pointer hover hover:text-primary-txt"
                     onClick={() => {
                       setEditActivity(null);
                       setIsSeen(true);
@@ -219,7 +219,7 @@ export default function TripDetails() {
                               setEditActivity(activity);
                               setIsSeen(true);
                             }}
-                            className="cursor-pointer text-gray-700 transition duration-200 hover:scale-110 overflow-hidden"
+                            className="cursor-pointer text-primary-txt transition duration-200 hover:scale-110 overflow-hidden"
                           >
                             <FaEdit />
                           </button>
@@ -228,7 +228,7 @@ export default function TripDetails() {
                               activity.id &&
                               activityDeleted(Number(activity.id))
                             }
-                            className="cursor-pointer text-lg text-gray-700 transition duration-200 hover:scale-110 overflow-hidden"
+                            className="cursor-pointer text-lg text-primary-txt transition duration-200 hover:scale-110 overflow-hidden"
                           >
                             <MdDeleteForever />
                           </button>
@@ -267,7 +267,7 @@ export default function TripDetails() {
           <div className="flex flex-col justify-end mb-10 p-5 border border-gray-200 rounded-xl bg-secondary shadow-sm transition hover:shadow-md">
             <div className="flex flex-row-reverse justify-between">
               <button
-                className="cursor-pointer p-2 text-md text-primary-txt border rounded-lg inline-flex justify-center items-center gap-2 hover:border-gray-700 hover:text-gray-700"
+                className="cursor-pointer p-2 text-md text-secondary-txt border rounded-lg inline-flex justify-center items-center gap-2 hover:border-gray-700 hover:text-gray-700"
                 onClick={() => setMembers(true)}
               >
                 <IoPersonAdd /> Invite
@@ -284,7 +284,7 @@ export default function TripDetails() {
                 </div>
                 <div className="flex flex-col">
                   <p>{member.name}</p>
-                  <p className="text-xs text-primary-txt ">
+                  <p className="text-xs text-secondary-txt ">
                     {member.TripMember.role === "owner" ? "Owner" : "Member"}
                   </p>
                 </div>

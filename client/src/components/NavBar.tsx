@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import { IoLogOut } from "react-icons/io5";
 import { logout } from "../services/auth";
-import image from "../assets/LOGOTEST.png";
+import image from "../assets/transparentLogo.png";
 import {useTheme} from "../context/theme/useTheme";
 import { FaMoon } from "react-icons/fa";
 import { GoSun } from "react-icons/go";

@@ -202,7 +202,7 @@ export default function AuthPage() {
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
-                className="absolute right-2 top-11 -translate-y-1/2 text-gray-500 text-xl cursor-pointer text-primary-txt"
+                className="absolute right-2 top-11 -translate-y-1/2 text-xl cursor-pointer text-primary-txt"
               >
                 {showPassword ? <IoEyeOutline /> : <IoEyeOffOutline />}
               </button>
@@ -216,7 +216,7 @@ export default function AuthPage() {
               </button>
             </div>
           </form>
-          <div className="mt-4 text-sm text-primary-txt text-center">
+          <div className="mt-4 text-sm text-secondary-txt text-center">
             {isLogin ? (
               <p>
                 Don't have an account?{" "}

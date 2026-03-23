@@ -8,6 +8,7 @@
   --color-secondary: var(--secondary-bg);
   --color-tertiary: var(--tertiary-bg);
   --color-primary-txt: var(--text-color);
+  --color-secondary-txt: var(--text-color-secondary);
   --color-btn-primary: var(--button-color);
 }
 
