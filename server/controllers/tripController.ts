@@ -97,10 +97,12 @@ export const deleteTrip = async (req: Request, res: Response) => {
       return res.status(403).json({ msg: "Not authorized" });
     }
 
-    await Trip.destroy({
+    const deleted = await Trip.destroy({
       where: { id: tripId },
     });
-
+    if (!deleted) {
+      return res.status(404).json({msg: "Trip not found"});
+    }
     res.status(204).json({ msg: "Trip deleted successfully!" });
   } catch (error) {
     console.error(error);

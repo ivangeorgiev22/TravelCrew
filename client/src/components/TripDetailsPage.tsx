@@ -77,6 +77,8 @@ export default function TripDetails() {
     }
   };
   const handleTripDelete = async (id: number) => {
+    const confirmed = window.confirm("Are you sure you want to delete this trip?");
+    if(!confirmed) return;
     try {
       await deleteTrip(id);
       navigate("/dashboard");
