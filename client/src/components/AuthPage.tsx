@@ -99,14 +99,14 @@ export default function AuthPage() {
 
       {/* Right side: Login form */}
       <div className="relative bg-secondary w-full lg:w-1/2 flex flex-col items-center justify-center">
-      <div className="absolute top-5 right-5">
-      <button 
-              onClick={toggleTheme}
-              className="bg-btn-primary text-primary-txt p-2 rounded text-2xl"
-            >
-              {theme === 'dark' ? (<GoSun />):(<FaMoon />)}
-      </button>
-      </div>
+        <div className="absolute top-5 right-5">
+          <button 
+            onClick={toggleTheme}
+            className="bg-btn-primary text-primary-txt p-2 rounded text-2xl"
+          >
+            {theme === 'dark' ? (<GoSun />):(<FaMoon />)}
+          </button>
+        </div>
         <div className="flex justify-start w-105">
           <img src={logo} alt="TravelCrew logo" className="w-37" />
         </div>
@@ -143,7 +143,7 @@ export default function AuthPage() {
                   id="name"
                   name="name"
                   placeholder="Enter your name"
-                  className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                  className="placeholder-neutral-400 text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                   value={name}
                   onChange={handleChange}
                   required
@@ -164,7 +164,7 @@ export default function AuthPage() {
                 id="email"
                 name="email"
                 placeholder="this@example.com"
-                className=" text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                className="placeholder-neutral-400 text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={email}
                 onChange={handleChange}
                 required
@@ -185,7 +185,7 @@ export default function AuthPage() {
                 id="password"
                 name="password"
                 placeholder="••••••••"
-                className="text-primary-txt mt-1 p-2 pr-10 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                className="placeholder-neutral-400 text-primary-txt mt-1 p-2 pr-10 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={password}
                 onChange={handleChange}
                 required
@@ -232,7 +232,7 @@ export default function AuthPage() {
                 Already have an account?{" "}
                 <button
                   onClick={visitLogin}
-                  className="text-black hover:underline cursor-pointer"
+                  className="text-primary-txt hover:underline cursor-pointer"
                 >
                   Sign in here
                 </button>

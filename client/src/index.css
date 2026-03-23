@@ -54,8 +54,10 @@ body {
   padding: 4px 8px;
 }
 
-.calendar-wrapper .fc-button:hover {
-  background: #e5e7eb;
+.calendar-wrapper .fc-button:focus {
+  outline: none;
+  box-shadow: none;
+  
 }
 
 .calendar-wrapper .fc-bg-event {
