@@ -32,23 +32,23 @@ export default function Invite({ onClose, tripId }: FormInvite) {
       onClick={onClose}
     >
       <div
-        className="bg-mist-100 p-6 rounded-xl w-106 h-85"
+        className="bg-primary p-6 rounded-xl w-106 h-85"
         onClick={(e) => e.stopPropagation()}
       >
         <div>
-          <h1 className="text-2xl font-semibold mb-6 text-black">
+          <h1 className="text-2xl font-semibold mb-6 text-primary-txt">
             Send an Invite
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-800 mb-1"
+                className="block text-sm font-medium text-primary-txt mb-1"
               >
                 Name
               </label>
               <input
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
                 type="text"
                 id="name"
                 name="name"
@@ -61,12 +61,12 @@ export default function Invite({ onClose, tripId }: FormInvite) {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-800 mb-1"
+                className="text-primary-txt block text-sm font-medium mb-1"
               >
                 Email
               </label>
               <input
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 type="text"
                 id="email"
                 name="email"
