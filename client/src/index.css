@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+
 
 body {
   font-family: "Inter", sans-serif;
@@ -27,12 +30,13 @@ body {
 .calendar-wrapper .fc-daygrid-day-number {
   font-size: 12px;
   font-weight: 500;
-  color: #374151;
+  color: var(--text-color);
 }
 
 .calendar-wrapper .fc-toolbar-title {
   font-size: 18px;
   font-weight: 600;
+  color: var(--text-color);
 }
 
 .calendar-wrapper .fc-toolbar {
@@ -43,9 +47,9 @@ body {
   display: none;
 }
 .calendar-wrapper .fc-button {
-  background: #f3f4f6;
+  background: var(--secondary-bg);;
   border: none;
-  color: #374151;
+  color: var(--text-color);
   border-radius: 6px;
   padding: 4px 8px;
 }
@@ -71,4 +75,8 @@ body {
 .calendar-wrapper .fc-day-today {
   background: transparent !important;
   box-shadow: none !important;
+}
+
+.fc-col-header{
+  color: var(--text-color);
 }
