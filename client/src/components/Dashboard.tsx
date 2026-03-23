@@ -26,18 +26,8 @@ export default function Dashboard() {
 
   const refreshTrips = async () => {
     const data = await getTrips();
-    // sort own trips by start date before setting state
-    const sortedOwn = [...data.ownTrips].sort(
-      (a: TripData, b: TripData) =>
-        new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
-    );
-    setOwnTrips(sortedOwn);
-    // sort member trips by start date before setting state
-    const sortedMember = [...data.memberTrips].sort(
-      (a: TripData, b: TripData) =>
-        new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
-    );
-    setMemberTrips(sortedMember);
+    setOwnTrips(data.ownTrips);
+    setMemberTrips(data.memberTrips);
   };
 
   //combine trips you own and trips you are a member of for calendar view

@@ -5,9 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import Dashboard from "./components/Dashboard";
 import AcceptInvite from "./components/AcceptInvite";
 
-function App() {
+export default function App() {
   return (
-    
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AuthPage />} />
@@ -16,8 +15,5 @@ function App() {
         <Route path="/accept-invite" element={<AcceptInvite />} />
       </Routes>
     </BrowserRouter>
-
   );
 }
-
-export default App;

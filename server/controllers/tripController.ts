@@ -6,6 +6,7 @@ export const getTrips = async (req: Request, res: Response) => {
   try {
     const ownTrips = await Trip.findAll({
       where: { ownerId: req.user!.id },
+      order: [['startDate', 'ASC']]
     });
 
     const memberTrips = await Trip.findAll({
@@ -18,8 +19,9 @@ export const getTrips = async (req: Request, res: Response) => {
         },
       ],
       where: {
-        ownerId: { [Op.ne]: req.user!.id }, //Op means not equal so this will exclude trips you are not the owner of.
+        ownerId: { [Op.ne]: req.user!.id }, //Op.ne means not equal so this will exclude trips you are not the owner of.
       },
+      order: [['startDate', 'ASC']]
     });
 
     res.status(200).json({ ownTrips, memberTrips });

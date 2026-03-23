@@ -30,9 +30,13 @@ export const createActivity = async (
 };
 
 export const editActivity = async (id: number, data: Partial<ActivityData>) => {
-  const response = await axios.patch(`${apiURL}/${id}`, data, authHeader());
-  return response.data;
-}
+  try {
+    const response = await axios.patch(`${apiURL}/${id}`, data, authHeader());
+    return response.data; 
+  } catch (error) {
+    console.error(error)
+  }
+};
 
 export const deleteActivity = async (id: number) => {
   try {
