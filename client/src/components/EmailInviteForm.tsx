@@ -32,7 +32,7 @@ export default function Invite({ onClose, tripId }: FormInvite) {
       onClick={onClose}
     >
       <div
-        className="bg-primary p-6 rounded-xl w-106 h-85"
+        className="bg-secondary p-6 rounded-xl w-106 h-85"
         onClick={(e) => e.stopPropagation()}
       >
         <div>
@@ -77,7 +77,7 @@ export default function Invite({ onClose, tripId }: FormInvite) {
               />
             </div>
             <button
-              className="w-full mt-3 bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
+              className="w-full mt-3 bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-orange-600 focus:ring-2 focus:ring-offset-2 focus:ring-gray-100 transition-colors duration-300 cursor-pointer"
               type="submit"
             >
               Invite

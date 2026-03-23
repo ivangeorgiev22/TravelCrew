@@ -118,6 +118,7 @@ export default function TripForm({
                 id="end-date"
                 className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 value={formData.endDate}
+                min={today}
                 onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                 onChange={handleChange}
                 required
@@ -125,7 +126,7 @@ export default function TripForm({
             </div>
             <button
               type="submit"
-              className="w-full mt-3 bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-black focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
+              className="w-full mt-3 bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 focus:outline-none focus:bg-orange-600 focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300 cursor-pointer"
             >
               {trip ? "Save Changes" : "Create"}
             </button>
