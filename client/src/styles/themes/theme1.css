@@ -1,0 +1,15 @@
+/* theme1.css */
+.light-theme {
+  --primary-bg:  #f1f3f3;
+  --secondary-bg: #ffffff;
+  --tertiary-bg: #F3F4F6;
+  --text-color: #000000;
+}
+
+.dark-theme {
+  --primary-bg: #1a1a1a;
+  --secondary-bg: #262626;
+  --tertiary-bg: #404040;
+  --text-color: #ffffff; 
+}
+

@@ -7,6 +7,7 @@ import AcceptInvite from "./components/AcceptInvite";
 
 function App() {
   return (
+    
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<AuthPage />} />
@@ -15,6 +16,7 @@ function App() {
         <Route path="/accept-invite" element={<AcceptInvite />} />
       </Routes>
     </BrowserRouter>
+
   );
 }
 

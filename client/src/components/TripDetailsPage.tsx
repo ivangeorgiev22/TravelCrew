@@ -98,7 +98,7 @@ export default function TripDetails() {
   if (!trip) return <p>Loading trip...</p>;
 
   return (
-    <div className="bg-mist-100 min-h-screen">
+    <div className="bg-primary min-h-screen">
       <div>
         <NavBar />
       </div>
@@ -129,7 +129,7 @@ export default function TripDetails() {
       <div className="container mx-auto grid lg:grid-cols-[1fr_450px] gap-8">
         <div>
           <div className="p-2">
-            <h1 className="font-semibold text-xl">Itinerary</h1>
+            <h1 className="font-semibold text-xl text-primary-txt">Itinerary</h1>
           </div>
           {getTripDays(trip.startDate, trip.endDate).map((date, index) => {
             const formattedDate = format(date, "yyyy-MM-dd");
@@ -139,19 +139,19 @@ export default function TripDetails() {
               <details
                 open
                 key={formattedDate}
-                className="mb-5 group border border-gray-200 rounded-xl p-4 bg-white shadow-sm transition hover:shadow-md"
+                className="mb-5 group border border-gray-200 rounded-xl p-4 bg-secondary shadow-sm transition hover:shadow-md"
               >
                 <summary className="flex justify-between items-center list-none cursor-pointer">
                   <div>
-                    <p className="font-semibold text-gray-800">
+                    <p className="font-semibold text-primary-txt ">
                       Day {index + 1}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-primary-txt ">
                       {format(date, "do MMM")}
                     </p>
                   </div>
                   <button
-                    className="text-gray-500 text-sm cursor-pointer hover hover:text-gray-800"
+                    className="text-primary-txt  text-sm cursor-pointer hover hover:text-gray-800"
                     onClick={() => {
                       setIsSeen(true);
                       setSelectedDate(formattedDate);
@@ -162,17 +162,17 @@ export default function TripDetails() {
                 </summary>
                 <div className="mt-4 space-y-3">
                   {dailyActivities.length === 0 ? (
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-primary-txt ">
                       No activities yet - add one
                     </p>
                   ) : (
                     dailyActivities.map((activity) => (
                       <div
                         key={activity.id}
-                        className="flex justify-between items-center bg-gray-100 p-3 rounded-lg"
+                        className="flex justify-between items-center bg-tertiary p-3 rounded-lg"
                       >
                         <div>
-                          <p className="text-sm">
+                          <p className="text-sm text-primary-txt">
                             {activity.time} - {activity.location}
                           </p>
                         </div>
@@ -181,7 +181,7 @@ export default function TripDetails() {
                           onClick={() =>
                             activity.id && activityDeleted(Number(activity.id))
                           }
-                          className="opacity-0 group-hover:opacity-100 transition cursor-pointer"
+                          className="opacity-0 group-hover:opacity-100 transition cursor-pointer text-primary-txt "
                         >
                           <MdDeleteForever />
                         </button>
@@ -205,10 +205,10 @@ export default function TripDetails() {
           <div className="flex justify-center">
             <Map activities={activities} city={trip.destination} />
           </div>
-          <div className="flex flex-col justify-end mb-10 p-5 border border-gray-200 rounded-xl bg-white shadow-sm transition hover:shadow-md">
+          <div className="flex flex-col justify-end mb-10 p-5 border border-gray-200 rounded-xl bg-secondary shadow-sm transition hover:shadow-md">
             <div className="flex flex-row-reverse justify-between">
               <button
-                className="cursor-pointer p-2 text-md text-gray-500 border rounded-lg inline-flex justify-center items-center gap-2 hover:border-gray-700 hover:text-gray-700"
+                className="cursor-pointer p-2 text-md text-primary-txt border rounded-lg inline-flex justify-center items-center gap-2 hover:border-gray-700 hover:text-gray-700"
                 onClick={() => setMembers(true)}
               >
                 <IoPersonAdd /> Invite
@@ -216,16 +216,16 @@ export default function TripDetails() {
               {addMembers && (
                 <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
               )}
-              <h1 className="mt-2.25 font-bold text-xl mb-2.5">The Crew</h1>
+              <h1 className="mt-2.25 font-bold text-xl mb-2.5 text-primary-txt">The Crew</h1>
             </div>
             {trip.Users.map((member) => (
-              <div className="flex items-center gap-3 my-1" key={member.id}>
-                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500 text-white">
+              <div className="flex items-center gap-3 my-1 text-primary-txt" key={member.id}>
+                <div className="w-8 h-8 rounded-full flex items-center justify-center bg-orange-500 text-white ">
                   {member.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="flex flex-col">
                   <p>{member.name}</p>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-primary-txt ">
                     {member.TripMember.role === "owner" ? "Owner" : "Member"}
                   </p>
                 </div>

@@ -48,12 +48,12 @@ export default function Dashboard() {
   return (
     <div>
       <NavBar />
-      <div className="bg-mist-100 min-h-screen">
+      <div className="bg-primary min-h-screen">
         <div className="flex justify-between items-center container mx-auto mb-6 pb-4 pt-5 border-b border-mist-300">
           {" "}
           <div className="flex flex-col justify-center">
-            <span className="text-md text-gray-500">Welcome back,</span>
-            <h1 className="font-semibold text-2xl text-gray-900">{userName}</h1>
+            <span className="text-md text-primary-txt">Welcome back,</span>
+            <h1 className="font-semibold text-2xl text-primary-txt">{userName}</h1>
           </div>
           <button
             className="bg-linear-to-br from-orange-400 to-rose-500 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-orange-600 focus:ring-2 focus:ring-orange-400 transition-all duration-200 shadow-sm"
@@ -65,7 +65,7 @@ export default function Dashboard() {
         <div className="container mx-auto grid lg:grid-cols-[1fr_320px] gap-8 pb-10">
           <div className="flex flex-col gap-10">
             <div>
-              <h1 className="mb-4 text-lg font-semibold text-gray-900">
+              <h1 className="mb-4 text-lg font-semibold text-primary-txt">
                 Your Upcoming Trips
               </h1>
               {ownTrips.length > 0 ? (
@@ -76,12 +76,12 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="border rounded-2xl border-mist-300 text-center shadow-[0_4px_10px_rgba(0,0,0,0.20)]">
-                  <p className="text-gray-500 p-7">No upcoming trips.</p>
+                  <p className="text-primary-txt p-7">No upcoming trips.</p>
                 </div>
               )}
             </div>
             <div>
-              <h1 className="mb-4 text-lg font-semibold text-gray-900">
+              <h1 className="mb-4 text-lg font-semibold text-primary-txt">
                 Shared With You
               </h1>
               {memberTrips.length > 0 ? (
@@ -92,7 +92,7 @@ export default function Dashboard() {
                 </div>
               ) : (
                 <div className="border rounded-2xl border-mist-300 text-center shadow-[0_4px_10px_rgba(0,0,0,0.20)]">
-                  <p className="text-gray-500 p-7">No trips shared with you.</p>
+                  <p className="text-primary-txt p-7">No trips shared with you.</p>
                 </div>
               )}
             </div>
@@ -104,9 +104,9 @@ export default function Dashboard() {
             />
           )}
           <div>
-            <div className="w-80 calendar-wrapper bg-white rounded-2xl border border-gray-200 shadow-sm p-5">
+            <div className="w-80 calendar-wrapper bg-secondary rounded-2xl border border-gray-200 shadow-sm p-5">
               {" "}
-              <h2 className="font-semibold text-lg text-gray-900 mb-4">
+              <h2 className="font-semibold text-lg text-primary-txt mb-4">
                 Trip Calendar
               </h2>
               <FullCalendar

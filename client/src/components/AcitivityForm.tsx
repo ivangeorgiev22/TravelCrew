@@ -44,18 +44,18 @@ export default function ActivityForm({
       onClick={onClose}
     >
       <div
-        className="bg-mist-100 p-6 rounded-xl w-106 h-125"
+        className="bg-secondary p-6 rounded-xl w-106 h-125"
         onClick={(e) => e.stopPropagation()}
       >
         <div>
-          <h1 className="text-2xl font-semibold mb-6 text-black">
+          <h1 className="text-2xl font-semibold mb-6 text-primary-txt">
             Add Activity
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 htmlFor="destination"
-                className="block text-sm font-medium text-gray-800"
+                className="block text-sm font-medium text-primary-txt"
               >
                 Name
               </label>
@@ -64,7 +64,7 @@ export default function ActivityForm({
                 id="name"
                 name="name"
                 placeholder="ex: Museum Visit"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
                 value={formData.name}
                 onChange={handleChange}
                 required
@@ -73,7 +73,7 @@ export default function ActivityForm({
             <div>
               <label
                 htmlFor="location"
-                className="block text-sm font-medium text-gray-800"
+                className="block text-sm font-medium text-primary-txt"
               >
                 Location
               </label>
@@ -82,7 +82,7 @@ export default function ActivityForm({
                 id="location"
                 name="location"
                 placeholder="ex: The Louvre"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 value={formData.location}
                 onChange={handleChange}
                 required
@@ -91,7 +91,7 @@ export default function ActivityForm({
             <div>
               <label
                 htmlFor="date"
-                className="block text-sm font-medium text-gray-800"
+                className="block text-sm font-medium text-primary-txt"
               >
                 Date
               </label>
@@ -99,7 +99,7 @@ export default function ActivityForm({
                 type="date"
                 name="date"
                 id="date"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={formData.date}
                 onChange={handleChange}
                 required
@@ -108,7 +108,7 @@ export default function ActivityForm({
             <div>
               <label
                 htmlFor="time"
-                className="block text-sm font-medium text-gray-800"
+                className="block text-sm font-medium text-primary-txt"
               >
                 Time
               </label>
@@ -116,7 +116,7 @@ export default function ActivityForm({
                 type="time"
                 name="time"
                 id="time"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={formData.time}
                 onChange={handleChange}
                 required

@@ -1,2 +1,13 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
+@import "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: var(--primary-bg);
+  --color-secondary: var(--secondary-bg);
+  --color-tertiary: var(--tertiary-bg);
+  --color-primary-txt: var(--text-color);
+  --color-btn-primary: var(--button-color);
+}
+

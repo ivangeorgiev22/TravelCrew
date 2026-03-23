@@ -34,22 +34,22 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-10"
+      className="fixed inset-0 text-primary-txt backdrop-blur-sm flex items-center justify-center z-10"
       onClick={onClose}
     >
       <div
-        className="bg-mist-100 p-6 rounded-xl w-106 h-106"
+        className="bg-secondary p-6 rounded-xl w-106 h-106"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="">
-          <h1 className="text-2xl font-semibold text-black mb-6">
+          <h1 className="text-2xl font-semibold text-primary-txt mb-6">
             Create a Trip
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
                 htmlFor="destination"
-                className="block text-sm font-medium text-gray-800"
+                className="block text-sm font-medium text-primary-txt"
               >
                 Destination
               </label>
@@ -58,7 +58,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
                 id="destination"
                 name="destination"
                 placeholder="ex: Paris, France"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
                 value={formData.destination}
                 onChange={handleChange}
                 required
@@ -67,7 +67,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
             <div>
               <label
                 htmlFor="start-date"
-                className="block text-sm font-medium text-gray-800"
+                className="block text-sm font-medium text-primary-txt"
               >
                 Start Date
               </label>
@@ -75,7 +75,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
                 type="date"
                 id="start-date"
                 name="startDate"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 value={formData.startDate}
                 onChange={handleChange}
                 required
@@ -84,7 +84,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
             <div>
               <label
                 htmlFor="end-date"
-                className="block text-sm font-medium text-gray-800"
+                className="block text-sm font-medium text-primary-txt"
               >
                 End Date
               </label>
@@ -92,7 +92,7 @@ export default function TripForm({ onClose, onTripCreate }: FormProp) {
                 type="date"
                 name="endDate"
                 id="end-date"
-                className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
+                className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 value={formData.endDate}
                 onChange={handleChange}
                 required
