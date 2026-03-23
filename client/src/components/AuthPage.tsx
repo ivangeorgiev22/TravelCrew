@@ -189,8 +189,14 @@ export default function AuthPage() {
                 value={password}
                 onChange={handleChange}
                 required
-                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                title="Must contain at least 8 characters with uppercase, lowercase, and a number."
+                pattern={
+                  isLogin ? undefined : "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                }
+                title={
+                  isLogin
+                    ? undefined
+                    : "Must contain at least 8 characters with uppercase, lowercase, and a number."
+                }
               />
               <button
                 type="button"

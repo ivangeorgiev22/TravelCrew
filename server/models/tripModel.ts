@@ -1,38 +1,36 @@
 import { Sequelize, DataTypes, Model } from "sequelize";
 
 export default (sequelize: Sequelize) => {
-
   class Trip extends Model {
     declare id: number;
     declare destination: string;
-    declare startDate: Date;
-    declare endDate: Date;
+    declare startDate: string;
+    declare endDate: string;
     declare ownerId: number;
-
-  };
+  }
 
   Trip.init(
     {
       destination: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
       },
       startDate: {
-        type: DataTypes.DATE,
-        allowNull: false
+        type: DataTypes.DATEONLY,
+        allowNull: false,
       },
       endDate: {
-        type: DataTypes.DATE,
-        allowNull: false
+        type: DataTypes.DATEONLY,
+        allowNull: false,
       },
       ownerId: {
-        type: DataTypes.INTEGER
-      }
+        type: DataTypes.INTEGER,
+      },
     },
     {
       sequelize,
-      modelName: "Trip"
-    }
+      modelName: "Trip",
+    },
   );
   return Trip;
 };

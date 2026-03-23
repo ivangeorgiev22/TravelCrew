@@ -4,13 +4,13 @@ export interface MemberData {
   email: string;
   TripMember: {
     role: string;
-  }
+  };
 }
 
 export interface TripData {
   id: number;
   destination: string;
-  startDate:  string;
+  startDate: string;
   endDate: string;
-  Users: MemberData[]
+  Users: MemberData[];
 }

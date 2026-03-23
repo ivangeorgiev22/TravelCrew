@@ -39,9 +39,23 @@ export const createTrip = async (tripData: TripData): Promise<TripData> => {
 
 export const deleteTrip = async (id: number) => {
   try {
-    const response = await axios.delete(`${apiURL}/${id}`, authHeader())
+    const response = await axios.delete(`${apiURL}/${id}`, authHeader());
     return response.data;
   } catch (error) {
     console.error(error);
   }
-}
+};
+
+export const updateTrip = async (id: number, tripData: TripData) => {
+  try {
+    const response = await axios.patch(
+      `${apiURL}/${id}`,
+      tripData,
+      authHeader(),
+    );
+    if (!response.data) throw new Error("Could not update trip.");
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};

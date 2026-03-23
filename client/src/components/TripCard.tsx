@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import type { TripData } from "../types/tripData";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { CiCalendar } from "react-icons/ci";
 import { GrMapLocation } from "react-icons/gr";
 
@@ -33,10 +33,10 @@ export default function TripCard({ trip }: TripCardProps) {
           <div className="text-white text-lg">
             <CiCalendar />
           </div>
-        <p className="text-white text-sm  opacity-90">
-          {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
-          {format(new Date(trip.endDate), "MMM dd, yyyy")}
-        </p>
+          <p className="text-white text-sm  opacity-90">
+            {format(parseISO(trip.startDate), "MMM dd, yyyy")} –{" "}
+            {format(parseISO(trip.endDate), "MMM dd, yyyy")}
+          </p>
         </div>
       </div>
     </div>

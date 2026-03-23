@@ -12,20 +12,22 @@ import { deleteActivity } from "../services/activityService";
 import { deleteTrip } from "../services/tripService";
 import Map from "../components/Map";
 import "leaflet/dist/leaflet.css";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { IoPersonAdd } from "react-icons/io5";
+import { FaEdit } from "react-icons/fa";
 import { CiCalendar } from "react-icons/ci";
 import { GrMapLocation } from "react-icons/gr";
-
-// import Trip Data and do file for
+import TripForm from "./TripForm";
 
 export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
-  const [isSeen, setIsSeen] = useState(false);
+  const [isSeen, setIsSeen] = useState(false); // State to control visibility of the activity form
   const [addMembers, setMembers] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [editActivity, setEditActivity] = useState<ActivityData | null>(null);
+  const [editTrip, setEditTrip] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,6 +44,11 @@ export default function TripDetails() {
   const refreshActivities = async () => {
     const data = await getActivities(Number(id));
     setActivities(data);
+  };
+
+  const refreshTrip = async () => {
+    const data = await getTrip(Number(id));
+    setTrip(data);
   };
 
   const groupedActivities = (activities: ActivityData[]) => {
@@ -70,16 +77,27 @@ export default function TripDetails() {
     }
   };
   const handleTripDelete = async (id: number) => {
+    const confirmed = window.confirm("Are you sure you want to delete this trip?");
+    if(!confirmed) return;
     try {
       await deleteTrip(id);
-      navigate('/dashboard');
+      navigate("/dashboard");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
+
+  const handleTripEdit = async () => {
+    refreshTrip();
+    refreshActivities();
+    setEditTrip(false);
+  };
+
   //toggle deleteTrip button visibility based on user role
   const userName = localStorage.getItem("userName");
-  const isOwner = trip?.Users.some((user) => user.name === userName && user.TripMember.role === 'owner');
+  const isOwner = trip?.Users.some(
+    (user) => user.name === userName && user.TripMember.role === "owner",
+  );
 
   //get num of days for each trip
   const getTripDays = (startDate: string, endDate: string) => {
@@ -103,25 +121,39 @@ export default function TripDetails() {
         <NavBar />
       </div>
       <div className="relative">
-        {/* <img src={image} className="h-60 w-full object-cover mb-10"></img> */}
         <div className="shadow-xl bg-linear-to-br from-orange-400 to-rose-500 h-50 w-full object-cover mb-10"></div>
         <div className="absolute inset-0 flex-col flex justify-end p-6">
-          <div className="flex justify-end my-10 mx-5">
+          <div className="flex justify-end my-10 mx-5 gap-4">
             {isOwner && (
-              <button onClick={() => handleTripDelete(Number(id))} className="text-gray-200 text-md hover hover:text-white cursor-pointer">Delete</button>
+              <>
+                <button
+                  onClick={() => setEditTrip(true)}
+                  className="text-gray-200 text-md cursor-pointer flex gap-1 items-center hover hover:text-white"
+                >
+                  <FaEdit className="text-white text-md" />
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleTripDelete(Number(id))}
+                  className="text-gray-200 text-md flex items-center hover hover:text-white cursor-pointer"
+                >
+                  <MdDeleteForever className="text-white text-lg" />
+                  Delete
+                </button>
+              </>
             )}
           </div>
           <div className="flex items-center gap-2 pl-10">
-             <GrMapLocation className="text-white text-3xl" />
-          <h1 className="text-white font-semibold text-3xl">
-            {trip.destination}
-          </h1>
+            <GrMapLocation className="text-white text-3xl" />
+            <h1 className="text-white font-semibold text-3xl">
+              {trip.destination}
+            </h1>
           </div>
           <div className="flex items-center gap-1 pl-10">
             <CiCalendar className="text-white" />
             <h1 className="text-white leading-10 text-sm">
-              {format(new Date(trip.startDate), "MMM dd, yyyy")} –{" "}
-              {format(new Date(trip.endDate), "MMM dd, yyyy")}
+              {format(parseISO(trip.startDate), "MMM dd, yyyy")} –{" "}
+              {format(parseISO(trip.endDate), "MMM dd, yyyy")}
             </h1>
           </div>
         </div>
@@ -131,7 +163,11 @@ export default function TripDetails() {
           <div className="p-2">
             <h1 className="font-semibold text-xl text-primary-txt">Itinerary</h1>
           </div>
-          {getTripDays(trip.startDate, trip.endDate).map((date, index) => {
+          {getTripDays(
+            // date is stored as a string in the database and needs to be parsed to have the activites display the correct dates
+            parseISO(trip.startDate).toISOString(),
+            parseISO(trip.endDate).toISOString(),
+          ).map((date, index) => {
             const formattedDate = format(date, "yyyy-MM-dd");
             const dailyActivities = allActivities[formattedDate] || [];
 
@@ -153,6 +189,7 @@ export default function TripDetails() {
                   <button
                     className="text-primary-txt  text-sm cursor-pointer hover hover:text-gray-800"
                     onClick={() => {
+                      setEditActivity(null);
                       setIsSeen(true);
                       setSelectedDate(formattedDate);
                     }}
@@ -176,15 +213,26 @@ export default function TripDetails() {
                             {activity.time} - {activity.location}
                           </p>
                         </div>
-
-                        <button
-                          onClick={() =>
-                            activity.id && activityDeleted(Number(activity.id))
-                          }
-                          className="opacity-0 group-hover:opacity-100 transition cursor-pointer text-primary-txt "
-                        >
-                          <MdDeleteForever />
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              setEditActivity(activity);
+                              setIsSeen(true);
+                            }}
+                            className="cursor-pointer text-gray-700 transition duration-200 hover:scale-110 overflow-hidden"
+                          >
+                            <FaEdit />
+                          </button>
+                          <button
+                            onClick={() =>
+                              activity.id &&
+                              activityDeleted(Number(activity.id))
+                            }
+                            className="cursor-pointer text-lg text-gray-700 transition duration-200 hover:scale-110 overflow-hidden"
+                          >
+                            <MdDeleteForever />
+                          </button>
+                        </div>
                       </div>
                     ))
                   )}
@@ -194,10 +242,21 @@ export default function TripDetails() {
           })}
           {isSeen && (
             <ActivityForm
-              onClose={() => setIsSeen(false)}
+              onClose={() => {
+                setIsSeen(false);
+                setEditActivity(null);
+              }}
               onActivityCreate={refreshActivities}
               tripId={Number(id)}
               defaultDate={selectedDate}
+              activity={editActivity}
+            />
+          )}
+          {editTrip && (
+            <TripForm
+              trip={trip}
+              onClose={() => setEditTrip(false)}
+              onTripEdit={handleTripEdit}
             />
           )}
         </div>
