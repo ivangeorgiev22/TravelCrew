@@ -100,6 +100,7 @@ export default function TripForm({
                 className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 value={formData.startDate}
                 min={today}
+                onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                 onChange={handleChange}
                 required
               />
@@ -117,6 +118,7 @@ export default function TripForm({
                 id="end-date"
                 className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 value={formData.endDate}
+                onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                 onChange={handleChange}
                 required
               />

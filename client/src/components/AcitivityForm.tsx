@@ -117,6 +117,7 @@ export default function ActivityForm({
                 id="date"
                 className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={formData.date}
+                onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                 onChange={handleChange}
                 required
               />
@@ -134,6 +135,7 @@ export default function ActivityForm({
                 id="time"
                 className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"
                 value={formData.time}
+                onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                 onChange={handleChange}
                 required
               />
