@@ -61,10 +61,12 @@ export const editActivity = async (req:Request, res:Response) => {
 
 export const deleteActivity = async (req: Request, res: Response) => {
   try {
-    await Activity.destroy({
+   const deleted = await Activity.destroy({
       where: {id: req.params.id}
     });
-
+    if (!deleted) {
+      return res.status(404).json({msg: "Activity not found"});
+    }
     res.status(204).json({msg: "Activity deleted"});
   } catch (error) {
     console.error(error);
