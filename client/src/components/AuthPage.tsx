@@ -102,7 +102,7 @@ export default function AuthPage() {
         <div className="absolute top-5 right-5">
           <button 
             onClick={toggleTheme}
-            className="bg-btn-primary text-primary-txt p-2 rounded text-2xl"
+            className="bg-btn-primary text-primary-txt p-2 rounded text-2xl cursor-pointer"
           >
             {theme === 'dark' ? (<GoSun />):(<FaMoon />)}
           </button>
