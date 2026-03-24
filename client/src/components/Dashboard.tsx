@@ -6,6 +6,7 @@ import TripForm from "./TripForm";
 import NavBar from "./NavBar";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import { format, parseISO, addDays } from "date-fns";
 
 export default function Dashboard() {
   const [ownTrips, setOwnTrips] = useState<TripData[]>([]);
@@ -35,12 +36,11 @@ export default function Dashboard() {
 
   // Trip view in calendar
   const calendarEvents = allTrips.map((trip) => {
-    const end = new Date(trip.endDate);
-    end.setDate(end.getDate() + 1);
-
+    const end = addDays(parseISO(trip.endDate), 1);
+    
     return {
-      start: trip.startDate.split("T")[0],
-      end: end.toISOString().split("T")[0],
+      start: format(parseISO(trip.startDate), "yyyy-MM-dd"),
+      end: format(end, "yyyy-MM-dd"),
       display: "background",
       backgroundColor: "#cfdfe3",
     };
