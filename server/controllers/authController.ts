@@ -7,6 +7,9 @@ export const signUp = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body; // get password input
 
+    if (!name || !email || !password) {
+      return res.status(400).json({ msg: "Missing credentials" });
+    }
     const existingUser = await User.findOne({ where: { email } }); // check if email already exists in DB
     if (existingUser) {
       return res.status(409).json({
@@ -14,9 +17,6 @@ export const signUp = async (req: Request, res: Response) => {
       });
     }
 
-    if (!name || !email || !password) {
-      return res.status(400).json({ msg: "Missing credentials" });
-    }
     const passwordHash = await bcrypt.hash(password, 10); // hash the password
 
     const user = await User.create({ name, email, passwordHash }); // send the hashed password to the db
