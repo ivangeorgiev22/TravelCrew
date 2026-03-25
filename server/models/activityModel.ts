@@ -34,3 +34,5 @@ export default (sequelize: Sequelize) => {
   );
   return Activity;
 };
+
+

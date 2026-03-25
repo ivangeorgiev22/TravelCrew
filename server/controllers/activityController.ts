@@ -73,3 +73,4 @@ export const deleteActivity = async (req: Request, res: Response) => {
     res.status(500).json({msg: "Internal Server Error"});
   }
 }
+
