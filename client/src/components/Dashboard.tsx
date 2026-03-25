@@ -37,7 +37,7 @@ export default function Dashboard() {
   // Trip view in calendar
   const calendarEvents = allTrips.map((trip) => {
     const end = addDays(parseISO(trip.endDate), 1);
-    
+
     return {
       start: format(parseISO(trip.startDate), "yyyy-MM-dd"),
       end: format(end, "yyyy-MM-dd"),
@@ -54,7 +54,7 @@ export default function Dashboard() {
           {" "}
           <div className="flex flex-col justify-center">
             <span className="text-md text-primary-txt">Welcome back,</span>
-            <h1 className="font-semibold text-2xl text-primary-txt">{userName}</h1>
+            <h1 className="font-semibold text-2xl text-primary-txt">{userName.split(" ")[0]}</h1>
           </div>
           <button
             className="bg-linear-to-br from-orange-400 to-rose-500 cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-orange-600 focus:ring-2 focus:ring-orange-400 transition-all duration-200 shadow-sm"
