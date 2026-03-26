@@ -4,13 +4,13 @@ import Dashboard from "./Dashboard";
 import userEvent from "@testing-library/user-event";
 import { cleanup, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/vitest";
-import { login } from "../services/auth";
+import { login, register } from "../services/auth";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 
 // mock services calls
 vi.mock("../services/auth", () => ({
   register: vi.fn().mockResolvedValue({}),
-  login: vi.fn().mockResolvedValue({}),
+  login: vi.fn().mockResolvedValue({ token: "new.token.here" }),
 }));
 
 //mock theme context, otherwise it throws an error about missing provider
@@ -35,33 +35,21 @@ vi.mock("./NavBar", () => ({
   ),
 }));
 
-const mockLogin = {
+const mockInput = {
+  name: "Jane Doe",
   email: "jane@example.com",
-  password: "hashedpassword",
+  password: "Password1",
 };
 
-const mockToken = "new.token.here";
-
 describe("AuthPage", () => {
-  // mock localStorage
+  // mock localStorage for dashboard redirection
   beforeEach(() => {
-    const store: Record<string, string> = {};
-
     vi.stubGlobal("localStorage", {
-      getItem: (key: string) => store[key] || null,
-      setItem: (key: string, value: string) => {
-        store[key] = value;
-      },
-      removeItem: (key: string) => {
-        delete store[key];
-      },
-      clear: () => {
-        Object.keys(store).forEach((key) => delete store[key]);
-      },
+      getItem: vi.fn(),
+      setItem: vi.fn(),
+      removeItem: vi.fn(),
+      clear: vi.fn(),
     });
-
-    // Set a token to simulate an authenticated user
-    localStorage.setItem("token", mockToken);
 
     // Render within a MemoryRouter to handle navigation
     render(
@@ -75,35 +63,43 @@ describe("AuthPage", () => {
   });
 
   afterEach(() => {
-    localStorage.clear();
+    vi.clearAllMocks();
     cleanup();
-  });
-
-  test("should switch between sign in and sign up", async () => {
-    const user = userEvent.setup();
-    const registerButton = screen.getByRole("button", {
-      name: /Sign up here/i,
-    });
-    await user.click(registerButton);
-    expect(screen.getByText(/Sign in here/i)).toBeInTheDocument();
-
-    const loginButton = screen.getByRole("button", {
-      name: /Sign in here/i,
-    });
-    await user.click(loginButton);
-    expect(screen.getByText(/Sign up here/i)).toBeInTheDocument();
   });
 
   test("should redirect user to dashboard after log in", async () => {
     const user = userEvent.setup();
-    await user.type(screen.getByLabelText(/Email/i), mockLogin.email);
+    await user.type(screen.getByLabelText(/Email/i), mockInput.email);
     await user.type(
       screen.getByPlaceholderText(/••••••••/i),
-      mockLogin.password,
+      mockInput.password,
     );
     const button = screen.getByRole("button", { name: /Sign In/i });
     await user.click(button);
-    expect(login).toHaveBeenCalledWith(mockLogin);
+    expect(login).toHaveBeenCalledWith({
+      email: mockInput.email,
+      password: mockInput.password,
+    });
     expect(await screen.findByText("Log Out")).toBeInTheDocument();
+  });
+
+  test("should redirect user to log in after registering", async () => {
+    const user = userEvent.setup();
+    const signUpHereButton = screen.getByRole("button", {
+      name: /Sign up here/i,
+    });
+    await user.click(signUpHereButton);
+    await user.type(screen.getByLabelText(/Name/i), mockInput.name);
+    await user.type(screen.getByLabelText(/Email/i), mockInput.email);
+    await user.type(
+      screen.getByPlaceholderText(/••••••••/i),
+      mockInput.password,
+    );
+    const submitRegisterButton = screen.getByRole("button", {
+      name: /Sign Up/i,
+    });
+    await user.click(submitRegisterButton);
+    expect(register).toHaveBeenCalledWith(mockInput);
+    expect(await screen.findByText("Welcome back")).toBeInTheDocument();
   });
 });
