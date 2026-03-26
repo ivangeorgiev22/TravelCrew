@@ -70,7 +70,7 @@ export default function ActivityForm({
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
-                htmlFor="destination"
+                htmlFor="Name"
                 className="block text-sm font-medium text-primary-txt"
               >
                 Name

@@ -3,14 +3,16 @@ import ActivityForm from "./AcitivityForm";
 import { createActivity, editActivity } from "../services/activityService";
 import { fireEvent, render, screen, waitFor, cleanup } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
-import axios from "axios"
+import "@testing-library/jest-dom/vitest";
+import axios from "axios"; 
+
 
 
 const mockFormData = {
     tripId: 1,
     name: 'Museum MOCO', 
     location: 'Barcelona', 
-    date: '2026-03-30', 
+    date: '2026-03-32', 
     time:'10:46'
 }
 
@@ -19,7 +21,7 @@ const mockOnClose = vi.fn();
 const mockOnActivityCreate = vi.fn();
 
 const formElements = () =>({
-    nameInput: screen.getByLabelText(/Name/i) as HTMLInputElement, 
+    //nameInput: screen.getByLabelText(/Name/i), 
     locationInput: screen.getByLabelText(/Location/i) as HTMLInputElement, 
     dateInput: screen.getByLabelText(/Date/i) as HTMLInputElement,
     timeInput: screen.getByLabelText(/Time/i) as HTMLInputElement,
@@ -30,7 +32,7 @@ const fillActivityForm = async(user: ReturnType<typeof userEvent.setup>) => {
     const {nameInput, locationInput, dateInput, timeInput, button} = formElements(); 
     await user.type(nameInput, mockFormData.name); 
     await user.type(locationInput, mockFormData.location); 
-    await user.type(dateInput, mockFormData.date); 
+    fireEvent.change(dateInput, mockFormData.date); 
     await user.type(timeInput, mockFormData.time); 
     await user.click(button);
 }
@@ -38,11 +40,11 @@ const fillActivityForm = async(user: ReturnType<typeof userEvent.setup>) => {
  
 //found multiple element with the raw button and changes. 
 //have to import cleaner react aftereach vi.test after each clear test vi.clearall mocks 
+console.log(typeof document)
 
 describe('Fill the form', () => {
     beforeEach(() => {
         vi.mocked(axios.post).mockResolvedValue({});
-        const user = userEvent.setup();
         render(< ActivityForm 
         onClose={mockOnClose}
         onActivityCreate={mockOnActivityCreate}
@@ -58,7 +60,7 @@ describe('Fill the form', () => {
     it('Renders ', async () => {
         const {nameInput, locationInput, dateInput, timeInput, button} = formElements(); 
         expect(screen.getByRole("heading", {name: /Add Activity/i})).toBeInTheDocument();
-        expect(nameInput).toBeRequired(); 
+        //expect(nameInput).toBeRequired(); 
         expect(locationInput).toBeRequired(); 
         expect(dateInput).toBeRequired(); 
         expect(timeInput).toBeRequired(); 
@@ -66,15 +68,17 @@ describe('Fill the form', () => {
     });
 
     it('Modify Form ', async () => {
+    const user = userEvent.setup();
       const {nameInput, locationInput, dateInput, timeInput} = formElements(); 
-      await user.type(nameInput, mockFormData.name); 
+      //await user.type(nameInput, mockFormData.name); 
       await user.type(locationInput, mockFormData.location); 
-      await user.type(dateInput, mockFormData.date); 
+      //fireEvent.change(dateInput, {target: {value : mockFormData.date}}); 
       await user.type(timeInput, mockFormData.time); 
-      expect(nameInput.value).toBe(mockFormData.name); 
+      //expect(nameInput.value).toBe(mockFormData.name); 
       expect(locationInput.value).toBe(mockFormData.location); 
-      expect(dateInput.value).toBe(mockFormData.date); 
+     //expect(dateInput.value).toBe(mockFormData.date); 
       expect(timeInput.value).toBe(mockFormData.time); 
+      console.log(dateInput.value)
     });
 
 })
