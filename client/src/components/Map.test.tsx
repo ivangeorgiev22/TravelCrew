@@ -1,7 +1,6 @@
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import Map from "./Map";
 import { vi, describe, test, expect, beforeEach, afterEach } from "vitest";
-import { mock } from "node:test";
 
 //mock react-leaflet components
 const setViewMock = vi.fn();
