@@ -1,17 +1,8 @@
-import nodemailer from "nodemailer";
 import { Request, Response } from "express";
 import { Invite } from "../models";
 import jwt from "jsonwebtoken";
 import { TripMember } from "../models";
-
-// configure the email transporter
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+import { transporter } from "../configMailer";
 
 export const sendInvite = async (req: Request, res: Response) => {
   const { tripId } = req.params; // get the trip ID from the request parameters
@@ -35,7 +26,7 @@ export const sendInvite = async (req: Request, res: Response) => {
     const inviteLink = `${process.env.CLIENT_URL}/accept-invite?token=${inviteToken}`; // create an invite link with the token
 
     await transporter.sendMail({
-      from: `TravelCrew <${process.env.EMAIL_USER}>`,
+      from: `TravelCrew <${process.env.EMAIL_DEV}>`,
       to: email,
       subject: "Join my trip in TravelCrew!",
       html: `
@@ -75,16 +66,15 @@ export const acceptInvitedMember = async (req: Request, res: Response) => {
     }
 
     const existing = await TripMember.findOne({
-      where: {userId, tripId: decoded.tripId}
+      where: { userId, tripId: decoded.tripId },
     });
 
-    if(!existing) {
+    if (!existing) {
       await TripMember.create({
         userId,
         tripId: invite.tripId,
       });
     }
-
 
     await Invite.destroy({
       where: { token: inviteToken },
