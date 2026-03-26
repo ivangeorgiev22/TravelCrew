@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { sendInvite } from "../services/emailService";
-interface FormInvite {
+interface InviteProps {
   onClose: () => void;
   tripId: number;
 }
 
-export default function Invite({ onClose, tripId }: FormInvite) {
+export default function Invite({ onClose, tripId }: InviteProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.name === "name") setName(event.target.value);
-    if (event.target.name === "email") setEmail(event.target.value);
+    else if (event.target.name === "email") setEmail(event.target.value);
   };
 
   const handleSubmit = async (event: React.SubmitEvent) => {
@@ -67,7 +67,7 @@ export default function Invite({ onClose, tripId }: FormInvite) {
               </label>
               <input
                 className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
-                type="text"
+                type="email"
                 id="email"
                 name="email"
                 value={email}

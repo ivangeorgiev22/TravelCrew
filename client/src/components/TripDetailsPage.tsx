@@ -23,7 +23,7 @@ export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
   const [isSeen, setIsSeen] = useState(false); // State to control visibility of the activity form
-  const [addMembers, setMembers] = useState(false);
+  const [showInviteForm, setshowInviteForm] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [editActivity, setEditActivity] = useState<ActivityData | null>(null);
@@ -280,12 +280,12 @@ export default function TripDetails() {
             <div className="flex flex-row-reverse justify-between">
               <button
                 className="cursor-pointer p-2 text-md text-secondary-txt border rounded-lg inline-flex justify-center items-center gap-2 hover:border-gray-700 hover:text-gray-700"
-                onClick={() => setMembers(true)}
+                onClick={() => setshowInviteForm(true)}
               >
                 <IoPersonAdd /> Invite
               </button>
-              {addMembers && (
-                <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
+              {showInviteForm && (
+                <Invite onClose={() => setshowInviteForm(false)} tripId={Number(id)} />
               )}
               <h1 className="mt-2.25 font-bold text-xl mb-2.5 text-primary-txt">
                 The Crew
