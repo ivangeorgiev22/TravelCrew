@@ -5,15 +5,30 @@ import tripRoutes from "./routes/tripRoutes";
 import activityRoutes from "./routes/activityRoutes";
 import inviteRoutes from "./routes/inviteRoutes";
 import { sequelize } from "./models/index";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 const app = express();
 const PORT = 3000;
 
+app.use(helmet());
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
 }));
 app.use(express.json());
+
+//Relaxed rate limiting in dev mode due to react strict mode running useEffect twice
+const isProduction = process.env.NODE_ENV === "production";
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15mins
+  max: isProduction ? 100 : 1000, // max requests per IP
+  message: {error: "Too many requests, please try again later."}
+});
+app.use(limiter);
 
 app.use("/auth", authRoutes);
 app.use("/trips", tripRoutes);
