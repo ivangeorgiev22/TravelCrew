@@ -7,7 +7,7 @@ import logo from "../assets/logoDesign.png";
 import { IoEyeOffOutline } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
 import axios from "axios";
-import {useTheme} from "../context/theme/useTheme";
+import { useTheme } from "../context/theme/useTheme";
 import { FaMoon } from "react-icons/fa";
 import { GoSun } from "react-icons/go";
 
@@ -20,10 +20,9 @@ export default function AuthPage() {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  const path = location.state?.from || "/dashboard"; // Get the intended destination after login 
+  const path = location.state?.from || "/dashboard"; // Get the intended destination after login
 
   const { theme, toggleTheme } = useTheme();
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
@@ -100,11 +99,11 @@ export default function AuthPage() {
       {/* Right side: Login form */}
       <div className="relative bg-secondary w-full lg:w-1/2 flex flex-col items-center justify-center">
         <div className="absolute top-5 right-5">
-          <button 
+          <button
             onClick={toggleTheme}
             className="bg-btn-primary text-primary-txt p-2 rounded text-2xl cursor-pointer"
           >
-            {theme === 'dark' ? (<GoSun />):(<FaMoon />)}
+            {theme === "dark" ? <GoSun /> : <FaMoon />}
           </button>
         </div>
         <div className="flex justify-start w-105">
@@ -124,12 +123,7 @@ export default function AuthPage() {
               {error}
             </div>
           )}
-          <form
-            action="#"
-            method="POST"
-            className="space-y-4"
-            onSubmit={handleSubmit}
-          >
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {!isLogin && (
               <div>
                 <label

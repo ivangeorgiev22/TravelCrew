@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getActivities } from "../services/activityService";
-import { getTrip } from "../services/tripService";
+import { getActivities, deleteActivity } from "../services/activityService";
+import { getTrip, deleteTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
 import ActivityForm from "./AcitivityForm";
 import Invite from "./EmailInviteForm";
 import { MdDeleteForever } from "react-icons/md";
-import { deleteActivity } from "../services/activityService";
-import { deleteTrip } from "../services/tripService";
 import Map from "../components/Map";
 import "leaflet/dist/leaflet.css";
 import { format, parseISO } from "date-fns";
@@ -29,7 +27,7 @@ export default function TripDetails() {
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [editActivity, setEditActivity] = useState<ActivityData | null>(null);
-  const [editTrip, setEditTrip] = useState<boolean>(false);
+  const [editTrip, setEditTrip] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,8 +90,8 @@ export default function TripDetails() {
   };
 
   const handleTripEdit = async () => {
-    refreshTrip();
-    refreshActivities();
+    await refreshTrip();
+    await refreshActivities();
     setEditTrip(false);
   };
 
@@ -105,7 +103,7 @@ export default function TripDetails() {
 
   //get num of days for each trip
   const getTripDays = (startDate: string, endDate: string) => {
-    const dates = [];
+    const dates: Date[] = [];
     const current = new Date(startDate);
     const end = new Date(endDate);
 
