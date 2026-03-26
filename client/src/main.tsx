@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App.tsx";
 import "leaflet/dist/leaflet.css";
 import { ThemeProvider } from "./context/theme";
+import { BrowserRouter } from "react-router";
 
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ThemeProvider>
-    <App />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
   </StrictMode>
 );
