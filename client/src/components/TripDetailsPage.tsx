@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getActivities } from "../services/activityService";
-import { getTrip } from "../services/tripService";
+import { getActivities, deleteActivity } from "../services/activityService";
+import { getTrip, deleteTrip } from "../services/tripService";
 import type { TripData } from "../types/tripData";
 import NavBar from "./NavBar";
 import type { ActivityData } from "../types/activityData";
 import ActivityForm from "./AcitivityForm";
 import Invite from "./EmailInviteForm";
 import { MdDeleteForever } from "react-icons/md";
-import { deleteActivity } from "../services/activityService";
-import { deleteTrip } from "../services/tripService";
 import Map from "../components/Map";
 import "leaflet/dist/leaflet.css";
 import { format, parseISO } from "date-fns";
@@ -25,11 +23,11 @@ export default function TripDetails() {
   const { id } = useParams<{ id: string }>();
   const [trip, setTrip] = useState<TripData | null>(null);
   const [isSeen, setIsSeen] = useState(false); // State to control visibility of the activity form
-  const [addMembers, setMembers] = useState(false);
+  const [showInviteForm, setshowInviteForm] = useState(false);
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [editActivity, setEditActivity] = useState<ActivityData | null>(null);
-  const [editTrip, setEditTrip] = useState<boolean>(false);
+  const [editTrip, setEditTrip] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -282,12 +280,12 @@ export default function TripDetails() {
             <div className="flex flex-row-reverse justify-between">
               <button
                 className="cursor-pointer p-2 text-md text-secondary-txt border rounded-lg inline-flex justify-center items-center gap-2 hover:border-gray-700 hover:text-gray-700"
-                onClick={() => setMembers(true)}
+                onClick={() => setshowInviteForm(true)}
               >
                 <IoPersonAdd /> Invite
               </button>
-              {addMembers && (
-                <Invite onClose={() => setMembers(false)} tripId={Number(id)} />
+              {showInviteForm && (
+                <Invite onClose={() => setshowInviteForm(false)} tripId={Number(id)} />
               )}
               <h1 className="mt-2.25 font-bold text-xl mb-2.5 text-primary-txt">
                 The Crew
