@@ -23,28 +23,28 @@ export default function TripForm({
 
   const today = format(new Date(), "yyyy-MM-dd");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     try {
       if (trip && onTripEdit) {
-        const updatedTrip = await updateTrip(trip.id, formData as TripData);
-        if (new Date(updatedTrip.startDate).getTime() < Date.now()) {
+        if (new Date(formData.startDate).getTime() < Date.now()) {
           console.log("Error updating trip: Start date cannot be in the past");
           return;
         }
+        await updateTrip(trip.id, formData as TripData);
         onTripEdit();
         onClose();
         return;
       }
       if (onTripCreate) {
-        const newTrip = await createTrip(formData as TripData);
-        if (new Date(newTrip.startDate).getTime() < Date.now()) {
+        if (new Date(formData.startDate).getTime() < Date.now()) {
           console.log("Error creating new trip");
           return;
         }
+        await createTrip(formData as TripData);
         onTripCreate();
         onClose();
       }
@@ -82,7 +82,7 @@ export default function TripForm({
                 className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-text"
                 value={formData.destination}
                 onChange={handleChange}
-                disabled={trip ? true : false}
+                disabled={!!trip}
                 required
               />
             </div>
@@ -118,7 +118,7 @@ export default function TripForm({
                 id="end-date"
                 className="text-primary-txt mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300 cursor-pointer"
                 value={formData.endDate}
-                min={today}
+                min={formData.startDate || today}
                 onClick={(e) => (e.target as HTMLInputElement).showPicker?.()}
                 onChange={handleChange}
                 required

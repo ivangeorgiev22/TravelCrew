@@ -90,8 +90,8 @@ export default function TripDetails() {
   };
 
   const handleTripEdit = async () => {
-    refreshTrip();
-    refreshActivities();
+    await refreshTrip();
+    await refreshActivities();
     setEditTrip(false);
   };
 
@@ -103,7 +103,7 @@ export default function TripDetails() {
 
   //get num of days for each trip
   const getTripDays = (startDate: string, endDate: string) => {
-    const dates = [];
+    const dates: Date[] = [];
     const current = new Date(startDate);
     const end = new Date(endDate);
 

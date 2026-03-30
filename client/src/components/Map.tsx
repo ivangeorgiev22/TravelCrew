@@ -62,7 +62,7 @@ export default function Map({ activities, city }: Props) {
           const location = activity.location;
           if (!cache.current[location]) {
             const res = await fetch(
-              `https://nominatim.openstreetmap.org/search?q=${location}&format=json&limit=1`,
+              `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`,
             );
             const data = await res.json();
             if (data.length > 0) {
