@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiURL = "http://127.0.0.1:3000/invites";
+const API_URL = "http://127.0.0.1:3000/invites";
 
 const authHeader = () => {
   const token = localStorage.getItem("token");
@@ -18,12 +18,12 @@ export const sendInvite = async (
   email: string,
 ) => {
   try {
-    const send = await axios.post(
-      `${apiURL}/${tripId}`,
+    const res = await axios.post(
+      `${API_URL}/${tripId}`,
       { name, email },
       authHeader(),
     );
-    return send.data;
+    return res.data;
   } catch (error) {
     console.log(error, "Could not send invite");
   }
@@ -31,12 +31,12 @@ export const sendInvite = async (
 
 export const acceptInvite = async (inviteToken: string) => {
   try {
-    const send = await axios.post(
-      `${apiURL}/accept`,
+    const res = await axios.post(
+      `${API_URL}/accept`,
       { inviteToken },
       authHeader(),
     );
-    return send.data;
+    return res.data;
   } catch (error) {
     console.log(error, "Could not accept the invite");
   }

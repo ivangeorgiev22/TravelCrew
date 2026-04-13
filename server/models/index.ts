@@ -16,7 +16,7 @@ export const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST as string,
     dialect: "postgres",
-    port: 5432,
+    port: Number(process.env?.DB_PORT)
   },
 );
 
@@ -35,7 +35,7 @@ Activity.belongsTo(Trip, { foreignKey: "tripId", onDelete: "CASCADE" });
 User.hasMany(Activity, { foreignKey: "createdBy", onDelete: "CASCADE" });
 Activity.belongsTo(User, { foreignKey: "createdBy" });
 
-Invite.belongsTo(Trip, { foreignKey: "tripId" });
+Invite.belongsTo(Trip, { foreignKey: "tripId", onDelete: "CASCADE" });
 Trip.hasMany(Invite, { foreignKey: "tripId" });
 
 User.belongsToMany(Trip, { through: TripMember, foreignKey: "userId", onDelete: "CASCADE" });

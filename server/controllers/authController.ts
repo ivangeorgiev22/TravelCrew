@@ -45,11 +45,13 @@ export const login = async (req: Request, res: Response) => {
     if (!isValid) return res.status(401).json({ msg: "Invalid credentials" });
 
     // if password is okay generate JWT token
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, {
-      expiresIn: "1h",
-    });
+    if(process.env.JWT_SECRET) {
+      const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+        expiresIn: "3h",
+      });
+      res.status(200).json({ name: user.name, token }); //make sure no sensitive info is sent back!
+    }
 
-    res.status(200).json({ name: user.name, token }); //make sure no sensitive info is sent back!
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal Server Error" });
