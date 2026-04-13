@@ -13,11 +13,11 @@ export default function AcceptInvite() {
   useEffect(() => {
     // If the user is authenticated and there's a token, we can accept the invite
     const joinTrip = async () => {
+      if (!token || hasRequested.current) return;
       if (!isAuthenticated) {
         navigate("/", { state: { from: `/accept-invite?token=${token}` } });
         return;
       }
-      if (!token || hasRequested.current) return;
       hasRequested.current = true;
 
       try {

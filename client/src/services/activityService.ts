@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ActivityData } from "../types/activityData";
 
-const apiURL = "http://127.0.0.1:3000/activities";
+const API_URL = "http://127.0.0.1:3000/activities";
 
 const authHeader = () => {
   const token = localStorage.getItem("token");
@@ -12,26 +12,31 @@ const authHeader = () => {
   };
 };
 
-export const getActivities = async (tripId: number) => {
+export const getActivities = async (tripId: number): Promise<ActivityData[]> => {
   try {
-    const response = await axios.get(`${apiURL}/trip/${tripId}`, authHeader());
+    const response = await axios.get(`${API_URL}/trip/${tripId}`, authHeader());
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error; 
   }
 };
 
 export const createActivity = async (
   activityData: ActivityData,
 ): Promise<ActivityData> => {
-  const response = await axios.post(apiURL, activityData, authHeader());
-  if (!response.data) throw new Error("Could not create activity");
-  return response.data;
+  try {
+    const response = await axios.post(API_URL, activityData, authHeader());
+    return response.data;
+  } catch (error) {
+    console.error(error); 
+    throw error; 
+  }
 };
 
 export const editActivity = async (id: number, data: Partial<ActivityData>) => {
   try {
-    const response = await axios.patch(`${apiURL}/${id}`, data, authHeader());
+    const response = await axios.patch(`${API_URL}/${id}`, data, authHeader());
     return response.data; 
   } catch (error) {
     console.error(error)
@@ -40,7 +45,7 @@ export const editActivity = async (id: number, data: Partial<ActivityData>) => {
 
 export const deleteActivity = async (id: number) => {
   try {
-    const response = await axios.delete(`${apiURL}/${id}`, authHeader());
+    const response = await axios.delete(`${API_URL}/${id}`, authHeader());
     return response.data;
   } catch (error) {
     console.error(error);

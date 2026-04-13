@@ -125,8 +125,6 @@ export default function AuthPage() {
             </div>
           )}
           <form
-            action="#"
-            method="POST"
             className="space-y-4"
             onSubmit={handleSubmit}
           >

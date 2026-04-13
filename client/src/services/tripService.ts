@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { TripData } from "../types/tripData";
 
-const apiURL = "http://127.0.0.1:3000/trips";
+const API_URL = "http://127.0.0.1:3000/trips";
 
 const authHeader = () => {
   const token = localStorage.getItem("token");
@@ -15,7 +15,7 @@ const authHeader = () => {
 
 export const getTrips = async () => {
   try {
-    const response = await axios.get(apiURL, authHeader());
+    const response = await axios.get(API_URL, authHeader());
     return response.data;
   } catch (error) {
     console.error(error);
@@ -24,7 +24,7 @@ export const getTrips = async () => {
 
 export const getTrip = async (id: number) => {
   try {
-    const response = await axios.get(`${apiURL}/${id}`, authHeader());
+    const response = await axios.get(`${API_URL}/${id}`, authHeader());
     return response.data;
   } catch (error) {
     console.error(error);
@@ -32,14 +32,18 @@ export const getTrip = async (id: number) => {
 };
 
 export const createTrip = async (tripData: TripData): Promise<TripData> => {
-  const res = await axios.post(apiURL, tripData, authHeader());
-  if (!res.data) throw new Error("Could not create trip.");
-  return res.data;
+  try {
+    const res = await axios.post(API_URL, tripData, authHeader());
+    return res.data; 
+  } catch (error) {
+    console.error(error); 
+    throw error; 
+  }
 };
 
 export const deleteTrip = async (id: number) => {
   try {
-    const response = await axios.delete(`${apiURL}/${id}`, authHeader());
+    const response = await axios.delete(`${API_URL}/${id}`, authHeader());
     return response.data;
   } catch (error) {
     console.error(error);
@@ -49,7 +53,7 @@ export const deleteTrip = async (id: number) => {
 export const updateTrip = async (id: number, tripData: TripData) => {
   try {
     const response = await axios.patch(
-      `${apiURL}/${id}`,
+      `${API_URL}/${id}`,
       tripData,
       authHeader(),
     );

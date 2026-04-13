@@ -18,7 +18,6 @@ export default function TripCard({ trip }: TripCardProps) {
     >
       {/* Background */}
       <div className="bg-linear-to-br from-orange-400 to-rose-500 h-50 w-full"></div>
-      {/* <div className="absolute inset-0 bg-black/15"></div> */}
       {/* Overlay content */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-2">
         <div className="flex flex-col items-center gap-2">
