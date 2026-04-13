@@ -35,7 +35,7 @@ Activity.belongsTo(Trip, { foreignKey: "tripId", onDelete: "CASCADE" });
 User.hasMany(Activity, { foreignKey: "createdBy", onDelete: "CASCADE" });
 Activity.belongsTo(User, { foreignKey: "createdBy" });
 
-Invite.belongsTo(Trip, { foreignKey: "tripId" });
+Invite.belongsTo(Trip, { foreignKey: "tripId", onDelete: "CASCADE" });
 Trip.hasMany(Invite, { foreignKey: "tripId" });
 
 User.belongsToMany(Trip, { through: TripMember, foreignKey: "userId", onDelete: "CASCADE" });

@@ -7,7 +7,7 @@ import inviteRoutes from "./routes/inviteRoutes";
 import { sequelize } from "./models/index";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
-import dotenv from 'dotenv'
+import dotenv from 'dotenv'; 
 
 dotenv.config();
 
