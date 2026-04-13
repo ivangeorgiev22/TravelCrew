@@ -1,16 +1,10 @@
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:3000/invites";
+const API_URL = "http://localhost:3000/invites";
 
-const authHeader = () => {
-  const token = localStorage.getItem("token");
-
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-};
+const authConfig = () => ({
+  withCredentials: true,
+});
 
 export const sendInvite = async (
   tripId: number,
@@ -21,7 +15,7 @@ export const sendInvite = async (
     const res = await axios.post(
       `${API_URL}/${tripId}`,
       { name, email },
-      authHeader(),
+      authConfig(),
     );
     return res.data;
   } catch (error) {
@@ -34,7 +28,7 @@ export const acceptInvite = async (inviteToken: string) => {
     const res = await axios.post(
       `${API_URL}/accept`,
       { inviteToken },
-      authHeader(),
+      authConfig(),
     );
     return res.data;
   } catch (error) {
