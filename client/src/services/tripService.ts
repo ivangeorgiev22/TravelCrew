@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { TripData } from "../types/tripData";
 
-const API_URL = "http://localhost:3000/trips";
+const API_URL = `${import.meta.env.VITE_API_URL}/trips`;
 
 const authConfig = () => ({
   withCredentials: true,

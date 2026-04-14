@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { ActivityData } from "../types/activityData";
 
-const API_URL = "http://localhost:3000/activities";
+const API_URL = `${import.meta.env.VITE_API_URL}/activities`;
 
 const authConfig = () => ({
   withCredentials: true,
