@@ -8,14 +8,10 @@ export const sendInvite = async (req: Request, res: Response) => {
   const { tripId } = req.params; // get the trip ID from the request parameters
   const { name, email } = req.body; // get the invitee's name and email from the request body
   try {
-    if(process.env.JWT_SECRET ) {
-      const inviteToken = jwt.sign(
-        { email, tripId },
-        process.env.JWT_SECRET,
-        {
-          expiresIn: "24h",
-        },
-      );
+    if (process.env.JWT_SECRET) {
+      const inviteToken = jwt.sign({ email, tripId }, process.env.JWT_SECRET, {
+        expiresIn: "24h",
+      });
       await Invite.create({
         email,
         token: inviteToken,
@@ -23,9 +19,9 @@ export const sendInvite = async (req: Request, res: Response) => {
         expiryDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
       }); // Save the invite to the database
       const inviteLink = `${process.env.CLIENT_URL}/accept-invite?token=${inviteToken}`; // create an invite link with the token
-  
+
       await transporter.sendMail({
-        from: `TravelCrew <${process.env.EMAIL_DEV}>`,
+        from: `TravelCrew <${process.env.EMAIL_USER}>`,
         to: email,
         subject: "Join my trip in TravelCrew!",
         html: `
@@ -37,7 +33,6 @@ export const sendInvite = async (req: Request, res: Response) => {
       });
       res.status(200).json({ msg: "Invite sent!" });
     }
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal Server Error" });
