@@ -21,7 +21,7 @@ export const sendInvite = async (req: Request, res: Response) => {
       const inviteLink = `${process.env.CLIENT_URL}/accept-invite?token=${inviteToken}`; // create an invite link with the token
 
       await transporter.sendMail({
-        from: `TravelCrew <${process.env.EMAIL_USER}>`,
+        from: `TravelCrew <${process.env.EMAIL_DEV}>`,
         to: email,
         subject: "Join my trip in TravelCrew!",
         html: `

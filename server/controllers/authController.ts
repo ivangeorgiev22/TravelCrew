@@ -46,7 +46,7 @@ export const login = async (req: Request, res: Response) => {
 
     // if password is okay generate JWT token
     if (!process.env.JWT_SECRET) {
-      return res.status(500).json({msg: "JWT secret not configured"});
+      return res.status(500).json({ msg: "JWT secret not configured" });
     }
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
@@ -57,12 +57,10 @@ export const login = async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", //false in dev env
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", //none in production for cross-site cookies, lax in development
       maxAge: 1000 * 60 * 60 * 3, // 3 hours
-    })
-    res.status(200).json({ name: user.name}); //make sure no sensitive info is sent back!
-    
-
+    });
+    res.status(200).json({ name: user.name }); //make sure no sensitive info is sent back!
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal Server Error" });
@@ -74,9 +72,9 @@ export const logout = (req: Request, res: Response) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax"
+      sameSite: "lax",
     });
-    res.status(200).json({msg: "Logged out"})
+    res.status(200).json({ msg: "Logged out" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ msg: "Internal Server Error" });
@@ -85,4 +83,4 @@ export const logout = (req: Request, res: Response) => {
 
 export const checkUser = (req: Request, res: Response) => {
   res.json({ user: req.user });
-}
+};
