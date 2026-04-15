@@ -13,8 +13,8 @@ import cookieParser from 'cookie-parser';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.SERVER_PORT
-
+const PORT = process.env.PORT || process.env.SERVER_PORT || 3000;
+(app as any).set("trust proxy", 1);
 app.use(helmet());
 app.use(cookieParser());
 app.use(cors({

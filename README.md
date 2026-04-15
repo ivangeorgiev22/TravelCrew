@@ -1,7 +1,7 @@
 <h1 align="center">TravelCrew</h1>
 
 <p align="center">
-  Hello ! Welcome to our thesis project TravelCrew. It's a collaborative application for planning trips in groups. Everyone can participate in the process of organizing the trip.   
+  Hello, Welcome to our thesis project TravelCrew. It's a collaborative application for planning trips in groups. Everyone can participate in the process of organizing the trip.   
 </p>
 
 <p align="center">
