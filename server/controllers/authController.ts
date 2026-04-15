@@ -72,7 +72,7 @@ export const logout = (req: Request, res: Response) => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     });
     res.status(200).json({ msg: "Logged out" });
   } catch (error) {
@@ -82,5 +82,8 @@ export const logout = (req: Request, res: Response) => {
 };
 
 export const checkUser = (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).json({msg: "Not authenticated"});
+  }
   res.json({ user: req.user });
 };
