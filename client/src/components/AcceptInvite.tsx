@@ -17,7 +17,7 @@ export default function AcceptInvite() {
 
       const user = await currentUser();
 
-      if (!user) {
+      if (!user || !user.id) {
         navigate("/", { state: { from: `/accept-invite?token=${token}` } });
         return;
       }
