@@ -57,7 +57,7 @@ export const login = async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV === 'production' ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 3, // 3 hours
     })
     res.status(200).json({ name: user.name}); //make sure no sensitive info is sent back!
