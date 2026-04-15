@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { Invite } from "../models";
 import jwt from "jsonwebtoken";
 import { TripMember } from "../models";
-import { transporter } from "../configMailer";
+// import { transporter } from "../configMailer";
+import { Resend } from "resend";
 
 export const sendInvite = async (req: Request, res: Response) => {
   const { tripId } = req.params; // get the trip ID from the request parameters
@@ -20,7 +21,9 @@ export const sendInvite = async (req: Request, res: Response) => {
       }); // Save the invite to the database
       const inviteLink = `${process.env.CLIENT_URL}/accept-invite?token=${inviteToken}`; // create an invite link with the token
 
-      await transporter.sendMail({
+      const resend = new Resend(process.env.RESEND_API_KEY);
+
+      await resend.emails.send({
         from: `TravelCrew <${process.env.EMAIL_DEV}>`,
         to: email,
         subject: "Join my trip in TravelCrew!",
